@@ -75,6 +75,8 @@ public function store(Request $request)
             'updated_at' => now(),
         ]);
 
+
+
         // 🔹 2. Insert sale items
         $saleItemsIds = [];
         if($items) {

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 
 use Fidry\CpuCoreCounter\Finder\_NProcessorFinder;
 use App\Http\Controllers\Report\CreateDailyAccountingController;
+use App\Http\Controllers\DebtorController;
 
 
 Route::get('/', function () {
@@ -108,21 +109,50 @@ Route::get("/items-loans", function () {
     Route::get('/debtors/save-products',function(Request $request){
         return view("items.debtor-save-products");
     })->name('debtors.save-products');
+
+    Route::post('/debtors/save', [DebtorController::class, 'debtors_save'])->name('debtors.save');
     // Route بۆ گەڕانی کڕیار
 Route::post('/customers/search', function(Request $request) {
+
     $searchTerm = $request->input('search_term');
-    
+
     $customers = DB::table('customer')
-        ->where('name', 'LIKE', "%{$searchTerm}%")
-        ->orWhere('number_phone', 'LIKE', "%{$searchTerm}%")
+        ->select('id', 'name', 'number_phone', 'address')
+        ->where(function($q) use ($searchTerm) {
+            $q->where('name', 'LIKE', "%{$searchTerm}%")
+              ->orWhere('number_phone', 'LIKE', "%{$searchTerm}%");
+        })
+        ->distinct()
         ->limit(8)
         ->get();
-    
+
     return response()->json([
         'success' => true,
         'customers' => $customers
     ]);
-})->name('customers.search');
+});
+
+
+// app/Http/Controllers/ProductController.php
+
+Route::post('/debtors/search', function(Request $request)
+{
+    $term = $request->search_term;
+
+    $products = DB::table('save-debtors')
+        ->where(function($q) use ($term) {
+            $q->where('name', 'like', "%{$term}%")
+              ->orWhere('company', 'like', "%{$term}%");
+        })
+        ->select('id', 'name', 'company', 'selling_price')
+        ->limit(10)
+        ->get();
+
+    return response()->json([
+        'success' => true,
+        'products' => $products
+    ]);
+});
 
 
 Route::post('/returns/store', [ReturnItemController::class, 'store']);;
