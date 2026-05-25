@@ -42,20 +42,18 @@ class DebtorController extends Controller
                 ->first();
 
             if ($customer) {
-                DB::table('customer')->where('id', $customer->id)->update([
-                    'name' => $request->customer_name,
-                    'number_phone' => $request->customer_phone,
-                    
-                    'address' => $request->customer_address ?? $customer->address,
-                   
-                ]);
+                DB::table('customer')
+                    ->where('id', $customer->id)
+                    ->update([
+                        'name' => $request->customer_name,
+                        'address' => $request->customer_address ?? $customer->address,
+                    ]);
                 $customer_id = $customer->id;
             } else {
                 $customer_id = DB::table('customer')->insertGetId([
                     'name' => $request->customer_name,
                     'number_phone' => $request->customer_phone,
                     'address' => $request->customer_address ?? 'نادیار',
-                
                 ]);
             }
 
@@ -64,47 +62,52 @@ class DebtorController extends Controller
             $endDate = new \DateTime($request->repayment_date);
             $period = $startDate->diff($endDate)->days;
 
-            // Calculate total amount
-            $totalAmount = 0;
+            $advance = $request->advance_payment ?? 0;
+            
+            // Generate invoice number (you might want to customize this)
+            $invoice_number = 000000;
 
+            foreach ($request->products as $index => $product) {
+                // Check if private good exists
+                $existingProduct = DB::table('private_goods')
+                    ->where('name', $product['name'])
+                    ->first();
 
-        $totalAmount = $request->total_amount;
-$advance = $request->advance_payment ?? 0;
-
-foreach ($request->products as $product) {
-
-    $id = DB::table('save-debtors')->insertGetId([
-        'name' => $product['name'],
-        'company' => $product['company'],
-    ]);
-
-    $selling = $product['selling_price'];
+                if (!$existingProduct) {
+                    $private_goods_id = DB::table('private_goods')->insertGetId([
+                        'name' => $product['name'],
+                        'company' => $product['company'],
+                    ]);
+                } else {
+                    $private_goods_id = $existingProduct->id;
+                }
+                 $selling = $product['selling_price'];
 
     // share of remaining (if needed per product)
-    $money_left = $selling - ($advance / count($request->products));
+               $money_left = $selling - ($advance / count($request->products));
 
-    DB::table('installments')->insert([
-        'coustomer_id' => $customer_id,
-        'debtors_id' => $id,
-        'seling_price' => $selling,
-
-        'peroid' => $request->advance_payment, // fixed 30 days or from request
-
-        'money_left' => $money_left,
-
-        'taking_data' => $request->credit_date,
-        'return_date' => $request->repayment_date,
-
-        'created_at' => now(),
-        'updated_at' => now()
-    ]);
-}
+                // Insert into loans table with all columns
+                DB::table('loans')->insert([
+                    'sels_id' =>0, // Sequential number for each product
+                    'invoice_number' => $invoice_number,
+                    'private_goods_id' => $private_goods_id,
+                    'customer_id' => $customer_id,
+                    'currency' => $request->advance_payment, // Default currency, you can make this dynamic
+                    'period' => $money_left,
+                    'total' => $product['selling_price'],
+                    'status' => 2, // Default status for new loans
+                    'time_to_return' => $request->repayment_date,
+                    'created_at' => $request->credit_date,
+                    'updated_at' => now()
+                ]);
+            }
 
             DB::commit();
 
             return response()->json([
                 'success' => true,
-                'message' => 'قەرز بە سەرکەوتوویی تۆمار کرا'
+                'message' => 'قەرز بە سەرکەوتوویی تۆمار کرا',
+                'invoice_number' => $invoice_number
             ]);
 
         } catch (\Exception $e) {

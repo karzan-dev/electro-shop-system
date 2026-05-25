@@ -135,16 +135,16 @@ Route::post('/customers/search', function(Request $request) {
 
 // app/Http/Controllers/ProductController.php
 
-Route::post('/debtors/search', function(Request $request)
+Route::post('/products/search-debtors', function(Request $request)
 {
     $term = $request->search_term;
 
-    $products = DB::table('save-debtors')
+    $products = DB::table('private_goods')
         ->where(function($q) use ($term) {
             $q->where('name', 'like', "%{$term}%")
               ->orWhere('company', 'like', "%{$term}%");
         })
-        ->select('id', 'name', 'company', 'selling_price')
+        ->select('id', 'name', 'company')
         ->limit(10)
         ->get();
 

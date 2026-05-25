@@ -58,11 +58,20 @@ public function store(Request $request)
 
         $credit_amount  = $total - $advancePayment;
 
-      DB::table('customer')->insert([
+ $exists = DB::table('customer')
+    ->where('name', $customerName)
+    ->where('number_phone', $phoneNumber)
+    ->exists();
+
+if (!$exists) {
+
+    DB::table('customer')->insert([
         'name' => $customerName,
         'number_phone' => $phoneNumber,
         'address' => $address,
-      ]);
+    ]);
+
+}
 
         // 🔹 1. Insert into sales
         $saleId = DB::table('sales')->insertGetId([
@@ -147,33 +156,68 @@ public function getDebtorsList(Request $request)
 
         $offset = ($page - 1) * $perPage;
 
-        $countQuery = DB::table('loans')
+        // Base query with all needed joins
+        $baseQuery = DB::table('loans')
             ->leftJoin('customer', 'customer.id', '=', 'loans.customer_id')
+            ->leftJoin('sales', 'sales.invoice_number', '=', 'loans.invoice_number')
+            ->leftJoin('sale_items', 'sale_items.sale_id', '=', 'sales.id')
+            ->leftJoin('products', 'products.id', '=', 'sale_items.product_id')
+            ->leftJoin('private_goods', 'private_goods.id', '=', 'loans.private_goods_id')  // زیادکردنی join بۆ private_goods
             ->where('loans.total', '>', 0);
 
-        $query = DB::table('loans')
+        // Count query (without select and order for efficiency)
+        $countQuery = DB::table('loans')
             ->leftJoin('customer', 'customer.id', '=', 'loans.customer_id')
-            ->where('loans.total', '>', 0)
-            ->select(
-                'loans.*',
-                'customer.name as customer_name',
-                'customer.number_phone as customer_phone',
-                'customer.address as customer_address'
-            );
+            ->leftJoin('sales', 'sales.invoice_number', '=', 'loans.invoice_number')
+            ->leftJoin('sale_items', 'sale_items.sale_id', '=', 'sales.id')
+            ->leftJoin('products', 'products.id', '=', 'sale_items.product_id')
+            ->leftJoin('private_goods', 'private_goods.id', '=', 'loans.private_goods_id')  // زیادکردنی join بۆ private_goods
+            ->where('loans.total', '>', 0);
+
+        // Main query with all needed fields
+        $query = clone $baseQuery;
+        $query->select(
+            'loans.id',
+            'loans.invoice_number',
+            'loans.customer_id',
+            'loans.currency',
+            'loans.period',
+            'loans.total',
+            'loans.status as loan_status',
+            'loans.time_to_return',
+            // زیادکردنی paid_amount
+            'loans.created_at',
+            'loans.updated_at',
+            'customer.name as customer_name',
+            'customer.number_phone as customer_phone',
+            'customer.address as customer_address',
+            'products.name as product_name',
+            'products.company as product_company',
+            'products.image_producte_path as product_image',
+            'products.image_product_camera as product_camera_image',
+            'sale_items.quantity as product_quantity',
+            'sale_items.selling_price as product_price',
+            'loans.private_goods_id',  // زیادکردنی private_good_id
+            'private_goods.id as private_good_id',
+            'private_goods.name as private_good_name',  // زیادکردنی ناوی private_goods
+            'private_goods.company as private_good_company'  // زیادکردنی کۆمپانیای private_goods
+        );
 
         // SEARCH
         if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
+            $searchFilter = function ($q) use ($search) {
                 $q->where('customer.name', 'LIKE', "%{$search}%")
                     ->orWhere('customer.number_phone', 'LIKE', "%{$search}%")
-                    ->orWhere('loans.invoice_number', 'LIKE', "%{$search}%");
-            });
+                    ->orWhere('loans.invoice_number', 'LIKE', "%{$search}%")
+                    ->orWhere('products.name', 'LIKE', "%{$search}%")
+                    ->orWhere('products.company', 'LIKE', "%{$search}%")
+                    ->orWhere('private_goods.name', 'LIKE', "%{$search}%")  // زیادکردنی گەڕان بۆ private_goods
+                    ->orWhere('private_goods.company', 'LIKE', "%{$search}%")  // زیادکردنی گەڕان بۆ private_goods
+                    ->orWhere('customer.address', 'LIKE', "%{$search}%");
+            };
 
-            $countQuery->where(function ($q) use ($search) {
-                $q->where('customer.name', 'LIKE', "%{$search}%")
-                    ->orWhere('customer.number_phone', 'LIKE', "%{$search}%")
-                    ->orWhere('loans.invoice_number', 'LIKE', "%{$search}%");
-            });
+            $query->where($searchFilter);
+            $countQuery->where($searchFilter);
         }
 
         $today = date('Y-m-d');
@@ -187,7 +231,6 @@ public function getDebtorsList(Request $request)
             $countQuery->where('loans.time_to_return', '<', $today);
         } elseif ($status === 'warning') {
             $nextWeek = date('Y-m-d', strtotime('+7 days'));
-
             $query->whereBetween('loans.time_to_return', [$today, $nextWeek]);
             $countQuery->whereBetween('loans.time_to_return', [$today, $nextWeek]);
         }
@@ -222,19 +265,82 @@ public function getDebtorsList(Request $request)
                 $query->orderBy('customer.name', 'asc');
         }
 
-        $total = $countQuery->count();
+        // Get total count
+        $totalLoans = $countQuery->distinct('loans.id')->count('loans.id');
 
+        // Get paginated results
         $loans = $query
+            ->distinct()
             ->skip($offset)
             ->take($perPage)
-            ->get();
+            ->get()
+            ->groupBy('id');
 
         $stats = $this->getStatistics();
 
         $debtors = [];
 
-        foreach ($loans as $loan) {
+        foreach ($loans as $loanId => $loanGroup) {
+            $loan = $loanGroup->first();
+            
+            // Collect all products for this loan
+            $products = [];
+            $productNames = [];
+            $companies = [];
+            $productImages = [];
+            
+            foreach ($loanGroup as $item) {
+                // دیاریکردنی ناوی کاڵا (لە products یان private_goods)
+                $itemProductName = $item->product_name ?? $item->private_good_name;
+                $itemCompany = $item->product_company ?? $item->private_good_company;
+                
+                if ($itemProductName) {
+                    $productNames[] = $itemProductName;
+                    
+                    $products[] = [
+                        'name' => $itemProductName,
+                        'company' => $itemCompany,
+                        'image' => $item->product_image ?? $item->product_camera_image,
+                        'quantity' => $item->product_quantity,
+                        'price' => $item->product_price,
+                        'is_private_good' => !empty($item->private_good_id)  // ئاماژە بۆ ئەوەی کە ئایا private_good یە
+                    ];
+                    
+                    if ($itemCompany && !in_array($itemCompany, $companies)) {
+                        $companies[] = $itemCompany;
+                    }
+                    
+                    if (($item->product_image || $item->product_camera_image) && !in_array($item->product_image ?? $item->product_camera_image, $productImages)) {
+                        $productImages[] = $item->product_image ?? $item->product_camera_image;
+                    }
+                }
+            }
 
+            // ئەگەر هیچ کاڵایەک نەدۆزرایەوە، هەموو private_goods کان پیشان بدە
+            if (empty($products)) {
+                // هێنانی هەموو private_goods بۆ ئەم loan
+                $allPrivateGoodsForLoan = DB::table('private_goods')
+                    ->select('id', 'name', 'company')
+                    ->get();
+                
+                foreach ($allPrivateGoodsForLoan as $privateGood) {
+                    $productNames[] = $privateGood->name;
+                    $products[] = [
+                        'name' => $privateGood->name,
+                        'company' => $privateGood->company,
+                        'image' => null,
+                        'quantity' => null,
+                        'price' => null,
+                        'is_private_good' => true
+                    ];
+                    
+                    if ($privateGood->company && !in_array($privateGood->company, $companies)) {
+                        $companies[] = $privateGood->company;
+                    }
+                }
+            }
+
+            // Determine loan status
             if ($loan->time_to_return < $today) {
                 $loanStatus = 'overdue';
             } elseif ($loan->time_to_return <= date('Y-m-d', strtotime('+7 days'))) {
@@ -243,11 +349,38 @@ public function getDebtorsList(Request $request)
                 $loanStatus = 'active';
             }
 
+            // Get the first product image
+            $firstProductImage = !empty($productImages) ? $productImages[0] : null;
+            
+            // Build image URL
+            $productImageUrl = null;
+            if ($firstProductImage) {
+                if (filter_var($firstProductImage, FILTER_VALIDATE_URL)) {
+                    $productImageUrl = $firstProductImage;
+                } else {
+                    $productImageUrl = asset($firstProductImage);
+                }
+            }
+
+            // ناوی کاڵاکان بە "," جیا بکەرەوە
+            $productNameDisplay = !empty($productNames) 
+                ? implode(', ', array_unique($productNames)) 
+                : '—';
+
+            // کۆمپانیاکان بە "," جیا بکەرەوە
+            $companyDisplay = !empty($companies) 
+                ? implode(', ', array_unique($companies)) 
+                : '—';
+
             $debtors[] = [
                 'id' => $loan->id,
                 'customer_name' => $loan->customer_name ?? '',
                 'customer_phone' => $loan->customer_phone ?? '',
                 'customer_address' => $loan->customer_address ?? '',
+                'product_name' => $productNameDisplay,
+                'company' => $companyDisplay,
+                'product_image' => $productImageUrl,
+                'products' => $products,  // هەموو کاڵاکان (products + private_goods)
                 'remaining_amount' => (float)$loan->total,
                 'total_amount' => (float)$loan->total,
                 'paid_amount' => (float)($loan->paid_amount ?? 0),
@@ -267,11 +400,11 @@ public function getDebtorsList(Request $request)
             'debtors' => [
                 'data' => $debtors,
                 'current_page' => $page,
-                'last_page' => ceil($total / $perPage),
+                'last_page' => ceil($totalLoans / $perPage),
                 'per_page' => $perPage,
-                'total' => $total,
-                'from' => $total > 0 ? $offset + 1 : 0,
-                'to' => min($offset + $perPage, $total)
+                'total' => $totalLoans,
+                'from' => $totalLoans > 0 ? $offset + 1 : 0,
+                'to' => min($offset + $perPage, $totalLoans)
             ],
             'stats' => $stats
         ]);
@@ -279,15 +412,14 @@ public function getDebtorsList(Request $request)
     } catch (\Exception $e) {
 
         Log::error('DebtorController Error: ' . $e->getMessage());
+        Log::error('DebtorController Trace: ' . $e->getTraceAsString());
 
         return response()->json([
             'success' => false,
-            'message' => $e->getMessage()
+            'message' => 'An error occurred while fetching debtors: ' . $e->getMessage()
         ], 500);
     }
 }
-
-
 /**
  * Display the specified debtor.
  */

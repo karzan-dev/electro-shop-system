@@ -201,7 +201,7 @@
         filter: brightness(1.1);
     }
 
-    .btn {
+    #btnn {
         border: none;
         font-weight: 700;
         padding: 12px 20px;
@@ -456,9 +456,7 @@
                 <div id="products-container">
                     <!-- Products will be added here dynamically -->
                 </div>
-                <button type="button" class="btn btn-primary btn-block" onclick="addProduct()" style="margin-top: 12px;">
-                    <i class="fas fa-plus"></i> زیادکردنی کاڵا
-                </button>
+             
             </div>
         </div>
 
@@ -482,10 +480,6 @@
                     <input type="date" id="repayment-date" class="form-input" value="<?php echo e(date('Y-m-d', strtotime('+30 days'))); ?>">
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-sticky-note"></i> تێبینی</label>
-                    <textarea id="credit-notes" class="form-input" placeholder="هەر تێبینیەک هەیە بنووسە..."></textarea>
-                </div>
             </div>
 
             <div class="form-card">
@@ -506,16 +500,16 @@
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-                    <button type="button" class="btn btn-success btn-block btn-lg" onclick="saveCredit()" id="btn-save-credit">
+                    <button type="button" id="btnn" class="btn btn-success btn-block btn-lg" onclick="saveCredit()" id="btn-save-credit">
                         <i class="fas fa-save"></i> تۆمارکردنی قەرز <span class="shortcut-hint">F1</span>
                     </button>
-                    <button type="button" class="btn btn-danger btn-block" onclick="clearAllFormData()" id="btn-clear-form">
+                    <button type="button" id="btnn" class="btn btn-danger btn-block" onclick="clearAllFormData()" id="btn-clear-form">
                         <i class="fas fa-eraser"></i> پاککردنەوەی فۆرم <span class="shortcut-hint">Esc</span>
                     </button>
-                    <a href="<?php echo e(route('debtors.index')); ?>" class="btn btn-primary btn-block">
+                    <a  href=""  class="btn btn-primary btn-block hidden" hidden>
                         <i class="fas fa-list"></i> بینینی لیستی قەرزەکان
                     </a>
-                    <a href="<?php echo e(route('sales-credit.index')); ?>" class="btn btn-warning btn-block">
+                    <a href="" class="btn btn-warning btn-block hidden" hidden>
                         <i class="fas fa-arrow-right"></i> گەڕانەوە بۆ فرۆشتنی قەرز
                     </a>
                 </div>
