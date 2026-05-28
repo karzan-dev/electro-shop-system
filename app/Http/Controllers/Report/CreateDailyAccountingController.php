@@ -130,118 +130,156 @@ class CreateDailyAccountingController extends Controller
     /**
      * Get invoices for a specific cashier
      */
-    public function getInvoices(Request $request)
-    {
-        try {
-            $cashierId = $request->input('cashier_id');
-            
-            if (!$cashierId) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Cashier ID is required'
-                ], 400);
-            }
-
-            // Get sales with related data
-            $invoices = DB::table('sales')
-                ->join('users', 'sales.user_id', '=', 'users.id')
-                ->where('sales.user_id', $cashierId)
-                ->select(
-                    'sales.id',
-                    'sales.invoice_number',
-                    'sales.user_id',
-                    'users.name as cashier_name',
-                    'sales.total as total_sales',
-                    'sales.discount as total_discount',
-                    'sales.subtotal',
-                 
-                    'sales.created_at as date',
-                    DB::raw('DATE(sales.created_at) as accountingDate')
-                )
-                ->orderBy('sales.created_at', 'desc')
-                ->get();
-
-            // For each sale, get the returns and casher_coin
-            $invoicesWithDetails = $invoices->map(function ($invoice) {
-                // Get returns for this date and cashier
-                $returns = DB::table('return_items')
-                    ->where('Casher_id', $invoice->user_id)
-                    ->whereDate('Return_Date', $invoice->accountingDate)
-                    ->select(
-                        DB::raw('COALESCE(SUM(Return_Total), 0) as total_returns')
-                    )
-                    ->first();
-
-                // Get casher_coin for this date and cashier
-                $casherCoin = DB::table('casher_coin')
-                    ->where('casher_id', $invoice->user_id)
-                    ->whereDate('created_at', $invoice->accountingDate)
-                    ->select(
-                        DB::raw('COALESCE(SUM(amount), 0) as total_amount')
-                    )
-                    ->first();
-
-                $totalReturns = $returns->total_returns ?? 0;
-                $casherCoinAmount = $casherCoin->total_amount ?? 0;
-                $netReturns =  ($invoice->total_sales ?? 0) - $totalReturns - ($invoice->total_discount ?? 0) + $casherCoinAmount;
-                
-                // Calculate profit
-                $profit = $this->calculateProfit($invoice->id);
-                
-                // Calculate account balance considering casher_coin
-                // Formula: Sales - Returns - Discounts + Casher Coin
-                $netBalance = ($invoice->total_sales ?? 0) - $totalReturns - ($invoice->total_discount ?? 0) + $casherCoinAmount;
-
-                
-                // Determine account status
-                if ($netBalance == 0) {
-                    $status = 'هاوسەنگ';
-                    $shortAmount = 0;
-                    $extraAmount = 0;
-                } elseif ($netBalance < 0) {
-                    $status = 'کەم';
-                    $shortAmount = abs($netBalance);
-                    $extraAmount = 0;
-                } else {
-                    $status = 'زیاد';
-                    $shortAmount = 0;
-                    $extraAmount = $netBalance;
-                }
-
-                return [
-                    'id' => $invoice->id,
-                    'invoice_number' => $invoice->invoice_number,
-                    'cashier_id' => $invoice->user_id,
-                    'cashierName' => $invoice->cashier_name,
-                    'totalSales' => $invoice->total_sales,
-                    'totalReturns' => $totalReturns,
-                    'totalDiscount' => $invoice->total_discount,
-                    'casherCoin' => $casherCoinAmount,
-                    'netReturns' => $netReturns,
-                    'todayProfit' => $profit,
-                    'accountStatus' => $status,
-                    'shortAmount' => $shortAmount,
-                    'extraAmount' => $extraAmount,
-                    "subtotal"=>$invoice->subtotal,
-                    'accountingDate' => $invoice->accountingDate,
-                    "casherCoinAmount" => $casherCoinAmount,
-                    'date' => $invoice->date,
-                    'detailGiven' => $this->getReturnDetails($invoice->user_id, $invoice->accountingDate),
-                ];
-            });
-
-            return response()->json([
-                'success' => true,
-                'invoices' => $invoicesWithDetails
-            ]);
-        } catch (\Exception $e) {
+public function getInvoices(Request $request)
+{
+    try {
+        $cashierId = $request->input('cashier_id');
+        
+        if (!$cashierId) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error loading invoices: ' . $e->getMessage()
-            ], 500);
+                'message' => 'Cashier ID is required'
+            ], 400);
         }
-    }
 
+        // Get sales with related data
+        $invoices = DB::table('sales')
+            ->join('users', 'sales.user_id', '=', 'users.id')
+            ->where('sales.user_id', $cashierId)
+            ->select(
+                'sales.id',
+                'sales.invoice_number',
+                'sales.user_id',
+                'users.name as cashier_name',
+                'sales.total as total_sales',
+                'sales.discount as total_discount',
+                'sales.subtotal',
+                'sales.created_at as date',
+                DB::raw('DATE(sales.created_at) as accountingDate')
+            )
+            ->orderBy('sales.created_at', 'desc')
+            ->get();
+
+        // For each sale, get the returns, casher_coin, and loans
+        $invoicesWithDetails = $invoices->map(function ($invoice) {
+            // Get returns for this date and cashier
+            $returns = DB::table('return_items')
+                ->where('Casher_id', $invoice->user_id)
+                ->whereDate('Return_Date', $invoice->accountingDate)
+                ->select(
+                    DB::raw('COALESCE(SUM(Return_Total), 0) as total_returns')
+                )
+                ->first();
+
+            // Get casher_coin for this date and cashier
+            $casherCoin = DB::table('casher_coin')
+                ->where('casher_id', $invoice->user_id)
+                ->whereDate('created_at', $invoice->accountingDate)
+                ->select(
+                    DB::raw('COALESCE(SUM(amount), 0) as total_amount')
+                )
+                ->first();
+
+            // Get loans for this specific sale/invoice
+            $loans = DB::table('loans')
+                ->where('sels_id', $invoice->id)
+                ->where('invoice_number', $invoice->invoice_number)
+                ->select(
+                    'id',
+                    'private_goods_id',
+                    'customer_id',
+                    'currency',
+                    'period',
+                    'total',
+                    'status',
+                    'time_to_return',
+                    'created_at'
+                )
+                ->get();
+
+            // Calculate total loans amount for this invoice
+            $totalLoans = $loans->sum('total');
+
+            // Check if this sale has loans (credit sale)
+            $isCreditSale = $loans->isNotEmpty();
+
+            // Check if there's data in sales table for this invoice
+            $hasSalesData = DB::table('sales')
+                ->where('id', $invoice->id)
+                ->where('invoice_number', $invoice->invoice_number)
+                ->exists();
+
+            $totalReturns = $returns->total_returns ?? 0;
+            $casherCoinAmount = $casherCoin->total_amount ?? 0;
+            $netReturns = ($invoice->total_sales ?? 0) - $totalReturns - ($invoice->total_discount ?? 0) + $casherCoinAmount;
+            
+            // Calculate profit
+            $profit = $this->calculateProfit($invoice->id);
+            
+            // Calculate account balance considering casher_coin and loans
+            // Formula: Sales - Returns - Discounts + Casher Coin - Loans (unpaid credit)
+            $netBalance = ($invoice->total_sales ?? 0) - $totalReturns - ($invoice->total_discount ?? 0) + $casherCoinAmount - $totalLoans;
+
+            // Determine account status
+            if ($netBalance == 0) {
+                $status = 'هاوسەنگ';
+                $shortAmount = 0;
+                $extraAmount = 0;
+            } elseif ($netBalance < 0) {
+                $status = 'کەم';
+                $shortAmount = abs($netBalance);
+                $extraAmount = 0;
+            } else {
+                $status = 'زیاد';
+                $shortAmount = 0;
+                $extraAmount = $netBalance;
+            }
+
+            // Determine sale type
+            $saleType = 'فرۆشتنی ئاسایی'; // Normal sale
+            if ($hasSalesData && $isCreditSale) {
+                $saleType = 'فرۆشتنی قەرزە'; // Credit sale
+            }
+
+            return [
+                'id' => $invoice->id,
+                'invoice_number' => $invoice->invoice_number,
+                'cashier_id' => $invoice->user_id,
+                'cashierName' => $invoice->cashier_name,
+                'totalSales' => $invoice->total_sales,
+                'totalReturns' => $totalReturns,
+                'totalDiscount' => $invoice->total_discount,
+                'casherCoin' => $casherCoinAmount,
+                'totalLoans' => $totalLoans,
+                'loanCount' => $loans->count(),
+                'loans' => $loans,  // هەموو قەرزەکانی ئەم فاکتەرەیە
+                'netReturns' => $netReturns,
+                'todayProfit' => $profit,
+                'accountStatus' => $status,
+                'shortAmount' => $shortAmount,
+                'extraAmount' => $extraAmount,
+                "subtotal" => $invoice->subtotal,
+                'accountingDate' => $invoice->accountingDate,
+                "casherCoinAmount" => $casherCoinAmount,
+                'date' => $invoice->date,
+                "loanss" =>  $casherCoin ,
+                'isCreditSale' => $isCreditSale,  // ئایا فرۆشتنی قەرزەیە؟
+                'saleType' => $saleType,  // جۆری فرۆشتن: فرۆشتنی ئاسایی یان فرۆشتنی قەرزە
+                'detailGiven' => $this->getReturnDetails($invoice->user_id, $invoice->accountingDate),
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'invoices' => $invoicesWithDetails
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Error loading invoices: ' . $e->getMessage()
+        ], 500);
+    }
+}
     /**
      * Get single invoice details
      */

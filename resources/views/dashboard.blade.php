@@ -143,7 +143,7 @@
         background: var(--glass-bg);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        border-radius: 1rem;
+       
         border: 1px solid var(--border-color);
     }
 
@@ -484,7 +484,7 @@
                 <div class="icon-container">
                     <i class="fas fa-users"></i>
                 </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">لیستی قەرزارەکان</h3>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">لیستی قەرزەکان</h3>
                 <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
                     بینین <i class="fas fa-arrow-left ms-2"></i>
                 </button>

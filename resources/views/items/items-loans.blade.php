@@ -12,7 +12,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>{{ config('app.name', 'Laravel') }} - لیستی قەرزارەکان</title>
+<title>{{ config('app.name', 'Laravel') }} - لیستی قەرزەکان</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
@@ -55,7 +55,7 @@
 
     body {
         background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         min-height: 100vh;
         color: var(--text);
     }
@@ -79,7 +79,7 @@
     .glass {
         background: var(--glass-bg);
         backdrop-filter: blur(10px);
-        border-radius: 24px;
+       
         border: 1px solid var(--border-color);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     }
@@ -153,6 +153,8 @@
         align-items: center;
         gap: 12px;
         flex-wrap: wrap;
+
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     }
 
     @media (min-width: 768px) {
@@ -475,8 +477,13 @@
     }
 
     .badge-warning {
-        background: #fffbeb;
+        background: #f6e8d3;
         color: #92400e;
+    }
+    .badge-warningg{
+        background: #fef3c7;
+        color: #78350f;
+
     }
 
     .amount-positive {
@@ -782,7 +789,7 @@
         color: var(--text);
         resize: vertical;
         min-height: 70px;
-        font-family: inherit;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     }
 
     .later-note-input:focus {
@@ -980,7 +987,7 @@
         background: var(--card-bg);
         border-radius: 28px;
         width: 90%;
-        max-width: 600px;
+        max-width: 700px;
         max-height: 85vh;
         overflow-y: auto;
         animation: fadeInUp 0.3s ease;
@@ -995,6 +1002,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 10;
     }
 
     .modal-body {
@@ -1007,6 +1017,9 @@
         display: flex;
         gap: 12px;
         justify-content: flex-end;
+        position: sticky;
+        bottom: 0;
+        background: var(--card-bg);
     }
 
     .close-modal {
@@ -1043,6 +1056,156 @@
         font-weight: 600;
     }
 
+    /* Payment History Section */
+    .payment-history-section {
+        margin-top: 24px;
+        border-top: 2px solid var(--border-color);
+        padding-top: 20px;
+    }
+
+    .payment-history-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .payment-history-title i {
+        color: var(--primary);
+    }
+
+    .payment-history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 4px;
+    }
+
+    .payment-history-list::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .payment-history-list::-webkit-scrollbar-track {
+        background: var(--bg-light);
+        border-radius: 3px;
+    }
+
+    .payment-history-list::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 3px;
+    }
+
+    .payment-history-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        background: var(--bg-light);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        transition: all 0.2s;
+    }
+
+    .payment-history-item:hover {
+        border-color: var(--primary);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark-mode .payment-history-item:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .payment-history-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .payment-history-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1rem;
+    }
+
+    .payment-history-icon.now-payment {
+        background: linear-gradient(135deg, var(--success), #059669);
+    }
+
+    .payment-history-icon.later-payment {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .payment-history-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .payment-history-amount {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--text);
+    }
+
+    .payment-history-date {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+    }
+
+    .payment-history-right {
+        text-align: right;
+    }
+
+    .payment-history-type {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .payment-history-type.now-type {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .payment-history-type.later-type {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    body.dark-mode .payment-history-type.now-type {
+        background: #14532d;
+        color: #86efac;
+    }
+
+    body.dark-mode .payment-history-type.later-type {
+        background: #451a03;
+        color: #fcd34d;
+    }
+
+    .payment-history-empty {
+        text-align: center;
+        padding: 30px;
+        color: var(--text-secondary);
+    }
+
+    .payment-history-empty i {
+        font-size: 2rem;
+        opacity: 0.5;
+        margin-bottom: 10px;
+    }
+
     .products-table {
         width: 100%;
         border-collapse: collapse;
@@ -1063,23 +1226,6 @@
         font-size: 0.8rem;
         border-bottom: 1px solid var(--border-color);
         text-align: center;
-    }
-
-    .payment-history {
-        margin-top: 16px;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-
-    .payment-item {
-        background: var(--bg-light);
-        padding: 10px;
-        border-radius: 12px;
-        margin-bottom: 8px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.8rem;
-        border: 1px solid var(--border-color);
     }
 
     .toast-container {
@@ -1278,11 +1424,9 @@
     <div class="page-header animate-fade-in-up">
         <div class="page-title">
             <i class="fas fa-users"></i>
-            <span>لیستی قەرزارەکان</span>
+            <span>لیستی قەرزەکان</span>
         </div>
-        <div class="page-subtitle">
-            <i class="fas fa-chart-line"></i> ڕاپۆرتی قەرزەکان و کەسانی قەرزار - هەر کاڵایەک لە ڕیزێکی جیا
-        </div>
+       
     </div>
 
     <!-- Filter Bar -->
@@ -1326,7 +1470,6 @@
             <table class="debtors-table" id="debtors-table">
                 <thead>
                     <tr>
-                        <th>#</th>
                         <th>ناوی کڕیار</th>
                         <th>ژمارەی مۆبایل</th>
                         <th>ناونیشان</th>
@@ -1341,7 +1484,7 @@
                 </thead>
                 <tbody id="debtors-tbody">
                     <tr>
-                        <td colspan="11" class="empty-state">
+                        <td colspan="10" class="empty-state">
                             <i class="fas fa-spinner fa-pulse"></i>
                             <p>بارده‌کێت...</p>
                         </td>
@@ -1354,38 +1497,6 @@
         <div class="pagination-container">
             <div class="showing-info" id="showing-info"></div>
             <div class="pagination" id="pagination"></div>
-        </div>
-    </div>
-
-    <!-- Stats Cards - Below Table -->
-    <div class="stats-grid animate-fade-in-up animate-delay-400">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-user-friends"></i>
-            </div>
-            <div class="stat-value" id="total-debtors">0</div>
-            <div class="stat-label">کۆی قەرزارەکان</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-hand-holding-usd"></i>
-            </div>
-            <div class="stat-value" id="total-debt">0</div>
-            <div class="stat-label">کۆی قەرز</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <div class="stat-value" id="active-debtors">0</div>
-            <div class="stat-label">قەرزە چالاکەکان</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <div class="stat-value" id="overdue-debtors">0</div>
-            <div class="stat-label">قەرزی بەسەرچوو</div>
         </div>
     </div>
 </div>
@@ -1473,7 +1584,6 @@
                         <button class="quick-amount-btn" onclick="setLaterAmount('quarter')">🪙 چارەکی قەرز</button>
                     </div>
                 </div>
-             
                 <div class="later-summary" id="later-summary" style="display: none;">
                     <i class="fas fa-info-circle"></i>
                     <span id="later-summary-text"></span>
@@ -1527,7 +1637,7 @@ let totalPages = 1;
 let selectedDebtorId = null;
 let selectedDeleteId = null;
 let responseTotal = 0;
-let currentPaymentType = 'now'; // 'now' or 'later'
+let currentPaymentType = 'now';
 
 // ==================== FULL SCREEN IMAGE ====================
 function openFullscreenImage(imageUrl) {
@@ -1576,16 +1686,15 @@ function loadDebtors() {
             per_page: 15
         },
         beforeSend: function() {
-            $('#debtors-tbody').html('<tr><td colspan="11" class="empty-state"><i class="fas fa-spinner fa-pulse"></i><p>بارده‌کێت...</p></td></tr>');
+            $('#debtors-tbody').html('<tr><td colspan="10" class="empty-state"><i class="fas fa-spinner fa-pulse"></i><p>بارده‌کێت...</p></td></tr>');
         },
         success: function(response) {
-            console.log('Response:', response);
+            console.log(response);
             if (response.success) {
                 currentDebtors = response.debtors.data;
                 totalPages = response.debtors.last_page;
                 renderDebtorsTable(currentDebtors);
                 renderPagination();
-                updateStats(response.stats);
             } else {
                 showToast(response.message || 'هەڵەیەک ڕوویدا', 'error');
             }
@@ -1593,27 +1702,39 @@ function loadDebtors() {
         error: function(xhr) {
             console.error('Error:', xhr);
             showToast('هەڵە لە گەڕانی داتا', 'error');
-            $('#debtors-tbody').html('<tr><td colspan="11" class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>هەڵەیەک ڕوویدا</p></td></tr>');
+            $('#debtors-tbody').html('<tr><td colspan="10" class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>هەڵەیەک ڕوویدا</p></td></tr>');
         }
     });
 }
 
 function renderDebtorsTable(debtors) {
     if (!debtors || debtors.length === 0) {
-        $('#debtors-tbody').html('<tr><td colspan="11" class="empty-state"><i class="fas fa-inbox"></i><p>هیچ قەرزارێک نەدۆزرایەوە</p></td></tr>');
+        $('#debtors-tbody').html('<tr><td colspan="10" class="empty-state"><i class="fas fa-inbox"></i><p>هیچ قەرزارێک نەدۆزرایەوە</p></td></tr>');
         return;
     }
     
     let html = '';
     
     debtors.forEach((debtor, index) => {
-        const rowNumber = ((currentPage - 1) * 15) + index + 1;
-        
-        const statusClass = debtor.status === 'active' ? 'badge-active' : 
-                          (debtor.status === 'overdue' ? 'badge-overdue' : 'badge-warning');
-        const statusText = debtor.status === 'active' ? 'چالاک' : 
-                         (debtor.status === 'overdue' ? 'بەسەرچوو' : 'نزیکە');
-        const amountClass = debtor.remaining_amount > 0 ? 'amount-positive' : '';
+        const statusClass =
+            debtor.status === 'warning'
+                ? 'badge-warningg'
+                : debtor.status === 'overdue'
+                    ? 'badge-overdue'
+                    : debtor.status === 'paidoff'
+                        ? 'badge-active'
+                        : 'badge-warning';
+
+        const statusText =
+            debtor.status === 'warning'
+                ? 'نزیکە'
+                : debtor.status === 'overdue'
+                    ? 'بەسەرچوو'
+                    : debtor.status === 'paidoff'
+                        ? 'پارەدراو'
+                        : 'چالاک';
+
+        const amountClass = debtor.pending_amount > 0 ? 'amount-positive' : '';
         
         const productName = debtor.product_name || '—';
         const company = debtor.company || '—';
@@ -1621,7 +1742,6 @@ function renderDebtorsTable(debtors) {
         
         html += `
         <tr class="row-clickable" onclick="showDebtorDetail(${debtor.id})" style="cursor: pointer;">
-            <td data-label="#">${rowNumber}</td>
             <td data-label="ناوی کڕیار">
                 <i class="fas fa-user text-primary me-2"></i> ${escapeHtml(debtor.customer_name || '—')}
             </td>
@@ -1630,12 +1750,13 @@ function renderDebtorsTable(debtors) {
                 <i class="fas fa-map-marker-alt text-primary me-2"></i> ${escapeHtml(debtor.customer_address || '—')}
             </td>
             <td data-label="ناوی کاڵا" onclick="event.stopPropagation()">
-             
+                <div class="product-info-container">
+                    ${productImage ? `<img src="${productImage}" alt="${escapeHtml(productName)}" class="product-image product-image-clickable" onclick="event.stopPropagation(); openFullscreenImage('${productImage}')" title="کلیک بکە بۆ بینینی گەورە">` : '<i class="fas fa-box text-primary"></i>'}
                     <span style="font-weight: 600;">${escapeHtml(productName)}</span>
                 </div>
             </td>
             <td data-label="کۆمپانیا">${escapeHtml(company)}</td>
-            <td data-label="بڕی پارەی ماوە" class="${amountClass}">${formatNumber(debtor.remaining_amount)} IQD</td>
+            <td data-label="بڕی پارەی ماوە" class="${amountClass}">${formatNumber(debtor.period)} IQD</td>
             <td data-label="بەرواری وەرگرتن">${formatDate(debtor.created_at)}</td>
             <td data-label="بەرواری کۆتایی">${formatDate(debtor.due_date)}</td>
             <td data-label="ڕەوش"><span class="badge-status ${statusClass}">${statusText}</span></td>
@@ -1690,31 +1811,6 @@ function renderPagination() {
     }
 }
 
-function updateStats(stats) {
-    if (stats) {
-        responseTotal = stats.total_debtors || 0;
-        
-        animateValue('total-debtors', stats.total_debtors || 0);
-        animateValue('total-debt', formatNumber(stats.total_debt || 0), true);
-        animateValue('active-debtors', stats.active_debtors || 0);
-        animateValue('overdue-debtors', stats.overdue_debtors || 0);
-    }
-}
-
-function animateValue(elementId, newValue, isFormatted = false) {
-    const element = $('#' + elementId);
-    const oldText = element.text();
-    const newText = isFormatted ? newValue : String(newValue);
-    
-    if (oldText !== newText) {
-        element.addClass('stat-value-updating');
-        element.text(newText);
-        setTimeout(() => {
-            element.removeClass('stat-value-updating');
-        }, 500);
-    }
-}
-
 function changePage(page) {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
         currentPage = page;
@@ -1763,8 +1859,8 @@ function showPaymentModal(debtorId) {
     
     $('#pay-customer-name').text(debtor.customer_name || '—');
     $('#pay-total-amount').text(formatNumber(debtor.total_amount || 0) + ' IQD');
-    $('#pay-paid-amount').text(formatNumber(debtor.paid_amount || 0) + ' IQD');
-    $('#pay-remaining-amount').text(formatNumber(debtor.remaining_amount || 0) + ' IQD');
+    $('#pay-paid-amount').text(formatNumber(debtor.currency || 0) + ' IQD');
+    $('#pay-remaining-amount').text(formatNumber(debtor.period || 0) + ' IQD');
     $('#payment-amount').val('');
     $('#later-amount').val('');
     $('#later-note').val('');
@@ -1794,7 +1890,7 @@ function setPaymentAmount(type) {
     const debtor = currentDebtors.find(d => d.id == selectedDebtorId);
     if (!debtor) return;
     
-    const remaining = parseFloat(debtor.remaining_amount) || 0;
+    const remaining = parseFloat(debtor.period) || 0;
     let amount = 0;
     
     switch(type) {
@@ -1817,7 +1913,7 @@ function setLaterAmount(type) {
     const debtor = currentDebtors.find(d => d.id == selectedDebtorId);
     if (!debtor) return;
     
-    const remaining = parseFloat(debtor.remaining_amount) || 0;
+    const remaining = parseFloat(debtor.period) || 0;
     let amount = 0;
     
     switch(type) {
@@ -1882,7 +1978,7 @@ function submitNowPayment() {
     }
     
     const debtor = currentDebtors.find(d => d.id == selectedDebtorId);
-    if (debtor && amount > parseFloat(debtor.remaining_amount)) {
+    if (debtor && amount > parseFloat(debtor.period)) {
         showToast('بڕی پارەدان ناتوانێت زیاتر بێت لە قەرزی ماوە', 'error');
         return;
     }
@@ -1918,6 +2014,8 @@ function processPayment(debtorId, amount, paymentType, laterDate = null, laterNo
         data.later_note = laterNote;
     }
     
+    console.log('Sending payment data:', data);
+    
     $.ajax({
         url: '{{ route("debtors.pay") }}',
         type: 'POST',
@@ -1927,6 +2025,7 @@ function processPayment(debtorId, amount, paymentType, laterDate = null, laterNo
             showToast(msg, 'info');
         },
         success: function(response) {
+            console.log('Payment Response:', response);
             if (response.success) {
                 const msg = paymentType === 'now' 
                     ? 'پارەدان بە سەرکەوتوویی تۆمارکرا' 
@@ -1940,10 +2039,16 @@ function processPayment(debtorId, amount, paymentType, laterDate = null, laterNo
             }
         },
         error: function(xhr) {
+            console.log('Payment Error:', xhr);
             let msg = 'هەڵەیەک ڕوویدا';
             try {
                 const res = JSON.parse(xhr.responseText);
-                msg = res.message || msg;
+                if (res.errors) {
+                    const firstError = Object.values(res.errors)[0][0];
+                    msg = firstError || res.message;
+                } else {
+                    msg = res.message || msg;
+                }
             } catch(e) {}
             showToast(msg, 'error');
         }
@@ -1975,6 +2080,7 @@ function confirmDeleteDebtor() {
             showToast('سڕینەوەی قەرز...', 'info');
         },
         success: function(response) {
+            console.log("delete response:", response);
             if (response.success) {
                 showToast(response.message || 'قەرز بە سەرکەوتوویی سڕایەوە', 'success');
                 closeConfirmDeleteModal();
@@ -1995,6 +2101,76 @@ function confirmDeleteDebtor() {
     });
 }
 
+// ==================== LOAD PAYMENT HISTORY ====================
+function loadPaymentHistory(debtorId) {
+    $.ajax({
+        url: '{{ route("debtors.payment-history") }}',
+        type: 'GET',
+        data: {
+            debtor_id: debtorId,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            console.log('Payment History Response:', response);
+            if (response.success) {
+                renderPaymentHistory(response.payments);
+            } else {
+                renderPaymentHistory([]);
+            }
+        },
+        error: function(xhr) {
+            console.error('Payment History Error:', xhr);
+            renderPaymentHistory([]);
+        }
+    });
+}
+
+function renderPaymentHistory(payments) {
+    let historyHtml = '';
+    
+    if (!payments || payments.length === 0) {
+        historyHtml = `
+            <div class="payment-history-empty">
+                <i class="fas fa-receipt"></i>
+                <p>هیچ پارەدانێک تۆمار نەکراوە</p>
+            </div>`;
+    } else {
+        payments.forEach(payment => {
+            const isNowPayment = payment.payment_type === 'now' || payment.payment_type === 'cash' || !payment.later_date;
+            const iconClass = isNowPayment ? 'now-payment' : 'later-payment';
+            const icon = isNowPayment ? 'fa-check-circle' : 'fa-clock';
+            const typeClass = isNowPayment ? 'now-type' : 'later-type';
+            const typeText = isNowPayment ? 'پارەدانی ڕاستەوخۆ' : 'بۆ کاتی دواتر';
+            const amount = parseFloat(payment.amount || payment.pyment_of_mony || 0);
+            const date = payment.created_at || payment.payment_date || '';
+            const laterDate = payment.later_date || '';
+            
+            let dateDisplay = formatDate(date);
+            if (!isNowPayment && laterDate) {
+                dateDisplay = `📅 ${formatDate(laterDate)}`;
+            }
+            
+            historyHtml += `
+                <div class="payment-history-item">
+                    <div class="payment-history-left">
+                        <div class="payment-history-icon ${iconClass}">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        <div class="payment-history-info">
+                            <span class="payment-history-amount">${formatNumber(amount)} IQD</span>
+                            <span class="payment-history-date">${dateDisplay}</span>
+                        </div>
+                    </div>
+                    <div class="payment-history-right">
+                        <span class="payment-history-type ${typeClass}">${typeText}</span>
+                    </div>
+                </div>`;
+        });
+    }
+    
+    $('#payment-history-content').html(historyHtml);
+}
+
 // ==================== DEBTOR DETAIL ====================
 function showDebtorDetail(debtorId) {
     selectedDebtorId = debtorId;
@@ -2005,17 +2181,32 @@ function showDebtorDetail(debtorId) {
     
     if (debtor) {
         renderDebtorDetail(debtor);
+        // Load payment history after rendering detail
+        loadPaymentHistory(debtorId);
     } else {
         $('#modal-body').html('<p class="empty-state">قەرزار نەدۆزرایەوە</p>');
     }
 }
 
 function renderDebtorDetail(debtor) {
-    const statusClass = debtor.status === 'active' ? 'badge-active' : 
-                      (debtor.status === 'overdue' ? 'badge-overdue' : 'badge-warning');
-    const statusText = debtor.status === 'active' ? 'چالاک' : 
-                     (debtor.status === 'overdue' ? 'بەسەرچوو' : 'نزیکە');
-    
+    const statusClass =
+        debtor.status === 'warning'
+            ? 'badge-warning'
+            : debtor.status === 'overdue'
+                ? 'badge-overdue'
+                : debtor.status === 'paidoff'
+                    ? 'badge-active'
+                    : 'badge-warning';
+
+    const statusText =
+        debtor.status === 'warning'
+            ? 'نزیکە'
+            : debtor.status === 'overdue'
+                ? 'بەسەرچوو'
+                : debtor.status === 'paidoff'
+                    ? 'پارەدراو'
+                    : 'چالاک';
+
     const productImage = debtor.product_image || null;
     
     const html = `
@@ -2062,11 +2253,11 @@ function renderDebtorDetail(debtor) {
         </div>
         <div class="detail-row">
             <span class="detail-label"><i class="fas fa-check-circle"></i> پارەی دراو:</span>
-            <span class="detail-value" style="color:#10b981;">${formatNumber(debtor.paid_amount || 0)} IQD</span>
+            <span class="detail-value" style="color:#10b981;">${formatNumber(debtor.currency || 0)} IQD</span>
         </div>
         <div class="detail-row">
             <span class="detail-label"><i class="fas fa-exclamation-triangle"></i> قەرزی ماوە:</span>
-            <span class="detail-value amount-positive">${formatNumber(debtor.remaining_amount || 0)} IQD</span>
+            <span class="detail-value amount-positive">${formatNumber(debtor.period || 0)} IQD</span>
         </div>
         <div class="detail-row">
             <span class="detail-label"><i class="fas fa-calendar-alt"></i> بەرواری وەرگرتن:</span>
@@ -2079,6 +2270,20 @@ function renderDebtorDetail(debtor) {
         <div class="detail-row">
             <span class="detail-label"><i class="fas fa-tag"></i> ڕەوش:</span>
             <span class="detail-value"><span class="badge-status ${statusClass}">${statusText}</span></span>
+        </div>
+        
+        <!-- Payment History Section -->
+        <div class="payment-history-section">
+            <div class="payment-history-title">
+                <i class="fas fa-history"></i>
+                <span>مێژووی پارەدانەکان</span>
+            </div>
+            <div class="payment-history-list" id="payment-history-content">
+                <div style="text-align:center;padding:20px;">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top:8px;color:var(--text-secondary);font-size:0.8rem;">بارکردنی مێژوو...</p>
+                </div>
+            </div>
         </div>
     `;
     $('#modal-body').html(html);

@@ -110,6 +110,13 @@ Route::get("/items-loans", function () {
         return view("items.debtor-save-products");
     })->name('debtors.save-products');
 
+    Route::get('/debtors/payment-history', [DebtorController::class, 'paymentHistory'])->name('debtors.payment-history');
+
+       Route::post('/debtors/pay', [DebtorController::class, 'pay'])->name('debtors.pay');
+    
+    // Delete route
+    Route::delete('/debtors/{id}/delete', [DebtorController::class, 'destroy'])->name('debtors.delete');
+
     Route::post('/debtors/save', [DebtorController::class, 'debtors_save'])->name('debtors.save');
     // Route بۆ گەڕانی کڕیار
 Route::post('/customers/search', function(Request $request) {

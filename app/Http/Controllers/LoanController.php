@@ -58,20 +58,18 @@ public function store(Request $request)
 
         $credit_amount  = $total - $advancePayment;
 
- $exists = DB::table('customer')
-    ->where('name', $customerName)
-    ->where('number_phone', $phoneNumber)
-    ->exists();
+        $exists = DB::table('customer')
+            ->where('name', $customerName)
+            ->where('number_phone', $phoneNumber)
+            ->exists();
 
-if (!$exists) {
-
-    DB::table('customer')->insert([
-        'name' => $customerName,
-        'number_phone' => $phoneNumber,
-        'address' => $address,
-    ]);
-
-}
+        if (!$exists) {
+            DB::table('customer')->insert([
+                'name' => $customerName,
+                'number_phone' => $phoneNumber,
+                'address' => $address,
+            ]);
+        }
 
         // 🔹 1. Insert into sales
         $saleId = DB::table('sales')->insertGetId([
@@ -84,15 +82,12 @@ if (!$exists) {
             'updated_at' => now(),
         ]);
 
-
-
         // 🔹 2. Insert sale items
-        $saleItemsIds = [];
         if($items) {
             foreach ($items as $item) {
                 $product = DB::table('products')->where('id', $item['product_id'])->first();
 
-                $saleItemId = DB::table('sale_items')->insertGetId([
+                DB::table('sale_items')->insert([
                     'sale_id' => $saleId,
                     'product_id' => $item['product_id'],
                     'product_name' => $product->name ?? null,
@@ -103,26 +98,24 @@ if (!$exists) {
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-
-                $saleItemsIds[] = [
-                    'sels_id' => $saleItemId,
-                    "invoice_number" => $invoiceNumber,
-                    "customer_id" => DB::table('customer')->where('number_phone', $phoneNumber)->first()->id,
-                    'currency' => $advancePayment,
-                    'period' => $credit_amount,
-                    'total' => $total,
-                    'status' => 2,
-                    'time_to_return' => $time_to_return,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
             }
         }
 
-        // 🔹 3. Insert into loans (item-level only)
-        if(!empty($saleItemsIds)) {
-            DB::table('loans')->insert($saleItemsIds);
-        }
+        // 🔹 3. Insert into loans (تەنها یەک جار بۆ هەر فرۆشتنێک)
+        $customerId = DB::table('customer')->where('number_phone', $phoneNumber)->first()->id;
+        
+        DB::table('loans')->insert([
+            'sels_id' => $saleId,
+            'invoice_number' => $invoiceNumber,
+            'customer_id' => $customerId,
+            'currency' => $advancePayment,
+            'period' => $credit_amount,
+            'total' => $total,
+            'status' => 2,
+            'time_to_return' => $time_to_return,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         DB::commit();
 
@@ -340,14 +333,19 @@ public function getDebtorsList(Request $request)
                 }
             }
 
-            // Determine loan status
+            if( $loan->currency==$loan->total) {
+                $loanStatus = 'paidoff';
+            }else{
+        
             if ($loan->time_to_return < $today) {
                 $loanStatus = 'overdue';
             } elseif ($loan->time_to_return <= date('Y-m-d', strtotime('+7 days'))) {
                 $loanStatus = 'warning';
-            } else {
+            }
+             else {
                 $loanStatus = 'active';
             }
+        }
 
             // Get the first product image
             $firstProductImage = !empty($productImages) ? $productImages[0] : null;
@@ -367,7 +365,7 @@ public function getDebtorsList(Request $request)
                 ? implode(', ', array_unique($productNames)) 
                 : '—';
 
-            // کۆمپانیاکان بە "," جیا بکەرەوە
+            // کۆمپانیاکان بە "," جیا بکەرەوەb
             $companyDisplay = !empty($companies) 
                 ? implode(', ', array_unique($companies)) 
                 : '—';

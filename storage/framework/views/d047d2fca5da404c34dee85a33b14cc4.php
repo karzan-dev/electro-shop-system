@@ -451,10 +451,14 @@
     .badge-balanced { background: #d1fae5; color: #065f46; }
     .badge-short { background: #fee2e2; color: #991b1b; }
     .badge-extra { background: #fef3c7; color: #92400e; }
+    .badge-credit { background: #e0e7ff; color: #3730a3; }
+    .badge-normal { background: #f3f4f6; color: #374151; }
 
     body.dark-mode .badge-balanced { background: #064e3b; color: #d1fae5; }
     body.dark-mode .badge-short { background: #7f1d1d; color: #fee2e2; }
     body.dark-mode .badge-extra { background: #78350f; color: #fef3c7; }
+    body.dark-mode .badge-credit { background: #312e81; color: #c7d2fe; }
+    body.dark-mode .badge-normal { background: #374151; color: #d1d5db; }
 
     /* Cashier Info Card */
     .cashier-info-card {
@@ -617,6 +621,94 @@
         color: #64748b;
     }
 
+    /* Pagination Styles */
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+        padding: 1rem 0 0.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .pagination-controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .pagination-btn {
+        padding: 8px 14px;
+        border: 1px solid var(--border-color);
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text);
+    }
+
+    body.dark-mode .pagination-btn {
+        background: #1e293b;
+        border-color: #475569;
+        color: #e2e8f0;
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .pagination-btn.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+
+    .page-info {
+        font-size: 0.85rem;
+        color: #64748b;
+        padding: 5px 12px;
+        background: var(--bg-light);
+        border-radius: 20px;
+    }
+
+    body.dark-mode .page-info {
+        background: #0f172a;
+        color: #94a3b8;
+    }
+
+    .rows-per-page {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .rows-per-page select {
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: white;
+        cursor: pointer;
+    }
+
+    body.dark-mode .rows-per-page select {
+        background: #1e293b;
+        color: #e2e8f0;
+        border-color: #475569;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
         .summaries-table {
@@ -634,6 +726,11 @@
         
         .total-card-value {
             font-size: 1.1rem;
+        }
+
+        .pagination-container {
+            flex-direction: column;
+            align-items: center;
         }
     }
 </style>
@@ -657,13 +754,17 @@
     <div class="form-card mb-4">
         <div class="section-title"><span class="dot"></span> هەڵبژاردنی کاشێر</div>
         <div class="row g-3 align-items-end">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label" for="cashierSelect">ناوی کاشێر <span class="required-star">*</span></label>
                 <select class="form-select" id="cashierSelect">
                     <option value="">هەڵبژێرە...</option>
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <label class="form-label" for="filterDate">بەروار</label>
+                <input type="date" id="filterDate" class="form-control">
+            </div>
+            <div class="col-md-4">
                 <button type="button" class="btn btn-primary-custom" id="loadCashierDataBtn" disabled>
                     <i class="fas fa-sync-alt me-2"></i> بارکردنی زانیاری کاشێر
                 </button>
@@ -687,12 +788,16 @@
                 <i class="fas fa-table me-2"></i>تۆمارەکانی حساباتی ڕۆژانە
             </h3>
             <div class="filter-group" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-                <input type="date" id="filterDate" class="form-control form-control-sm" style="width: auto; min-width: 140px;">
                 <select id="filterStatus" class="form-select form-select-sm" style="width: auto; min-width: 140px;">
                     <option value="">هەموو ڕەوشەکان</option>
                     <option value="هاوسەنگ">هاوسەنگ</option>
                     <option value="کەم">کەم</option>
                     <option value="زیاد">زیاد</option>
+                </select>
+                <select id="filterSaleType" class="form-select form-select-sm" style="width: auto; min-width: 140px;">
+                    <option value="">هەموو جۆرەکانی فرۆشتن</option>
+                    <option value="فرۆشتنی قەرزە">فرۆشتنی قەرزە</option>
+                    <option value="فرۆشتنی ئاسایی">فرۆشتنی ئاسایی</option>
                 </select>
                 <button class="btn btn-outline-sm" id="clearFilterBtn">
                     <i class="fas fa-times me-1"></i> پاککردنەوە
@@ -705,26 +810,51 @@
                     <tr>
                         <th>#</th>
                         <th>پسوڵە</th>
+                        <th>جۆری فرۆشتن</th>
                         <th>فرۆش پێش داشکان</th>
-                         <th>داشکاندن</th>
+                        <th>داشکاندن</th>
                         <th>کۆی فرۆش</th>
-                      
-                       
-                     
+                        <th>قەرزەکان</th>
                         <th>قازانج</th>
-                      
-                     
-                        
                         <th>کردار</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
                     <tr class="empty-row">
-                        <td colspan="12">تکایە کاشێرێک هەڵبژێرە بۆ بینینی تۆمارەکان</td>
+                        <td colspan="9">تکایە کاشێرێک هەڵبژێرە بۆ بینینی تۆمارەکان</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        
+        <!-- Pagination Controls -->
+        <div class="pagination-container" id="paginationContainer" style="display: none;">
+            <div class="rows-per-page">
+                <span>ژمارەی تۆمارەکان:</span>
+                <select id="rowsPerPage">
+                    <option value="10">10</option>
+                    <option value="25" selected>25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" id="firstPageBtn" disabled>
+                    <i class="fas fa-angle-double-right"></i> یەکەم
+                </button>
+                <button class="pagination-btn" id="prevPageBtn" disabled>
+                    <i class="fas fa-angle-right"></i> پێشوو
+                </button>
+                <span class="page-info" id="pageInfo">لاپەڕە 1 لە 1</span>
+                <button class="pagination-btn" id="nextPageBtn" disabled>
+                    داهاتوو <i class="fas fa-angle-left"></i>
+                </button>
+                <button class="pagination-btn" id="lastPageBtn" disabled>
+                    کۆتایی <i class="fas fa-angle-double-left"></i>
+                </button>
+            </div>
+        </div>
+        
         <p style="margin-top:10px; font-size:0.8rem; color:#6b7280;" id="recordCount">٠ تۆمار</p>
         
         <!-- Totals Cards Section -->
@@ -775,15 +905,6 @@
                     </div>
                     <div class="total-card-label">کۆی قازانج</div>
                     <div class="total-card-value" id="cardTotalProfit">٠</div>
-                    <div class="total-card-subtitle">دیناری عێراقی</div>
-                </div>
-                
-                <div class="total-card difference">
-                    <div class="total-card-icon">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <div class="total-card-label">کەمی/زیادەی گشتی</div>
-                    <div class="total-card-value" id="cardTotalDifference">٠</div>
                     <div class="total-card-subtitle">دیناری عێراقی</div>
                 </div>
                 
@@ -840,6 +961,9 @@ $(document).ready(function() {
     let currentCashierId = null;
     let currentCashierData = null;
     let allRecords = [];
+    let filteredRecords = []; // Records after applying filters (but before pagination)
+    let currentPage = 1;
+    let rowsPerPage = 25;
     let invoiceModal = new bootstrap.Modal(document.getElementById('invoiceDetailModal'));
     
     // CSRF Token setup
@@ -888,7 +1012,7 @@ $(document).ready(function() {
     }
 
     // ============================================
-    // Calculate Totals
+    // Calculate Totals (over all filtered records, not just current page)
     // ============================================
     
     function calculateTotals(records) {
@@ -900,7 +1024,8 @@ $(document).ready(function() {
             totalProfit: 0,
             totalShortAmount: 0,
             totalExtraAmount: 0,
-            totalDetails: 0
+            totalDetails: 0,
+            totalLoans: 0
         };
         
         if (!records || records.length === 0) {
@@ -915,7 +1040,8 @@ $(document).ready(function() {
             totals.totalProfit += parseFloat(rec.todayProfit || rec.profit || 0);
             totals.totalShortAmount += parseFloat(rec.shortAmount || 0);
             totals.totalExtraAmount += parseFloat(rec.extraAmount || 0);
-            totals.totalDetails += parseFloat(rec.casherCoinAmount || rec.details || 0);
+            totals.totalDetails = parseFloat(rec.casherCoinAmount || rec.details || 0);
+            totals.totalLoans += parseFloat(rec.totalLoans || 0);
         });
         
         return totals;
@@ -923,9 +1049,28 @@ $(document).ready(function() {
 
     function updateTotalsCards(totals, recordCount) {
         const container = $('#totalsCardsContainer');
+        const dateVal = $('#filterDate').val();
+        
+        // ئەگەر بەروار دیاری نەکرابێت، هەمووی سفر دەکەین
+        if (!dateVal) {
+            $('#cardTotalSales').text('٠');
+            $('#cardTotalReturns').text('٠');
+            $('#cardTotalDiscount').text('٠');
+            $('#cardTotalNetReturns').text('٠');
+            $('#cardTotalProfit').text('٠');
+            $('#cardTotalDetails').text('٠');
+            container.slideDown(300);
+            return;
+        }
         
         if (recordCount === 0) {
-            container.slideUp(300);
+            $('#cardTotalSales').text('٠');
+            $('#cardTotalReturns').text('٠');
+            $('#cardTotalDiscount').text('٠');
+            $('#cardTotalNetReturns').text('٠');
+            $('#cardTotalProfit').text('٠');
+            $('#cardTotalDetails').text('٠');
+            container.slideDown(300);
             return;
         }
         
@@ -937,26 +1082,74 @@ $(document).ready(function() {
         $('#cardTotalProfit').text(formatNum(totals.totalProfit));
         $('#cardTotalDetails').text(formatNum(totals.totalDetails));
         
-        // Calculate and display net difference
-        const netDiff = totals.totalExtraAmount - totals.totalShortAmount;
-        let diffText = '٠';
-        if (netDiff > 0) {
-            diffText = `+${formatNum(netDiff)}`;
-        } else if (netDiff < 0) {
-            diffText = `−${formatNum(Math.abs(netDiff))}`;
-        }
-        $('#cardTotalDifference').text(diffText);
-        
-        // Color code the difference card
-        const diffCard = $('.total-card.difference .total-card-value');
-        diffCard.removeClass('text-success text-danger');
-        if (netDiff > 0) {
-            diffCard.addClass('text-success');
-        } else if (netDiff < 0) {
-            diffCard.addClass('text-danger');
-        }
-        
         container.slideDown(300);
+    }
+
+    // ============================================
+    // Pagination Functions
+    // ============================================
+    
+    function getPaginatedRecords() {
+        const startIndex = (currentPage - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+        return filteredRecords.slice(startIndex, endIndex);
+    }
+    
+    function updatePaginationControls() {
+        const totalPages = Math.ceil(filteredRecords.length / rowsPerPage) || 1;
+        const hasRecords = filteredRecords.length > 0;
+        
+        // Update page info
+        $('#pageInfo').text(`لاپەڕە ${currentPage} لە ${totalPages}`);
+        
+        // Update button states
+        $('#firstPageBtn').prop('disabled', currentPage === 1 || !hasRecords);
+        $('#prevPageBtn').prop('disabled', currentPage === 1 || !hasRecords);
+        $('#nextPageBtn').prop('disabled', currentPage === totalPages || !hasRecords);
+        $('#lastPageBtn').prop('disabled', currentPage === totalPages || !hasRecords);
+        
+        // Show/hide pagination container
+        if (filteredRecords.length > rowsPerPage) {
+            $('#paginationContainer').show();
+        } else {
+            $('#paginationContainer').hide();
+        }
+    }
+    
+    function goToFirstPage() {
+        if (currentPage !== 1) {
+            currentPage = 1;
+            renderCurrentPage();
+        }
+    }
+    
+    function goToPrevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            renderCurrentPage();
+        }
+    }
+    
+    function goToNextPage() {
+        const totalPages = Math.ceil(filteredRecords.length / rowsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderCurrentPage();
+        }
+    }
+    
+    function goToLastPage() {
+        const totalPages = Math.ceil(filteredRecords.length / rowsPerPage);
+        if (currentPage !== totalPages && totalPages > 0) {
+            currentPage = totalPages;
+            renderCurrentPage();
+        }
+    }
+    
+    function renderCurrentPage() {
+        const paginatedRecords = getPaginatedRecords();
+        renderTable(paginatedRecords, filteredRecords.length);
+        updatePaginationControls();
     }
 
     // ============================================
@@ -997,8 +1190,9 @@ $(document).ready(function() {
         // Hide previous cashier info if selection changes
         if (cashierId !== String(currentCashierId)) {
             $('#cashierInfoContainer').hide().html('');
-            $('#tableBody').html('<tr class="empty-row"><td colspan="12">تکایە کلیکی "بارکردنی زانیاری کاشێر" بکە</td></tr>');
+            $('#tableBody').html('<tr class="empty-row"><td colspan="9">تکایە کلیکی "بارکردنی زانیاری کاشێر" بکە</td></tr>');
             $('#totalsCardsContainer').hide();
+            $('#paginationContainer').hide();
             $('#recordCount').text('٠ تۆمار');
         }
     });
@@ -1020,10 +1214,14 @@ $(document).ready(function() {
     function loadCashierDetails(cashierId) {
         currentCashierId = cashierId;
         
+        // Reset pagination
+        currentPage = 1;
+        
         // Show loading
         $('#cashierLoading').show();
         $('#cashierInfoContainer').hide();
         $('#totalsCardsContainer').hide();
+        $('#paginationContainer').hide();
         $('#loadCashierDataBtn').prop('disabled', true).html('<span class="loading-spinner"></span> بارکردن...');
         
         $.ajax({
@@ -1045,18 +1243,27 @@ $(document).ready(function() {
 
     function displayCashierInfo(data) {
         console.log('displayCashierInfo', data);
+        const dateVal = $('#filterDate').val();
+        const dateDisplay = dateVal ? dateVal : 'دیاری نەکراوە';
+        
         let html = `
             <div class="cashier-info-card">
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <small class="text-muted d-block">ناوی کاشێر</small>
                         <span class="cashier-name-display">${data.name || '---'}</span>
                     </div>
-                    <div class="col-md-4">
-                        <small class="text-muted d-block">کۆی فرۆشی ئەمڕۆ</small>
+                    <div class="col-md-3">
+                        <small class="text-muted d-block">بەروار</small>
+                        <span class="cashier-name-display">
+                            <i class="fas fa-calendar-alt me-1"></i> ${dateDisplay}
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <small class="text-muted d-block">کۆی فرۆشی ڕۆژ</small>
                         <span class="cashier-name-display">${formatNum(data.today_sales || 0)} د.ع</span>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <small class="text-muted d-block">ژمارەی پسوڵەکان</small>
                         <span class="cashier-name-display">${data.invoice_count || 0} پسوڵە</span>
                     </div>
@@ -1079,13 +1286,14 @@ $(document).ready(function() {
     function loadCashierInvoices(cashierId) {
         $('#tableBody').html(`
             <tr class="empty-row">
-                <td colspan="12">
+                <td colspan="9">
                     <div class="loading-spinner"></div>
                     <span class="me-2">بارکردنی پسوڵەکان...</span>
-                </td>
+                 </tr>
             </tr>
         `);
         $('#totalsCardsContainer').hide();
+        $('#paginationContainer').hide();
         
         $.ajax({
             url: '/get-invoices/Details',
@@ -1100,15 +1308,18 @@ $(document).ready(function() {
                     applyFilters();
                 } else {
                     allRecords = [];
-                    renderTable([]);
+                    filteredRecords = [];
+                    renderTable([], 0);
                     showToast('هیچ پسوڵەیەک نەدۆزرایەوە بۆ ئەم کاشێرە', '');
                 }
             },
             error: function(xhr) {
                 console.error('Error loading invoices:', xhr);
                 allRecords = [];
-                $('#tableBody').html('<tr class="empty-row"><td colspan="12">هەڵە لە بارکردنی پسوڵەکان</td></tr>');
+                filteredRecords = [];
+                $('#tableBody').html('<tr class="empty-row"><td colspan="9">هەڵە لە بارکردنی پسوڵەکان</td></tr>');
                 $('#totalsCardsContainer').hide();
+                $('#paginationContainer').hide();
                 $('#recordCount').text('٠ تۆمار');
                 showToast('هەڵە لە بارکردنی پسوڵەکان', 'error');
             }
@@ -1116,55 +1327,71 @@ $(document).ready(function() {
     }
 
     // ============================================
-    // Render Table
+    // Render Table (with pagination support)
     // ============================================
     
-    function renderTable(records) {
+    function renderTable(records, totalFilteredCount = null) {
         const tbody = $('#tableBody');
         tbody.empty();
         
+        // Use passed total count or records length for display
+        const displayTotal = totalFilteredCount !== null ? totalFilteredCount : filteredRecords.length;
+        
         if (!records || records.length === 0) {
-            tbody.html('<tr class="empty-row"><td colspan="12">هیچ تۆمارێک نەدۆزرایەوە</td></tr>');
-            $('#totalsCardsContainer').hide();
+            tbody.html('<tr class="empty-row"><td colspan="9">هیچ تۆمارێک نەدۆزرایەوە</td></tr>');
+            const totals = calculateTotals([]);
+            updateTotalsCards(totals, 0);
             $('#recordCount').text('٠ تۆمار');
+            $('#paginationContainer').hide();
             return;
         }
         
         records.forEach(function(rec, index) {
-            console.log("all",rec)
-            const statusClass = rec.accountStatus === 'هاوسەنگ' ? 'badge-balanced' : 
-                               (rec.accountStatus === 'کەم' ? 'badge-short' : 'badge-extra');
-            const diffAmount = rec.accountStatus === 'کەم' ? `−${formatNum(rec.shortAmount || 0)}` : 
-                              (rec.accountStatus === 'زیاد' ? `+${formatNum(rec.extraAmount || 0)}` : '٠');
+            // Calculate global index for display (not just page index)
+            const globalIndex = ((currentPage - 1) * rowsPerPage) + index + 1;
+            
+            // Determine sale type and badge
+            const saleType = rec.saleType || (rec.isCreditSale ? 'فرۆشتنی قەرزە' : 'فرۆشتنی ئاسایی');
+            const saleTypeBadge = rec.isCreditSale ? 'badge-credit' : 'badge-normal';
+            const saleTypeIcon = rec.isCreditSale ? '📋' : '💰';
+            
+            // Loans info
+            const totalLoans = rec.totalLoans || 0;
+            const loanCount = rec.loanCount || 0;
+            const loansInfo = totalLoans > 0 ? 
+                `<span class="text-danger fw-bold">${formatNum(totalLoans)}</span>
+                 <small class="d-block text-muted">${loanCount} قەرز</small>` : 
+                '<span class="text-muted">---</span>';
             
             const row = `
                 <tr>
-                    <td>${index + 1}</td>
+                    <td>${globalIndex}</td>
                     <td>${rec.invoice_number || rec.date || '---'}</td>
-                    <td>${formatNum(rec.subtotal|| '---')}</td>
-                    
+                    <td>
+                        <span class="badge ${saleTypeBadge}">
+                            ${saleTypeIcon} ${saleType}
+                        </span>
+                     </td>
+                    <td>${formatNum(rec.subtotal || '---')}</td>
                     <td>${formatNum(rec.totalDiscount || rec.total_discount || 0)}</td>
                     <td>${formatNum(rec.totalSales || rec.total_sales || 0)}</td>
-                  
-                 
+                    <td>${loansInfo}</td>
                     <td><strong>${formatNum(rec.todayProfit || rec.profit || 0)}</strong></td>
-               
-                  
                     <td>
                         <button class="btn-sm-custom btn-view view-invoice-btn" data-invoice-id="${rec.id || rec.invoice_id}" title="بینینی پسوڵە">
                             <i class="fas fa-eye"></i>
                         </button>
-                    </td>
-                </tr>
+                     </td>
+                 </tr>
             `;
             tbody.append(row);
         });
         
-        $('#recordCount').text(`${records.length} تۆمار`);
+        $('#recordCount').text(`${displayTotal} تۆمار`);
         
-        // Calculate and display totals in cards
-        const totals = calculateTotals(records);
-        updateTotalsCards(totals, records.length);
+        // Calculate and display totals in cards (using all filtered records, not just current page)
+        const totals = calculateTotals(filteredRecords);
+        updateTotalsCards(totals, filteredRecords.length);
         
         // Attach view invoice events
         $('.view-invoice-btn').off('click').on('click', function() {
@@ -1186,11 +1413,59 @@ $(document).ready(function() {
         `);
         invoiceModal.show();
         
+        // Find the invoice in allRecords to get loan details
+        const record = allRecords.find(r => (r.id || r.invoice_id) == invoiceId);
+        
         $.ajax({
             url: '/invoice/Details/' + invoiceId,
             type: 'GET',
             success: function(response) {
                 const inv = response.invoice || response;
+                
+                // Build loans section if available
+                let loansSection = '';
+                if (record && record.loans && record.loans.length > 0) {
+                    loansSection = `
+                        <div class="col-12 mt-3">
+                            <h6 class="mb-2">
+                                <i class="fas fa-hand-holding-usd me-2 text-warning"></i>
+                                قەرزەکانی ئەم پسوڵەیە (${record.loans.length} قەرز)
+                            </h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>کۆ</th>
+                                            <th>پارەی دراو</th>
+                                            <th>پارەی ماوە</th>
+                                            <th>کاتی گەڕانەوە</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${record.loans.map((loan, i) => `
+                                        <tr>
+                                            <td><strong>${formatNum(loan.total || 0)}</strong></td>
+                                            <td>${loan.currency || '---'}</td>
+                                            <td>${loan.period || '---'}</td>
+                                            <td>${loan.time_to_return || '---'}</td>
+                                         </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                } else if (record && record.isCreditSale) {
+                    loansSection = `
+                        <div class="col-12 mt-3">
+                            <div class="alert alert-warning">
+                                <i class="fas fa-info-circle me-2"></i>
+                                ئەم فرۆشتنە قەرزەیە بەڵام وردەکاری قەرزەکان بەردەست نییە
+                            </div>
+                        </div>
+                    `;
+                }
+                
                 let html = `
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -1206,6 +1481,14 @@ $(document).ready(function() {
                         <div class="col-md-6">
                             <div class="p-3 rounded-3 bg-light">
                                 <strong>کاشێر:</strong> ${inv.cashier_name || inv.cashierName || currentCashierData?.name || '---'}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 rounded-3 bg-light">
+                                <strong>جۆری فرۆشتن:</strong> 
+                                <span class="badge ${record && record.isCreditSale ? 'badge-credit' : 'badge-normal'}">
+                                    ${record ? (record.saleType || (record.isCreditSale ? 'فرۆشتنی قەرزە' : 'فرۆشتنی ئاسایی')) : '---'}
+                                </span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -1228,11 +1511,16 @@ $(document).ready(function() {
                                 <strong>قازانج:</strong> ${formatNum(inv.profit || inv.todayProfit || 0)} د.ع
                             </div>
                         </div>
+                        ${record && record.totalLoans > 0 ? `
                         <div class="col-md-6">
                             <div class="p-3 rounded-3 bg-light">
-                                <strong>ڕەوش:</strong> ${inv.status || inv.accountStatus || '---'}
+                                <strong>کۆی قەرزەکان:</strong> 
+                                <span class="text-danger">${formatNum(record.totalLoans)} د.ع</span>
+                                <small class="d-block text-muted">${record.loanCount || 0} قەرز</small>
                             </div>
                         </div>
+                        ` : ''}
+                    
                         ${inv.items ? `
                         <div class="col-12">
                             <h6 class="mt-3 mb-2">کاڵاکانی پسوڵە:</h6>
@@ -1253,13 +1541,14 @@ $(document).ready(function() {
                                             <td>${item.quantity || 0}</td>
                                             <td>${formatNum(item.price || 0)}</td>
                                             <td>${formatNum((item.quantity || 0) * (item.price || 0))}</td>
-                                        </tr>
+                                         </tr>
                                         `).join('')}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         ` : ''}
+                        ${loansSection}
                     </div>
                 `;
                 $('#invoiceDetailBody').html(html);
@@ -1277,12 +1566,14 @@ $(document).ready(function() {
     }
 
     // ============================================
-    // Filter Functions
+    // Filter Functions (with pagination reset)
     // ============================================
     
     function applyFilters() {
         const dateVal = $('#filterDate').val();
         const statusVal = $('#filterStatus').val();
+        const saleTypeVal = $('#filterSaleType').val();
+        
         let filtered = [...allRecords];
         
         if (dateVal) {
@@ -1297,18 +1588,64 @@ $(document).ready(function() {
                 return recStatus === statusVal;
             });
         }
+        if (saleTypeVal) {
+            filtered = filtered.filter(r => {
+                const recSaleType = r.saleType || (r.isCreditSale ? 'فرۆشتنی قەرزە' : 'فرۆشتنی ئاسایی');
+                return recSaleType === saleTypeVal;
+            });
+        }
         
-        renderTable(filtered);
+        filteredRecords = filtered;
+        currentPage = 1; // Reset to first page when filters change
+        
+        // Check if we have records to show
+        if (filteredRecords.length > 0) {
+            renderCurrentPage();
+        } else {
+            renderTable([], 0);
+            updatePaginationControls();
+        }
+        
+        // Update cashier info display with current date
+        if (currentCashierData) {
+            displayCashierInfo(currentCashierData);
+        }
     }
     
-    $('#filterDate').on('input', applyFilters);
+    $('#filterDate').on('change', applyFilters);
     $('#filterStatus').on('change', applyFilters);
+    $('#filterSaleType').on('change', applyFilters);
     
     $('#clearFilterBtn').on('click', function() {
         $('#filterDate').val('');
         $('#filterStatus').val('');
+        $('#filterSaleType').val('');
         applyFilters();
     });
+    
+    // ============================================
+    // Rows per page change handler
+    // ============================================
+    
+    $('#rowsPerPage').on('change', function() {
+        rowsPerPage = parseInt($(this).val());
+        currentPage = 1; // Reset to first page
+        if (filteredRecords.length > 0) {
+            renderCurrentPage();
+        } else if (allRecords.length > 0) {
+            // If no filters applied but allRecords exists, apply empty filter
+            applyFilters();
+        }
+    });
+    
+    // ============================================
+    // Pagination button event handlers
+    // ============================================
+    
+    $('#firstPageBtn').on('click', goToFirstPage);
+    $('#prevPageBtn').on('click', goToPrevPage);
+    $('#nextPageBtn').on('click', goToNextPage);
+    $('#lastPageBtn').on('click', goToLastPage);
 
     // ============================================
     // Initial Load
