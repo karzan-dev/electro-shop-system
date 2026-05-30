@@ -208,10 +208,10 @@ public function getInvoices(Request $request)
                 ->where('id', $invoice->id)
                 ->where('invoice_number', $invoice->invoice_number)
                 ->exists();
-
+            
             $totalReturns = $returns->total_returns ?? 0;
             $casherCoinAmount = $casherCoin->total_amount ?? 0;
-            $netReturns = ($invoice->total_sales ?? 0) - $totalReturns - ($invoice->total_discount ?? 0) + $casherCoinAmount;
+            $netReturns = ($invoice->total_sales ?? 0);
             
             // Calculate profit
             $profit = $this->calculateProfit($invoice->id);
@@ -241,12 +241,24 @@ public function getInvoices(Request $request)
                 $saleType = 'فرۆشتنی قەرزە'; // Credit sale
             }
 
+          $total_sales = $invoice->total_sales ?? 0;
+
+$totalReturns = DB::table('return_items')
+    ->where('Casher_id', $invoice->user_id)
+    ->whereDate('Return_Date', $invoice->accountingDate)
+    ->sum('Return_Total');
+
+$finalTotal = (float)$total_sales - (float)$totalReturns;
+
+echo $finalTotal;
+            
+
             return [
                 'id' => $invoice->id,
                 'invoice_number' => $invoice->invoice_number,
                 'cashier_id' => $invoice->user_id,
                 'cashierName' => $invoice->cashier_name,
-                'totalSales' => $invoice->total_sales,
+                'totalSales' => $finalTotal,
                 'totalReturns' => $totalReturns,
                 'totalDiscount' => $invoice->total_discount,
                 'casherCoin' => $casherCoinAmount,

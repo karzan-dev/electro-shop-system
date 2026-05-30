@@ -1034,14 +1034,19 @@ $(document).ready(function() {
         
         records.forEach(function(rec) {
             totals.totalSales += parseFloat(rec.totalSales || rec.total_sales || 0);
-            totals.totalReturns += parseFloat(rec.totalReturns || rec.total_returns || 0);
+            totals.totalReturns = parseFloat(rec.totalReturns || rec.total_returns || 0);
             totals.totalDiscount += parseFloat(rec.totalDiscount || rec.total_discount || 0);
-            totals.totalNetReturns += parseFloat(rec.netReturns || rec.net_returns || 0);
+ 
             totals.totalProfit += parseFloat(rec.todayProfit || rec.profit || 0);
             totals.totalShortAmount += parseFloat(rec.shortAmount || 0);
             totals.totalExtraAmount += parseFloat(rec.extraAmount || 0);
             totals.totalDetails = parseFloat(rec.casherCoinAmount || rec.details || 0);
             totals.totalLoans += parseFloat(rec.totalLoans || 0);
+          totals.totalNetReturns = (
+    parseFloat(totals.totalDetails || 0) +
+    parseFloat(totals.totalSales || 0) -
+    parseFloat(totals.totalReturns || 0)
+).toFixed(2);
         });
         
         return totals;

@@ -583,6 +583,21 @@
         transform: scale(1.05);
     }
 
+    /* Returned badge */
+    .returned-badge {
+        display: inline-block;
+        background: #10b981;
+        color: white;
+        padding: 0.3rem 0.7rem;
+        border-radius: 2rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+    }
+    
+    .returned-badge i {
+        margin-left: 0.25rem;
+    }
+
     /* Return Items Table */
     .return-items-table {
         width: 100%;
@@ -1143,28 +1158,78 @@
         font-size: 0.7rem;
     }
     
-    /* Qty Buttons */
-    .qty-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 0.5rem;
-        border: none;
-        background: var(--primary);
-        color: white;
-        font-size: 1.2rem;
+    /* Qty Buttons - Circular Style */
+    .qty-btn-circle {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 2px solid var(--return);
+        background: white;
+        color: var(--return);
+        font-size: 1.4rem;
         font-weight: bold;
         cursor: pointer;
         transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
     }
     
-    .qty-btn:hover:not(:disabled) {
+    .qty-btn-circle:hover:not(:disabled) {
+        background: var(--return);
+        color: white;
         transform: scale(1.05);
-        filter: brightness(1.05);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
     }
     
-    .qty-btn:disabled {
-        opacity: 0.5;
+    .qty-btn-circle:active:not(:disabled) {
+        transform: scale(0.95);
+    }
+    
+    .qty-btn-circle:disabled {
+        opacity: 0.4;
         cursor: not-allowed;
+        border-color: var(--border-color);
+        color: var(--border-color);
+    }
+    
+    body.dark-mode .qty-btn-circle {
+        background: var(--input-bg);
+        color: var(--return);
+        border-color: var(--return);
+    }
+    
+    body.dark-mode .qty-btn-circle:hover:not(:disabled) {
+        background: var(--return);
+        color: white;
+    }
+    
+    /* Quantity Input Large */
+    .qty-input-large {
+        width: 80px;
+        height: 50px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        border: 2px solid var(--border-color);
+        border-radius: 0.75rem;
+        background: var(--input-bg);
+        color: var(--text);
+        margin: 0 0.25rem;
+        -moz-appearance: textfield;
+    }
+    
+    .qty-input-large::-webkit-outer-spin-button,
+    .qty-input-large::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    
+    .qty-input-large:focus {
+        border-color: var(--return);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
     }
 
     .form-header-custom {
@@ -1226,6 +1291,54 @@
     
     .small {
         color: var(--text-secondary);
+    }
+
+    /* Return Items List in Detail */
+    .return-items-list {
+        background: #fef2f2;
+        border-radius: 1rem;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-right: 4px solid var(--return);
+    }
+    
+    body.dark-mode .return-items-list {
+        background: #2d1b1b;
+    }
+    
+    .return-items-list h5 {
+        color: var(--return);
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .return-items-list h5 i {
+        margin-left: 0.5rem;
+    }
+    
+    .return-item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 0.85rem;
+    }
+    
+    .return-item-row:last-child {
+        border-bottom: none;
+    }
+    
+    /* Qty control container */
+    .qty-control-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: var(--bg-light);
+        padding: 0.75rem;
+        border-radius: 1rem;
+        border: 2px solid var(--border-color);
     }
 </style>
 
@@ -1417,8 +1530,6 @@
 
     /**
      * گۆڕینی هەر ژمارەیەکی نا ئینگلیزی (کوردی، فارسی، عەرەبی) بۆ ئینگلیزی
-     * @param {string} str - بارکۆدەکە یان هەر نوسینێک
-     * @returns {string} - نوسینی پاککراوە بە ژمارەی ئینگلیزی
      */
     function normalizeToEnglishNumbers(str) {
         if (!str) return str;
@@ -1440,10 +1551,6 @@
         return result;
     }
 
-    /**
-     * چالاککردنی نۆرمالایزکردنی بارکۆد لەسەر فیلدێک
-     * @param {string} selector - سلیکتی فیلدەکە
-     */
     function enableBarcodeNormalization(selector) {
         $(selector).on('input', function() {
             const originalValue = $(this).val();
@@ -1551,7 +1658,6 @@
         let fromDate = $('#filter-date-from').val();
         let toDate = $('#filter-date-to').val();
         let search = $('#invoice-search-manual').val();
-        // Normalize barcode before sending
         let barcode = currentBarcodeSearch ? normalizeToEnglishNumbers(currentBarcodeSearch) : '';
 
         $.ajax({
@@ -1576,7 +1682,6 @@
                     renderInvoicesTable();
                     renderPagination();
                     
-                    // Update barcode search result display
                     if (currentBarcodeSearch) {
                         let resultHtml = `<div class="barcode-result-badge">
                             <i class="fas fa-barcode"></i> گەڕان بە بارکۆد: "${escapeHtml(currentBarcodeSearch)}"
@@ -1609,10 +1714,9 @@
         });
     }
 
-    // ==================== BARCODE SEARCH FUNCTIONS - LIVE SEARCH ====================
+    // ==================== BARCODE SEARCH FUNCTIONS ====================
     function handleBarcodeLiveSearch() {
         const barcode = $('#barcode-search-input').val().trim();
-        // Normalize barcode before searching
         currentBarcodeSearch = normalizeToEnglishNumbers(barcode);
         $('#barcode-search-loading').show();
         currentPage = 1;
@@ -1630,7 +1734,6 @@
         loadInvoices();
     }
     
-    // Handle Invoice Number Live Search
     function handleInvoiceLiveSearch() {
         $('#invoice-search-loading').show();
         currentPage = 1;
@@ -1757,6 +1860,25 @@
         const timeOfDay = getTimeOfDay(invoice.created_at);
         const timeBadge = getTimeOfDayText(timeOfDay);
         
+        // Build return items map for quick lookup - using barcode to match
+        let returnItemsMap = {};
+        if (invoice.return_items && Array.isArray(invoice.return_items)) {
+            invoice.return_items.forEach(returnItem => {
+                const itemCode = returnItem.Item_Code;
+                if (itemCode) {
+                    if (!returnItemsMap[itemCode]) {
+                        returnItemsMap[itemCode] = {
+                            totalReturned: 0,
+                            items: []
+                        };
+                    }
+                    const amount = parseFloat(returnItem.Amount) || 0;
+                    returnItemsMap[itemCode].totalReturned += amount;
+                    returnItemsMap[itemCode].items.push(returnItem);
+                }
+            });
+        }
+        
         let itemsHtml = `
             <table class="detail-items-table">
                 <thead>
@@ -1773,16 +1895,62 @@
         
         if (invoice.items && Array.isArray(invoice.items) && invoice.items.length > 0) {
             invoice.items.forEach((item, idx) => {
+                const itemBarcode = item.barcode || '';
+                const returnData = returnItemsMap[itemBarcode];
+                const hasReturned = returnData && returnData.totalReturned > 0;
+                const returnedQty = hasReturned ? returnData.totalReturned : 0;
+                const remainingQty = parseFloat(item.quantity_sold || 0) - returnedQty;
+                const isFullyReturned = remainingQty <= 0;
+                
+                let quantityDisplay = '';
+                if (hasReturned && !isFullyReturned) {
+                    quantityDisplay = `
+                        <span>${item.quantity_sold || 0}</span>
+                        <span style="color: var(--return); font-size: 0.75rem; display: block;">
+                            (-${returnedQty} گەڕێندراوەتەوە)
+                        </span>
+                        <span style="color: var(--success); font-weight: bold;">
+                            = ${remainingQty}
+                        </span>
+                    `;
+                } else if (isFullyReturned) {
+                    quantityDisplay = `
+                        <span style="text-decoration: line-through; color: var(--text-secondary);">${item.quantity_sold || 0}</span>
+                        <span class="returned-badge" style="display: block; margin-top: 2px;">
+                            <i class="fas fa-check-circle"></i> گەڕێندراوەتەوە
+                        </span>
+                    `;
+                } else {
+                    quantityDisplay = `<span>${item.quantity_sold || 0}</span>`;
+                }
+                
+                let actionHtml = '';
+                if (isFullyReturned) {
+                    actionHtml = '<span class="returned-badge"><i class="fas fa-check-circle"></i> گەڕێندراوەتەوە</span>';
+                } else if (hasReturned) {
+                    actionHtml = `
+                        <button class="item-return-btn" onclick="openReturnItemModal(${invoice.id}, ${item.id || idx}, '${escapeHtml(item.name)}', ${remainingQty}, ${item.selling_price || 0})">
+                            <i class="fas fa-undo-alt"></i> گەڕاندنەوە
+                        </button>
+                    `;
+                } else {
+                    actionHtml = `
+                        <button class="item-return-btn" onclick="openReturnItemModal(${invoice.id}, ${item.id || idx}, '${escapeHtml(item.name)}', ${item.quantity_sold || 0}, ${item.selling_price || 0})">
+                            <i class="fas fa-undo-alt"></i> گەڕاندنەوە
+                        </button>
+                    `;
+                }
+                
                 itemsHtml += `
                     <tr id="item-row-${item.id || idx}">
                         <td>${escapeHtml(item.name) || '-'}</td>
-                        <td class="item-quantity-${item.id || idx}">${item.quantity_sold || 0}</td>
+                        <td class="item-quantity-${item.id || idx}">
+                            ${quantityDisplay}
+                        </td>
                         <td>${formatNumber(item.selling_price)}</td>
                         <td class="item-total-${item.id || idx}">${formatNumber(item.total)}</td>
                         <td>
-                            <button class="item-return-btn" onclick="openReturnItemModal(${invoice.id}, ${item.id || idx}, '${escapeHtml(item.name)}', ${item.quantity_sold || 0}, ${item.selling_price || 0})">
-                                <i class="fas fa-undo-alt"></i> گەڕاندنەوە
-                            </button>
+                            ${actionHtml}
                         </td>
                     </tr>
                 `;
@@ -1790,7 +1958,7 @@
         } else {
             itemsHtml += `
                 <tr>
-                    <td colspan="7" class="empty-items">
+                    <td colspan="5" class="empty-items">
                         <i class="fas fa-box-open"></i>
                         <p>هیچ کاڵایەک لەم پسوڵەیەدا نییە</p>
                     </td>
@@ -1798,6 +1966,55 @@
             `;
         }
         itemsHtml += '</tbody></table>';
+        
+        // Build return items list as a table
+        let returnItemsListHtml = '';
+        if (invoice.return_items && Array.isArray(invoice.return_items) && invoice.return_items.length > 0) {
+            returnItemsListHtml = `
+                <div class="return-items-list">
+                    <h5><i class="fas fa-undo-alt"></i> مێژووی گەڕاندنەوەکان</h5>
+                    <div style="overflow-x: auto; margin-top: 0.75rem;">
+                        <table class="detail-items-table" style="margin-top: 0;">
+                            <thead>
+                                <tr>
+                                    <th>ناوی کاڵا</th>
+                                    <th>بارکۆد</th>
+                                    <th>بڕ</th>
+                                    <th>نرخ</th>
+                                    <th>کۆی گەڕاندنەوە</th>
+                                    <th>هۆکار</th>
+                                    <th>بەروار</th>
+                                    <th>کات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            invoice.return_items.forEach(returnItem => {
+                const returnDate = new Date(returnItem.created_at).toLocaleDateString('en-US');
+                const returnTime = formatTime(returnItem.created_at);
+                
+                returnItemsListHtml += `
+                    <tr>
+                        <td><strong>${escapeHtml(returnItem.product_name || '-')}</strong></td>
+                        <td style="color: var(--text-secondary); font-size: 0.8rem;">${escapeHtml(returnItem.Item_Code || '-')}</td>
+                        <td>${returnItem.Amount || 0}</td>
+                        <td>${formatNumber(returnItem.Sale_Price)} د.ع</td>
+                        <td><strong style="color: var(--return);">${formatNumber(returnItem.Return_Total)} د.ع</strong></td>
+                        <td style="color: var(--text-secondary); font-size: 0.8rem;">${escapeHtml(returnItem.Return_Cause || '-')}</td>
+                        <td>${returnDate}</td>
+                        <td>${returnTime}</td>
+                    </tr>
+                `;
+            });
+            
+            returnItemsListHtml += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
         
         let creditHtml = '';
         if (isCredit && invoice.credit_info) {
@@ -1862,6 +2079,7 @@
             <hr style="margin: 1rem 0;">
             <h4 style="margin-bottom: 1rem;"><i class="fas fa-boxes"></i> کاڵاکان</h4>
             ${itemsHtml}
+            ${returnItemsListHtml}
             ${creditHtml}
         `;
         
@@ -1920,7 +2138,7 @@
     function openReturnItemModal(invoiceId, itemId, itemName, maxQuantity, price) {
         const modalHtml = `
             <div id="singleReturnModal" class="return-modal" style="display: block; z-index: 10001;">
-                <div class="return-modal-content" style="max-width: 500px;">
+                <div class="return-modal-content" style="max-width: 550px;">
                     <div class="return-modal-header" style="background: linear-gradient(135deg, var(--return), #6d28d9);">
                         <h3><i class="fas fa-undo-alt"></i> گەڕاندنەوەی کاڵا</h3>
                         <span class="close-return-modal" onclick="closeSingleReturnModal()">&times;</span>
@@ -1936,28 +2154,36 @@
                                 ${formatNumber(price)} د.ع
                             </div>
                             <div>
-                                <strong><i class="fas fa-cubes"></i> بەردەست</strong>
-                                ${maxQuantity}
+                                <strong><i class="fas fa-cubes"></i> بەردەست بۆ گەڕاندنەوە</strong>
+                                <span style="color: var(--success); font-weight: bold;">${maxQuantity}</span>
                             </div>
                         </div>
                         
+                        <!-- Quantity with + and - buttons -->
                         <div style="margin-bottom: 1.5rem;">
-                            <label class="block"><i class="fas fa-sort-numeric-up"></i> بڕی گەڕاندنەوە</label>
-                            <div style="display: flex; align-items: center; gap: 0.5rem; background: var(--bg-light); padding: 0.5rem; border-radius: 0.75rem; border: 2px solid var(--border-color);">
-                                <button type="button" id="qty-decrease" class="qty-btn">
+                            <label class="block" style="text-align: center; font-size: 0.9rem;">
+                                <i class="fas fa-sort-numeric-up"></i> بڕی گەڕاندنەوە
+                            </label>
+                            <div class="qty-control-container">
+                                <button type="button" id="qty-decrease" class="qty-btn-circle">
                                     <i class="fas fa-minus"></i>
                                 </button>
-                                <input type="number" id="single-return-qty" class="form-control" min="1" max="${maxQuantity}" value="${maxQuantity}" step="1" style="text-align: center; font-size: 1.2rem; flex: 1; margin: 0;">
-                                <button type="button" id="qty-increase" class="qty-btn">
+                                <input type="number" id="single-return-qty" class="qty-input-large" min="1" max="${maxQuantity}" value="1" step="1">
+                                <button type="button" id="qty-increase" class="qty-btn-circle">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
-                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
-                                <span style="font-size: 0.8rem; color: var(--text-secondary);">کەمترین: 1</span>
-                                <span style="font-size: 0.8rem; color: var(--text-secondary);">زۆرترین: ${maxQuantity}</span>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.75rem; padding: 0 0.5rem;">
+                                <span style="font-size: 0.8rem; color: var(--text-secondary); cursor: pointer;" id="set-min-qty">
+                                    <i class="fas fa-arrow-down"></i> کەمترین: 1
+                                </span>
+                                <span style="font-size: 0.8rem; color: var(--text-secondary); cursor: pointer;" id="set-max-qty">
+                                    زۆرترین: ${maxQuantity} <i class="fas fa-arrow-up"></i>
+                                </span>
                             </div>
                         </div>
                         
+                        <!-- Return Reason -->
                         <div class="return-reason-section" style="margin-bottom: 1.5rem;">
                             <h4><i class="fas fa-question-circle"></i> هۆکاری گەڕاندنەوە</h4>
                             <div class="reason-cards" id="single-reason-cards">
@@ -1992,9 +2218,15 @@
                             </div>
                         </div>
                         
-                        <div class="return-summary" style="margin-bottom: 1rem;">
-                            <h4><i class="fas fa-chart-line"></i> پوختە</h4>
-                            <p style="font-size: 1.2rem;">بڕی گەڕاندنەوە: <strong id="single-return-total" style="color: var(--return); font-size: 1.4rem;">${formatNumber(maxQuantity * price)}</strong> د.ع</p>
+                        <!-- Return Summary -->
+                        <div class="return-summary" style="margin-bottom: 1rem; background: linear-gradient(135deg, #f3e8ff, #ede9fe);">
+                            <h4 style="color: var(--return);"><i class="fas fa-chart-line"></i> پوختەی گەڕاندنەوە</h4>
+                            <p style="font-size: 1.1rem; color: var(--text);">
+                                بڕی گەڕاندنەوە: 
+                                <strong id="single-return-qty-display" style="color: var(--return); font-size: 1.3rem;">1</strong> × 
+                                <strong style="color: var(--text);">${formatNumber(price)}</strong> = 
+                                <strong id="single-return-total" style="color: var(--return); font-size: 1.5rem;">${formatNumber(price)}</strong> د.ع
+                            </p>
                         </div>
                         
                         <div style="display: flex; gap: 1rem;">
@@ -2028,26 +2260,26 @@
         const maxQty = maxQuantity;
         
         function updateQuantity(newQty) {
-            let qty = newQty;
+            let qty = parseInt(newQty);
+            if (isNaN(qty) || qty < 1) qty = 1;
             if (qty > maxQty) qty = maxQty;
-            if (qty < 1) qty = 1;
-            if (isNaN(qty)) qty = 1;
             
             qtyInput.val(qty);
             const total = qty * price;
             $('#single-return-total').text(formatNumber(total));
+            $('#single-return-qty-display').text(qty);
             
             decreaseBtn.prop('disabled', qty <= 1);
             increaseBtn.prop('disabled', qty >= maxQty);
             
             if (qty <= 1) {
-                decreaseBtn.css('opacity', '0.5').css('cursor', 'not-allowed');
+                decreaseBtn.css('opacity', '0.4').css('cursor', 'not-allowed');
             } else {
                 decreaseBtn.css('opacity', '1').css('cursor', 'pointer');
             }
             
             if (qty >= maxQty) {
-                increaseBtn.css('opacity', '0.5').css('cursor', 'not-allowed');
+                increaseBtn.css('opacity', '0.4').css('cursor', 'not-allowed');
             } else {
                 increaseBtn.css('opacity', '1').css('cursor', 'pointer');
             }
@@ -2055,6 +2287,7 @@
             checkSingleSubmitButtonStatus();
         }
         
+        // Decrease button
         decreaseBtn.off('click').on('click', function() {
             let currentVal = parseInt(qtyInput.val()) || 1;
             if (currentVal > 1) {
@@ -2062,6 +2295,7 @@
             }
         });
         
+        // Increase button
         increaseBtn.off('click').on('click', function() {
             let currentVal = parseInt(qtyInput.val()) || 1;
             if (currentVal < maxQty) {
@@ -2069,13 +2303,25 @@
             }
         });
         
+        // Direct input
         qtyInput.off('input').on('input', function() {
             let val = parseInt($(this).val());
             if (isNaN(val)) val = 1;
             updateQuantity(val);
         });
         
-        updateQuantity(maxQty);
+        // Set min quantity
+        $('#set-min-qty').off('click').on('click', function() {
+            updateQuantity(1);
+        });
+        
+        // Set max quantity
+        $('#set-max-qty').off('click').on('click', function() {
+            updateQuantity(maxQty);
+        });
+        
+        // Initialize with 1
+        updateQuantity(1);
         
         $('#single-other-reason-text').off('input').on('input', function() {
             checkSingleSubmitButtonStatus();
@@ -2169,7 +2415,7 @@
                 $('#single-submit-btn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> جێبەجێکردن...');
             },
             success: function(response) {
-                console.log(response);
+                console.log(JSON.stringify(response, null, 2));
                 if (response.success) {
                     closeSingleReturnModal();
                     closeInvoiceDetailModal();
@@ -2181,6 +2427,7 @@
                 }
             },
             error: function(xhr) {
+                console.log('Error submitting return:', xhr.responseText);
                 let errorMsg = 'هەڵەیەک ڕوویدا لە کاتی گەڕاندنەوە';
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     errorMsg = xhr.responseJSON.message;
@@ -2210,7 +2457,7 @@
 
     // ==================== EVENT HANDLERS ====================
     $(document).ready(function() {
-        // Enable barcode normalization for both search fields
+        // Enable barcode normalization
         enableBarcodeNormalization('#barcode-search-input');
         enableBarcodeNormalization('#invoice-search-manual');
         
@@ -2222,7 +2469,7 @@
             loadInvoices();
         });
         
-        // Live search for invoice number - on input (no button)
+        // Live search for invoice number
         $('#invoice-search-manual').on('input', function() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
@@ -2230,7 +2477,7 @@
             }, 300);
         });
         
-        // Live search for barcode - on input (no button)
+        // Live search for barcode
         $('#barcode-search-input').on('input', function() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {

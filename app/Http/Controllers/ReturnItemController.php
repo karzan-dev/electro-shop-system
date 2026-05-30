@@ -419,6 +419,7 @@ private function formatImagePath($path)
 public function store(Request $request)
 {
     try {
+
         DB::beginTransaction();
 
         $items = $request->items;
@@ -434,61 +435,95 @@ public function store(Request $request)
         $casherId = Auth::id();
 
         foreach ($items as $item) {
-              $requestss = $request->all();
-        $itemss = DB::table("sale_items")
-    ->where("id", $requestss['items'][0]['item_id'])
-    ->get(); // چونکە get() array دەگەڕێنێت
 
-$product_id = $itemss[0]->product_id;
+            $saleItem = DB::table('sale_items')
+                ->where('id', $item['item_id'])
+                ->first();
 
-            $itemTotal = $item['quantity'] * $item['price'];
+            if (!$saleItem) {
+                throw new \Exception('Sale item not found');
+            }
+
+            $product_id = $saleItem->product_id;
+
+            $itemTotal = (float)$item['quantity'] * (float)$item['price'];
             $returnTotal += $itemTotal;
 
+            // Save return item
             DB::table('return_items')->insert([
-                'Item_Code' => $product_id,
-                'Amount' => $item['quantity'],
-                'Metar' => $request->return_reason ?? null,
-                'Sale_Price' => $item['price'],
-                'Return_Total' => $itemTotal,
-                'Return_Cause' => $request->return_reason,
-                'Casher_id' => $casherId,
-                'Return_Date' => now(),
-                'created_at' => now(),
-                'updated_at' => now()
+                'seles_id'      => $request->invoice_id,
+                'Item_Code'     => $product_id,
+                'Amount'        => $item['quantity'],
+                'Metar'         => $request->return_reason ?? null,
+                'Sale_Price'    => $item['price'],
+                'Return_Total'  => $itemTotal,
+                'Return_Cause'  => $request->return_reason,
+                'Casher_id'     => $casherId,
+                'Return_Date'   => now(),
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ]);
 
-       
-
-
+            // Return stock
             DB::table('product_wearhouse')
                 ->where('id_product', $product_id)
                 ->increment('counter', $item['quantity']);
 
+            // Delete returned item
             DB::table('sale_items')
                 ->where('id', $item['item_id'])
                 ->delete();
         }
 
-        // ✅ UPDATE total
-        DB::table('sales')
-            ->where('id', $request->invoice_id)
-            ->decrement('total', $returnTotal);
+        // Update all loans with same sels_id
+        $loans = DB::table('loans')
+            ->where('sels_id', $request->invoice_id)
+            ->get();
 
-        // ✅ CHECK total
+        foreach ($loans as $loan) {
+
+            DB::table('loans')
+                ->where('id', $loan->id)
+                ->update([
+                    'total' => max(0, (float)$loan->total - $returnTotal),
+                    'period' => max(0, (float)$loan->period - $returnTotal),
+                    'updated_at' => now()
+                ]);
+        }
+
+        // Update sales
         $sale = DB::table('sales')
             ->where('id', $request->invoice_id)
             ->first();
 
+        if (!$sale) {
+            throw new \Exception('Sale not found');
+        }
+
+        DB::table('sales')
+            ->where('id', $sale->id)
+            ->update([
+                'subtotal' => max(0, (float)$sale->subtotal - $returnTotal),
+                'total' => max(0, (float)$sale->total - $returnTotal),
+                'updated_at' => now()
+            ]);
+
+        // Reload sale
+        $sale = DB::table('sales')
+            ->where('id', $sale->id)
+            ->first();
+
+        // Delete invoice if fully returned
         if ($sale && $sale->total <= 0) {
 
-            // 🔥 DELETE sale_items if any left
             DB::table('sale_items')
                 ->where('sale_id', $sale->id)
                 ->delete();
 
-            // 🔥 DELETE loans (ئەگەر قەرز بوو)
-          
-            // 🔥 DELETE sales
+            DB::table('loans')
+                ->where('sels_id', $sale->id)
+                ->delete();
+
             DB::table('sales')
                 ->where('id', $sale->id)
                 ->delete();
@@ -513,7 +548,6 @@ $product_id = $itemss[0]->product_id;
         ], 500);
     }
 }
-
 
 public function processReturn(Request $request)
 {

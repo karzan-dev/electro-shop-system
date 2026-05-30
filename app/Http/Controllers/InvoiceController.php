@@ -358,31 +358,31 @@ class InvoiceController extends Controller
 public function getInvoice($id)
 {
     try {
-$invoice = DB::table('sales')
-    ->leftJoin('loans', 'sales.invoice_number', '=', 'loans.invoice_number')
-    ->leftJoin('customer', 'customer.id', '=', 'loans.customer_id')
-    ->where('sales.id', $id)
-    ->select(
-        'sales.id',
-        'sales.invoice_number',
-        'sales.user_id',
-        'sales.subtotal',
-        'sales.discount',
-        'sales.total',
-        'sales.created_at',
-        'sales.updated_at',
+        $invoice = DB::table('sales')
+            ->leftJoin('loans', 'sales.invoice_number', '=', 'loans.invoice_number')
+            ->leftJoin('customer', 'customer.id', '=', 'loans.customer_id')
+            ->where('sales.id', $id)
+            ->select(
+                'sales.id',
+                'sales.invoice_number',
+                'sales.user_id',
+                'sales.subtotal',
+                'sales.discount',
+                'sales.total',
+                'sales.created_at',
+                'sales.updated_at',
 
-        'loans.id as loan_id',
-        'customer.name as customer_name',
-        'customer.number_phone as phone_number',
-        'customer.address as address',
-        'loans.currency',
-        'loans.period',
-        'loans.total as loan_total',
-        'loans.status as loan_status',
-        'loans.time_to_return'
-    )
-    ->first();
+                'loans.id as loan_id',
+                'customer.name as customer_name',
+                'customer.number_phone as phone_number',
+                'customer.address as address',
+                'loans.currency',
+                'loans.period',
+                'loans.total as loan_total',
+                'loans.status as loan_status',
+                'loans.time_to_return'
+            )
+            ->first();
 
         if (!$invoice) {
             return response()->json([
@@ -406,6 +406,29 @@ $invoice = DB::table('sales')
                 'sale_items.total'
             )
             ->get();
+
+        // CHECK RETURN ITEMS - with product name
+        $returnItems = DB::table('return_items')
+            ->leftJoin('products', 'return_items.Item_Code', '=', 'products.id')
+            ->where('return_items.seles_id', $invoice->id)
+            ->select(
+                'return_items.id',
+                'return_items.seles_id',
+                'return_items.Item_Code',
+                'return_items.Amount',
+                'return_items.Metar',
+                'return_items.Sale_Price',
+                'return_items.Return_Total',
+                'return_items.Return_Cause',
+                'return_items.Casher_id',
+                'return_items.Return_Date',
+                'return_items.created_at',
+                'return_items.updated_at',
+                'products.name as product_name'
+            )
+            ->get();
+
+        $isReturned = $returnItems->count() > 0;
 
         // CHECK CREDIT
         $isCredit = !is_null($invoice->loan_id);
@@ -437,6 +460,9 @@ $invoice = DB::table('sales')
 
                 'is_credit' => $isCredit,
                 'credit_info' => $creditInfo,
+
+                'is_returned' => $isReturned,
+                'return_items' => $returnItems,
 
                 'items' => $items
             ]
