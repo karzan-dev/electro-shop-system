@@ -34,7 +34,7 @@ OLD=$(cat "$STATE" 2>/dev/null || echo none)
 
     php artisan migrate --force
     rsync -a --delete "$APP/public/build/" "$WEB/build/"
-    rsync -a --exclude=/index.php --exclude=/.htaccess --exclude=/images --exclude=/uploads --exclude=/build "$APP/public/" "$WEB/"
+    rsync -a --exclude=/index.php --exclude=/.htaccess --exclude=/images --exclude=/uploads --exclude=/build --exclude=/... "$APP/public/" "$WEB/"
     php artisan optimize:clear
 
     echo "$NEW" > "$STATE"

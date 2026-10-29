@@ -26,6 +26,9 @@ jobs:
           node-version: 22
           cache: npm
 
+      # tailwind.config.js also scans Laravel's pagination views in vendor/
+      - run: composer install --no-interaction --no-scripts --prefer-dist --ignore-platform-reqs
+
       - run: npm ci
       - run: npm run build
 
