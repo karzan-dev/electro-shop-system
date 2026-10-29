@@ -1,4 +1,3 @@
-<!-- Invoice Management Section - بەڕێوەبردنی پسوڵەکانی فرۆشتن -->
 @extends("layouts.navigation")
 @section("content")
 <style>
@@ -378,6 +377,33 @@
         border-radius: 2rem;
         font-size: 0.7rem;
         font-weight: 600;
+    }
+
+    /* ⭐ Company Badge */
+    .company-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 0.25rem 0.7rem;
+        border-radius: 2rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+        white-space: nowrap;
+        box-shadow: 0 2px 6px rgba(74, 100, 145, 0.3);
+        transition: all 0.2s;
+    }
+
+    .company-badge:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(74, 100, 145, 0.5);
+    }
+
+    .company-badge.no-company {
+        background: linear-gradient(135deg, #94a3b8, #64748b);
+        font-style: italic;
+        opacity: 0.85;
     }
 
     /* Barcode Search Styles - Live Search */
@@ -981,6 +1007,10 @@
             width: 70px;
             padding: 0.3rem;
         }
+        .company-badge {
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+        }
     }
     
     /* Credit Info Styles */
@@ -1466,11 +1496,6 @@
     // !!! چارەسەری کێشەی بارکۆد بە هەر زمانێک !!!
     // ============================================
 
-    /**
-     * گۆڕینی هەر ژمارەیەکی نا ئینگلیزی (کوردی، فارسی، عەرەبی) بۆ ئینگلیزی
-     * @param {string} str - بارکۆدەکە یان هەر نوسینێک
-     * @returns {string} - نوسینی پاککراوە بە ژمارەی ئینگلیزی
-     */
     function normalizeToEnglishNumbers(str) {
         if (!str) return str;
         
@@ -1491,10 +1516,6 @@
         return result;
     }
 
-    /**
-     * چالاککردنی نۆرمالایزکردنی بارکۆد لەسەر فیلدێک
-     * @param {string} selector - سلیکتی فیلدەکە
-     */
     function enableBarcodeNormalization(selector) {
         $(selector).on('input', function() {
             const originalValue = $(this).val();
@@ -1510,7 +1531,7 @@
     // ==================== HELPER FUNCTIONS ====================
     function formatNumber(num) {
         if (num === null || num === undefined || isNaN(num)) return '0';
-        return num.toLocaleString();
+        return Number(num).toLocaleString('en-US');
     }
     
     function getTimeOfDay(dateString) {
@@ -1620,7 +1641,6 @@
                 $('#invoices-table-body').html('<tr><td colspan="8" style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> بارکردن...</td></tr>');
             },
             success: function(response) {
-                console.log(response);
                 if (response.success) {
                     invoicesData = response.invoices;
                     renderInvoicesTable();
@@ -1653,12 +1673,12 @@
             error: function(xhr, status, error) {
                 console.error('Error loading invoices:', xhr.responseText);
                 $('#invoices-table-body').html('<tr><td colspan="8" style="text-align: center; padding: 2rem;">هەڵەیەک ڕوویدا لە کاتی بارکردندا</td></tr>');
-                showAlert('error', 'Failed to load invoices. Please try again.');
+                showAlert('error', 'هەڵە لە بارکردنی پسوڵەکان');
             }
         });
     }
 
-    // ==================== BARCODE SEARCH FUNCTIONS - LIVE SEARCH ====================
+    // ==================== BARCODE SEARCH FUNCTIONS ====================
     function handleBarcodeLiveSearch() {
         const barcode = $('#barcode-search-input').val().trim();
         currentBarcodeSearch = normalizeToEnglishNumbers(barcode);
@@ -1721,7 +1741,6 @@
                         <button class="btn-icon btn-view" onclick="viewInvoiceDetail(${invoice.id})" title="بینین">
                             <i class="fas fa-eye"></i>
                         </button>
-                     
                     </td>
                 </tr>
             `;
@@ -1782,7 +1801,6 @@
             url: '/invoice/' + invoiceId,
             type: 'GET',
             success: function(response) {
-                console.log(response);
                 if (response.success) {
                     displayInvoiceDetail(response.invoice);
                 } else {
@@ -1802,11 +1820,10 @@
         const timeOfDay = getTimeOfDay(invoice.created_at);
         const timeBadge = getTimeOfDayText(timeOfDay);
         
-        // Build return items map for quick lookup - using product_id to match
+        // Build return items map for quick lookup
         let returnItemsMap = {};
         if (invoice.return_items && Array.isArray(invoice.return_items)) {
             invoice.return_items.forEach(returnItem => {
-                // Use Item_Code (barcode) to match with sale items' barcode
                 const itemCode = returnItem.Item_Code;
                 if (itemCode) {
                     if (!returnItemsMap[itemCode]) {
@@ -1822,13 +1839,12 @@
             });
         }
         
-        console.log('Return Items Map:', returnItemsMap);
-        
         let itemsHtml = `
             <table class="detail-items-table">
                 <thead>
                     <tr>
                         <th>ناوی کاڵا</th>
+                        <th>کۆمپانیا</th>
                         <th>بڕ</th>
                         <th>نرخ</th>
                         <th>کۆی گشتی</th>
@@ -1840,7 +1856,6 @@
         
         if (invoice.items && Array.isArray(invoice.items) && invoice.items.length > 0) {
             invoice.items.forEach((item, idx) => {
-                // Check if this item has been returned using barcode
                 const itemBarcode = item.barcode || '';
                 const returnData = returnItemsMap[itemBarcode];
                 const hasReturned = returnData && returnData.totalReturned > 0;
@@ -1848,10 +1863,13 @@
                 const remainingQty = parseFloat(item.quantity_sold || 0) - returnedQty;
                 const isFullyReturned = remainingQty <= 0;
                 
-                // Build quantity display
+                // ⭐ ناوی کۆمپانیا
+                const companyName = item.company_name || item.company || 'بێ کۆمپانیا';
+                const hasCompany = companyName && companyName !== 'بێ کۆمپانیا' && companyName.trim() !== '';
+                const companyClass = hasCompany ? 'company-badge' : 'company-badge no-company';
+                
                 let quantityDisplay = '';
                 if (hasReturned && !isFullyReturned) {
-                    // Partially returned: show original + returned
                     quantityDisplay = `
                         <span>${item.quantity_sold || 0}</span>
                         <span style="color: var(--return); font-size: 0.75rem;">
@@ -1862,7 +1880,6 @@
                         </span>
                     `;
                 } else if (isFullyReturned) {
-                    // Fully returned
                     quantityDisplay = `
                         <span style="text-decoration: line-through; color: var(--text-secondary);">${item.quantity_sold || 0}</span>
                         <span class="returned-badge" style="display: block; margin-top: 2px;">
@@ -1870,16 +1887,13 @@
                         </span>
                     `;
                 } else {
-                    // Not returned at all
                     quantityDisplay = `<span>${item.quantity_sold || 0}</span>`;
                 }
                 
-                // Build action button
                 let actionHtml = '';
                 if (isFullyReturned) {
                     actionHtml = '<span class="returned-badge"><i class="fas fa-check-circle"></i> گەڕێندراوەتەوە</span>';
                 } else if (hasReturned) {
-                    // Partially returned - still allow more returns
                     actionHtml = `
                         <button class="item-return-btn" onclick="openReturnItemModal(${invoice.id}, ${item.id || idx}, '${escapeHtml(item.name)}', ${remainingQty}, ${item.selling_price || 0})">
                             <i class="fas fa-undo-alt"></i> گەڕاندنەوە
@@ -1896,6 +1910,11 @@
                 itemsHtml += `
                     <tr id="item-row-${item.id || idx}">
                         <td>${escapeHtml(item.name) || '-'}</td>
+                        <td>
+                            <span class="${companyClass}">
+                                <i class="fas fa-building"></i> ${escapeHtml(companyName)}
+                            </span>
+                        </td>
                         <td class="item-quantity-${item.id || idx}">
                             ${quantityDisplay}
                         </td>
@@ -1910,7 +1929,7 @@
         } else {
             itemsHtml += `
                 <tr>
-                    <td colspan="5" class="empty-items">
+                    <td colspan="6" class="empty-items">
                         <i class="fas fa-box-open"></i>
                         <p>هیچ کاڵایەک لەم پسوڵەیەدا نییە</p>
                     </td>
@@ -1919,74 +1938,65 @@
         }
         itemsHtml += '</tbody></table>';
         
-        // Build return items list if there are any
-      // Build return items list as a table
-let returnItemsListHtml = '';
-if (invoice.return_items && Array.isArray(invoice.return_items) && invoice.return_items.length > 0) {
-    returnItemsListHtml = `
-        <div class="return-items-list">
-            <h5><i class="fas fa-undo-alt"></i> مێژووی گەڕاندنەوەکان</h5>
-            <div style="overflow-x: auto; margin-top: 0.75rem;">
-                <table class="detail-items-table" style="margin-top: 0;">
-                    <thead>
-                        <tr>
-                            <th>ناوی کاڵا</th>
-                            <th>بڕ</th>
-                            <th>نرخ</th>
-                            <th>کۆی گەڕاندنەوە</th>
-                            <th>هۆکار</th>
-                            <th>بەروار</th>
-                            <th>کات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-    `;
-    
-    invoice.return_items.forEach(returnItem => {
-        const returnDate = new Date(returnItem.created_at).toLocaleDateString('en-US');
-        const returnTime = formatTime(returnItem.created_at);
-        
-    function formatNumber(value) {
-    return Number(value || 0).toLocaleString('en-US');
-}
+        // ============================================
+        // ⭐ مێژووی گەڕاندنەوەکان - لەگەڵ کۆمپانیا
+        // ============================================
+        let returnItemsListHtml = '';
+        if (invoice.return_items && Array.isArray(invoice.return_items) && invoice.return_items.length > 0) {
+            returnItemsListHtml = `
+                <div class="return-items-list">
+                    <h5><i class="fas fa-undo-alt"></i> مێژووی گەڕاندنەوەکان</h5>
+                    <div style="overflow-x: auto; margin-top: 0.75rem;">
+                        <table class="detail-items-table" style="margin-top: 0;">
+                            <thead>
+                                <tr>
+                                    <th>ناوی کاڵا</th>
+                                    <th>کۆمپانیا</th>  <!-- ⭐ زیادکرا -->
+                                    <th>بڕ</th>
+                                    <th>نرخ</th>
+                                    <th>کۆی گەڕاندنەوە</th>
+                                    <th>هۆکار</th>
+                                    <th>بەروار</th>
+                                    <th>کات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            invoice.return_items.forEach(returnItem => {
+                const returnDate = new Date(returnItem.created_at).toLocaleDateString('en-US');
+                const returnTime = formatTime(returnItem.created_at);
 
-returnItemsListHtml += `
-    <tr>
-        <td>
-            <strong>${escapeHtml(returnItem.product_name || '-')}</strong>
-        </td>
+                // ⭐ ناوی کۆمپانیا - پشتگیری هەردووکی
+                const companyName = returnItem.product_company || returnItem.company || 'بێ کۆمپانیا';
+                const hasCompany = companyName && companyName !== 'بێ کۆمپانیا' && companyName.trim() !== '';
+                const companyClass = hasCompany ? 'company-badge' : 'company-badge no-company';
 
-        <td>
-            ${formatNumber(returnItem.Amount)}
-        </td>
-
-        <td>
-            ${formatNumber(returnItem.Sale_Price)} د.ع
-        </td>
-
-        <td>
-            <strong style="color: var(--return);">
-                ${formatNumber(returnItem.Return_Total)} د.ع
-            </strong>
-        </td>
-
-        <td style="color: var(--text-secondary); font-size: 0.8rem;">
-            ${escapeHtml(returnItem.Return_Cause || '-')}
-        </td>
-
-        <td>${returnDate}</td>
-        <td>${returnTime}</td>
-    </tr>
-`;
-    });
-    
-    returnItemsListHtml += `
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    `;
-}
+                returnItemsListHtml += `
+                    <tr>
+                        <td><strong>${escapeHtml(returnItem.product_name || '-')}</strong></td>
+                        <td>
+                            <span class="${companyClass}">
+                                <i class="fas fa-building"></i> ${escapeHtml(companyName)}
+                            </span>
+                        </td>
+                        <td>${formatNumber(returnItem.Amount)}</td>
+                        <td>${formatNumber(returnItem.Sale_Price)} د.ع</td>
+                        <td><strong style="color: var(--return);">${formatNumber(returnItem.Return_Total)} د.ع</strong></td>
+                        <td style="color: var(--text-secondary); font-size: 0.8rem;">${escapeHtml(returnItem.Return_Cause || '-')}</td>
+                        <td>${returnDate}</td>
+                        <td>${returnTime}</td>
+                    </tr>
+                `;
+            });
+            
+            returnItemsListHtml += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
         
         let creditHtml = '';
         if (isCredit && invoice.credit_info) {
@@ -2034,55 +2044,49 @@ returnItemsListHtml += `
             `;
         }
 
-        function formatNumber(value) {
-    return Number(value || 0).toLocaleString('en-US');
-}
+        const html = `
+            <div style="margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; background: var(--bg-light); padding: 1rem; border-radius: 1rem;">
+                    <div><strong><i class="fas fa-hashtag"></i> ژمارەی پسوڵە:</strong> ${escapeHtml(invoice.invoice_number)}</div>
+                    <div><strong><i class="fas fa-calendar"></i> بەروار:</strong> ${date}</div>
+                    <div><strong><i class="fas fa-clock"></i> کات:</strong> ${formatTime(invoice.created_at)} ${timeBadge}</div>
+                    <div><strong><i class="fas fa-tag"></i> جۆر:</strong> ${
+                        isCredit
+                            ? '<span style="color: #f59e0b;">قەرز</span>'
+                            : '<span style="color: #10b981;">نەقد</span>'
+                    }</div>
+                </div>
 
-const html = `
-    <div style="margin-bottom: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; background: var(--bg-light); padding: 1rem; border-radius: 1rem;">
-            <div><strong><i class="fas fa-hashtag"></i> ژمارەی پسوڵە:</strong> ${escapeHtml(invoice.invoice_number)}</div>
-            <div><strong><i class="fas fa-calendar"></i> بەروار:</strong> ${date}</div>
-            <div><strong><i class="fas fa-clock"></i> کات:</strong> ${formatTime(invoice.created_at)} ${timeBadge}</div>
-            <div><strong><i class="fas fa-tag"></i> جۆر:</strong> ${
-                isCredit
-                    ? '<span style="color: #f59e0b;">قەرز</span>'
-                    : '<span style="color: #10b981;">نەقد</span>'
-            }</div>
-        </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 1rem; flex-wrap: wrap; gap: 1rem; background: var(--bg-light); padding: 1rem; border-radius: 1rem;">
+                    <div>
+                        <strong>پێش داشکان:</strong>
+                        ${formatNumber(invoice.subtotal)} د.ع
+                    </div>
 
-        <div style="display: flex; justify-content: space-between; margin-top: 1rem; flex-wrap: wrap; gap: 1rem; background: var(--bg-light); padding: 1rem; border-radius: 1rem;">
-            <div>
-                <strong>پێش داشکان:</strong>
-                ${formatNumber(invoice.subtotal)} د.ع
+                    <div>
+                        <strong>داشکاندن:</strong>
+                        ${formatNumber(invoice.discount)} د.ع
+                    </div>
+
+                    <div>
+                        <strong><i class="fas fa-money-bill-wave"></i> کۆی گشتی:</strong>
+                        <span style="color: var(--success); font-weight: bold;">
+                            ${formatNumber(invoice.total)} د.ع
+                        </span>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <strong>داشکاندن:</strong>
-                ${formatNumber(invoice.discount)} د.ع
-            </div>
+            <hr style="margin: 1rem 0;">
 
-            <div>
-                <strong><i class="fas fa-money-bill-wave"></i> کۆی گشتی:</strong>
-                <span style="color: var(--success); font-weight: bold;">
-                    ${formatNumber(invoice.total)} د.ع
-                </span>
-            </div>
-        </div>
-    </div>
+            <h4 style="margin-bottom: 1rem;">
+                <i class="fas fa-boxes"></i> کاڵاکان
+            </h4>
 
-    <hr style="margin: 1rem 0;">
-
-    <h4 style="margin-bottom: 1rem;">
-        <i class="fas fa-boxes"></i> کاڵاکان
-    </h4>
-
-    ${itemsHtml}
-    ${returnItemsListHtml}
-    ${creditHtml}
-`;
-        
-   
+            ${itemsHtml}
+            ${returnItemsListHtml}
+            ${creditHtml}
+        `;
         
         $('#invoice-detail-body').html(html);
         $('#invoiceDetailModal').fadeIn(200);
@@ -2373,7 +2377,6 @@ const html = `
             type: 'POST',
             data: {
                 invoice_id: invoiceId,
-              
                 items: [{
                     item_id: itemId,
                     quantity: qty,
@@ -2389,7 +2392,6 @@ const html = `
                 $('#single-submit-btn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> جێبەجێکردن...');
             },
             success: function(response) {
-                console.log(JSON.stringify(response, null, 2));
                 if (response.success) {
                     closeSingleReturnModal();
                     closeInvoiceDetailModal();
@@ -2401,7 +2403,6 @@ const html = `
                 }
             },
             error: function(xhr) {
-                console.log('Error submitting return:', xhr.responseText);
                 let errorMsg = 'هەڵەیەک ڕوویدا لە کاتی گەڕاندنەوە';
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     errorMsg = xhr.responseJSON.message;
@@ -2431,19 +2432,16 @@ const html = `
 
     // ==================== EVENT HANDLERS ====================
     $(document).ready(function() {
-        // Enable barcode normalization for both search fields
         enableBarcodeNormalization('#barcode-search-input');
         enableBarcodeNormalization('#invoice-search-manual');
         
         loadInvoices();
         
-        // Date filter change
         $('#filter-date-from, #filter-date-to').on('change', function() {
             currentPage = 1;
             loadInvoices();
         });
         
-        // Live search for invoice number - on input (no button)
         $('#invoice-search-manual').on('input', function() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
@@ -2451,7 +2449,6 @@ const html = `
             }, 300);
         });
         
-        // Live search for barcode - on input (no button)
         $('#barcode-search-input').on('input', function() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {

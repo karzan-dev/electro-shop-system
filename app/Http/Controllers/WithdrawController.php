@@ -15,56 +15,65 @@ class WithdrawController extends Controller
      * - Check if invoice_number exists in both sales and loans
      * - If exists in loans: use loans.currency instead of sales.total
      * - If only in sales: use sales.total
+     * - Remaining loans = sales.total - loans.currency for common invoices
      */
-private function calculateStats()
-{
-    $salesInvoices = DB::table('sales')->pluck('invoice_number')->toArray();
-    $loanInvoices = DB::table('loans')->pluck('invoice_number')->toArray();
-    $commonInvoices = array_intersect($salesInvoices, $loanInvoices);
-    $salesOnlyInvoices = array_diff($salesInvoices, $loanInvoices);
-    
-    // 1. Sales NOT in loans (فرۆشی ڕاستەوخۆ)
-    $totalSales = DB::table('sales')
-        ->whereIn('invoice_number', $salesOnlyInvoices)
-        ->sum('total') ?? 0;
-    
-    // 2. Loans currency for common invoices
-    // loans.currency هەموو پارە وەرگیراوەکانی لەخۆدەگرێت (پێشەکی + قیستەکان)
-    $totalLoanCurrencyForCommonInvoices = DB::table('loans')
-        ->whereIn('invoice_number', $commonInvoices)
-        ->sum('currency') ?? 0;
-    
-    // 3. Total discount
-    $totalDiscount = DB::table('sales')->sum('discount') ?? 0;
-    
-    // 4. Loans currency ONLY in loans
-    // loans.currency هەموو پارە وەرگیراوەکانی لەخۆدەگرێت
-    $totalLoanCurrencyOnly = DB::table('loans')
-        ->whereNotIn('invoice_number', $salesInvoices)
-        ->sum('currency') ?? 0;
-    
-    // 5. Initial cash
-    $totalCasherCoin = DB::table('casher_coin')->sum('amount') ?? 0;
-    
-    // 6. Total withdrawn
-    $totalWithdraws = DB::table('withdraws')->sum('amount') ?? 0;
-    
-    // Cash in drawer - تەنها loans.currency بەکار دێت
-    // نەک installments چونکە loans.currency هەمان شتە
-    $cashInDrawer = ($totalCasherCoin 
-                    + $totalSales 
-                    + $totalLoanCurrencyForCommonInvoices 
-                    + $totalLoanCurrencyOnly) 
-                    - $totalWithdraws;
-    
-    return [
-        'total_sales' => $totalSales,
-        'total_discount' => $totalDiscount,
-        'total_casher_coin' => $totalCasherCoin,
-        'total_withdraws' => $totalWithdraws,
-        'cash_in_drawer' => $cashInDrawer,
-    ];
-}
+    private function calculateStats()
+    {
+        $salesInvoices = DB::table('sales')->pluck('invoice_number')->toArray();
+        $loanInvoices  = DB::table('loans')->pluck('invoice_number')->toArray();
+        $commonInvoices    = array_intersect($salesInvoices, $loanInvoices);
+        $salesOnlyInvoices = array_diff($salesInvoices, $loanInvoices);
+
+        // 1️⃣ فرۆشی ڕاستەوخۆ (ئەو ئینڤۆیسانەی تەنها لە salesـن)
+        $totalSales = DB::table('sales')
+            ->whereIn('invoice_number', $salesOnlyInvoices)
+            ->sum('total') ?? 0;
+
+        // 2️⃣ پارەی وەرگیراو لە قەرزەکان (loans.currency)
+        $totalLoanCurrencyForCommonInvoices = DB::table('loans')
+            ->whereIn('invoice_number', $commonInvoices)
+            ->sum('currency') ?? 0;
+
+        // 3️⃣ کۆی داشکان
+        $totalDiscount = DB::table('sales')->sum('discount') ?? 0;
+
+        // 4️⃣ پارەی وەرگیراو لە قەرزەکان کە تەنها لە loansـن (بێ sales)
+        $totalLoanCurrencyOnly = DB::table('loans')
+            ->whereNotIn('invoice_number', $salesInvoices)
+            ->sum('currency') ?? 0;
+
+        // 5️⃣ پارەی سەرەتایی کاشێر
+        $totalCasherCoin = DB::table('casher_coin')->sum('amount') ?? 0;
+
+        // 6️⃣ کۆی ڕاکێشانی پارە
+        $totalWithdraws = DB::table('withdraws')->sum('amount') ?? 0;
+
+        // 7️⃣ پارەی ماوە لە قەرزەکان
+        //    بۆ هەر ئینڤۆیسێکی هاوبەش: sales.total - loans.currency
+        $totalSalesForCommon = DB::table('sales')
+            ->whereIn('invoice_number', $commonInvoices)
+            ->sum('total') ?? 0;
+
+        $remainingLoans = $totalSalesForCommon - $totalLoanCurrencyForCommonInvoices;
+
+        // 8️⃣ پارەی ناو قاسە = کاشێر + فرۆشی ڕاستەوخۆ + پارەی وەرگیراو - ڕاکێشانی پارە
+        $cashInDrawer = ($totalCasherCoin
+                        + $totalSales
+                        + $totalLoanCurrencyForCommonInvoices
+                        + $totalLoanCurrencyOnly)
+                        - $totalWithdraws;
+
+        return [
+            'total_sales'           => $totalSales,
+            'total_discount'        => $totalDiscount,
+            'total_casher_coin'     => $totalCasherCoin,
+            'total_withdraws'       => $totalWithdraws,
+            'cash_in_drawer'        => $cashInDrawer,
+            'total_loans_currency'  => $totalLoanCurrencyForCommonInvoices + $totalLoanCurrencyOnly,
+            'remaining_loans'       => $remainingLoans,
+        ];
+    }
+
     public function index(Request $request)
     {
         $stats = $this->calculateStats();
@@ -94,14 +103,14 @@ private function calculateStats()
                 'data' => $withdraws,
                 'stats' => array_merge($stats, [
                     'cash_before_withdraw' => $lastWithdraw ? $lastWithdraw->cash_before_withdraw : $stats['cash_in_drawer'],
-                    'cash_after_withdraw' => $lastWithdraw ? $lastWithdraw->cash_after_withdraw : $stats['cash_in_drawer'],
+                    'cash_after_withdraw'  => $lastWithdraw ? $lastWithdraw->cash_after_withdraw  : $stats['cash_in_drawer'],
                 ])
             ]);
         }
 
         return view('items.withdrawals', array_merge($stats, [
             'lastCashBeforeWithdraw' => $lastWithdraw ? $lastWithdraw->cash_before_withdraw : $stats['cash_in_drawer'],
-            'lastCashAfterWithdraw' => $lastWithdraw ? $lastWithdraw->cash_after_withdraw : $stats['cash_in_drawer'],
+            'lastCashAfterWithdraw'  => $lastWithdraw ? $lastWithdraw->cash_after_withdraw  : $stats['cash_in_drawer'],
         ]));
     }
 
@@ -133,7 +142,7 @@ private function calculateStats()
             'data' => $withdraws,
             'stats' => array_merge($stats, [
                 'cash_before_withdraw' => $lastWithdraw ? $lastWithdraw->cash_before_withdraw : $stats['cash_in_drawer'],
-                'cash_after_withdraw' => $lastWithdraw ? $lastWithdraw->cash_after_withdraw : $stats['cash_in_drawer'],
+                'cash_after_withdraw'  => $lastWithdraw ? $lastWithdraw->cash_after_withdraw  : $stats['cash_in_drawer'],
             ])
         ]);
     }
@@ -142,18 +151,17 @@ private function calculateStats()
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric|min:1|max:999999.99',
-            'note' => 'nullable|string|max:500',
+            'note'   => 'nullable|string|max:500',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => 'هەڵەیەک ڕوویدا',
-                'errors' => $validator->errors()
+                'errors'  => $validator->errors()
             ], 422);
         }
 
-        // Use the same calculation method
         $stats = $this->calculateStats();
         $cashInDrawer = $stats['cash_in_drawer'];
         $cashAfterWithdraw = $cashInDrawer - $request->amount;
@@ -167,13 +175,13 @@ private function calculateStats()
 
         try {
             DB::table('withdraws')->insert([
-                'amount' => $request->amount,
-                'note' => $request->note,
-                'cash_before_withdraw' => $cashInDrawer,
-                'cash_after_withdraw' => $cashAfterWithdraw,
-                'user_id' => Auth::id(),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'amount'                => $request->amount,
+                'note'                  => $request->note,
+                'cash_before_withdraw'  => $cashInDrawer,
+                'cash_after_withdraw'   => $cashAfterWithdraw,
+                'user_id'               => Auth::id(),
+                'created_at'            => now(),
+                'updated_at'            => now(),
             ]);
 
             return response()->json([
@@ -189,26 +197,24 @@ private function calculateStats()
         }
     }
 
-
-     public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric|min:1|max:999999.99',
-            'note' => 'nullable|string|max:500',
+            'note'   => 'nullable|string|max:500',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => 'هەڵەیەک ڕوویدا',
-                'errors' => $validator->errors()
+                'errors'  => $validator->errors()
             ], 422);
         }
 
         try {
-            // Find the withdraw record
             $withdraw = DB::table('withdraws')->where('id', $id)->first();
-            
+
             if (!$withdraw) {
                 return response()->json([
                     'success' => false,
@@ -216,10 +222,9 @@ private function calculateStats()
                 ], 404);
             }
 
-            // Get current stats to check if new amount is valid
             $stats = $this->calculateStats();
-            $cashInDrawer = $stats['cash_in_drawer'] + $withdraw->amount; // Add back the old amount
-            
+            $cashInDrawer = $stats['cash_in_drawer'] + $withdraw->amount;
+
             if ($request->amount > $cashInDrawer) {
                 return response()->json([
                     'success' => false,
@@ -227,17 +232,15 @@ private function calculateStats()
                 ], 422);
             }
 
-            // Calculate new cash after withdraw for this record
             $cashAfterWithdraw = $withdraw->cash_before_withdraw - $request->amount;
 
-            // Update the record
             DB::table('withdraws')
                 ->where('id', $id)
                 ->update([
-                    'amount' => $request->amount,
-                    'note' => $request->note,
+                    'amount'              => $request->amount,
+                    'note'                => $request->note,
                     'cash_after_withdraw' => $cashAfterWithdraw,
-                    'updated_at' => now(),
+                    'updated_at'          => now(),
                 ]);
 
             return response()->json([
@@ -254,19 +257,11 @@ private function calculateStats()
         }
     }
 
-    /**
-     * Delete a specific withdraw record
-     * 
-     * IMPORTANT: Deleting a withdraw record does NOT recalculate
-     * subsequent records' cash_before_withdraw and cash_after_withdraw values.
-     * This maintains the historical snapshot of what was in the drawer at that time.
-     */
     public function destroy($id)
     {
         try {
-            // Find the withdraw record
             $withdraw = DB::table('withdraws')->where('id', $id)->first();
-            
+
             if (!$withdraw) {
                 return response()->json([
                     'success' => false,
@@ -274,7 +269,6 @@ private function calculateStats()
                 ], 404);
             }
 
-            // Delete the record
             DB::table('withdraws')
                 ->where('id', $id)
                 ->delete();
@@ -292,5 +286,4 @@ private function calculateStats()
             ], 500);
         }
     }
-
 }

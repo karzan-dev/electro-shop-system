@@ -136,6 +136,7 @@ public function getNextVoucherNumber()
                 'subtotal' => $data['subtotal'],
                 'discount' => $data['discount'],
                 'total' => $data['total'],
+
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

@@ -571,6 +571,39 @@
 
          @endif
         @if(auth()->user()->role !== 2)
+        
+
+        
+                   <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
+            <a href="{{ route('seller') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+                <div class="icon-container">
+                 <i class="fas fa-address-book "></i>
+                </div>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">فرۆشیارەکان</h3>
+                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
+                    بینین <i class="fas fa-arrow-left ms-2"></i>
+                </button>
+            </a>
+        </div>
+        
+          
+<div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
+    <a href="{{ route('brands.page') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+        <div class="icon-container">
+        <i class="fas fa-award"></i>
+        </div>
+
+        <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">
+            براندەکان
+        </h3>
+
+        <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
+            بینین <i class="fas fa-arrow-left ms-2"></i>
+        </button>
+    </a>
+</div>
+
+
 
              <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
             <a href="{{ route('reports.overview') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
@@ -583,6 +616,8 @@
                 </button>
             </a>
         </div>
+        
+        
 
 
 
@@ -597,6 +632,11 @@
                 </button>
             </a>
         </div>
+        
+        
+        
+        
+        
 
         @endif
     </section>
@@ -780,4 +820,4 @@
         });
     });
 </script>
-@endsection
+@endsection                                                                              

@@ -36,6 +36,8 @@
         background: #0f172a;
     }
 
+    * { box-sizing: border-box; }
+
     body {
         background: #f1f5f9;
         font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -239,7 +241,6 @@
         color: white;
     }
 
-    /* Search Input with Icon */
     .search-input-wrapper {
         position: relative;
     }
@@ -508,15 +509,36 @@
         border-radius: 30px;
         font-size: 0.9rem;
         font-weight: 500;
-        z-index: 9999;
+        z-index: 99999;
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
         transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         pointer-events: none;
         white-space: nowrap;
+        max-width: calc(100% - 40px);
     }
     .toast-custom.show { transform: translateX(-50%) translateY(0); }
     .toast-custom.success { background: #10b981; }
     .toast-custom.error { background: #ef4444; }
+
+    body.dark-mode .toast-custom {
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    @media (max-width: 576px) {
+        .toast-custom {
+            left: 10px;
+            right: 10px;
+            transform: translateX(0) translateY(100px);
+            white-space: normal;
+            text-align: center;
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            max-width: none;
+        }
+        .toast-custom.show {
+            transform: translateX(0) translateY(0);
+        }
+    }
 
     .info-card {
         background: linear-gradient(135deg, rgba(74, 100, 145, 0.05), rgba(93, 122, 176, 0.05));
@@ -550,7 +572,6 @@
         to { transform: rotate(360deg); }
     }
 
-    /* Print */
     @media print {
         .no-print { display: none !important; }
         .profit-table th { background: #4a6491 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -559,7 +580,6 @@
         .table-container { overflow-x: visible; max-height: none; }
     }
 
-    /* ==================== RESPONSIVE ==================== */
     @media (min-width: 1400px) {
         .container { max-width: 1320px; }
         .profit-table { min-width: 100%; }
@@ -577,16 +597,165 @@
     }
 
     @media (max-width: 767px) {
-        .profit-table { min-width: 900px; }
         .totals-grid { grid-template-columns: repeat(2, 1fr); }
         .form-header h1 { font-size: 1.1rem; }
         .pagination-container { flex-direction: column; align-items: center; }
         .form-card { padding: 12px; }
         .btn-outline-custom { font-size: 0.8rem; padding: 0.5rem 0.8rem; }
+
+        .table-container {
+            overflow-x: visible !important;
+            border: none !important;
+            background: transparent !important;
+            max-height: none !important;
+            border-radius: 0 !important;
+        }
+
+        .profit-table {
+            display: block;
+            width: 100%;
+            min-width: 100% !important;
+            white-space: normal;
+        }
+
+        .profit-table thead {
+            display: none !important;
+        }
+
+        .profit-table tbody {
+            display: block;
+            width: 100%;
+        }
+
+        .profit-table tbody tr {
+            display: block;
+            margin-bottom: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px;
+            background: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .profit-table tbody tr {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .profit-table tbody tr:nth-child(even) {
+            background-color: var(--card-bg);
+        }
+
+        .profit-table tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: var(--card-bg) !important;
+        }
+
+        body.dark-mode .profit-table tbody tr:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .profit-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 0 !important;
+            border: none !important;
+            border-bottom: 1px solid var(--border-color) !important;
+            text-align: right;
+            gap: 10px;
+            font-size: 0.85rem;
+            background: transparent !important;
+            color: var(--text);
+            white-space: normal;
+        }
+
+        body.dark-mode .profit-table tbody td {
+            border-bottom-color: #334155 !important;
+        }
+
+        .profit-table tbody td:last-child {
+            border-bottom: none !important;
+        }
+
+        .profit-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.72rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            flex-shrink: 0;
+            text-align: left;
+            letter-spacing: 0.3px;
+        }
+
+        body.dark-mode .profit-table tbody td::before {
+            color: var(--primary);
+        }
+
+        .profit-table tbody td[data-label="#"] {
+            display: none;
+        }
+
+        .profit-table tbody td[data-label="ناوی کاڵا"] {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color) !important;
+            padding-bottom: 12px !important;
+            padding-top: 0 !important;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        body.dark-mode .profit-table tbody td[data-label="ناوی کاڵا"] {
+            color: #93c5fd;
+            border-bottom-color: #334155 !important;
+        }
+
+        .profit-table tbody td[data-label="ناوی کاڵا"]::before {
+            display: none;
+        }
+
+        .profit-table tbody td[data-label="کۆمپانیا"] {
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .profit-table tbody td .badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+        }
+
+        .profit-table tbody td[data-label="پوختەی فرۆش"],
+        .profit-table tbody td[data-label="قازانج"] {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .profit-table tbody tr.empty-row {
+            display: block;
+            text-align: center;
+            padding: 30px 14px;
+        }
+
+        .profit-table tbody tr.empty-row td {
+            display: block;
+            text-align: center;
+            border: none !important;
+            padding: 10px 0 !important;
+            color: var(--text-secondary);
+        }
+
+        .profit-table tbody tr.empty-row td::before {
+            display: none;
+        }
     }
 
     @media (max-width: 575px) {
-        .profit-table { min-width: 700px; }
         .totals-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
         .total-card { padding: 0.75rem 0.5rem; }
         .total-card-value { font-size: 1rem; }
@@ -595,9 +764,48 @@
         .form-header h1 { font-size: 1rem; }
         .form-logo { width: 45px; height: 45px; }
         .form-logo i { font-size: 1.3rem; }
-        .profit-table th { font-size: 0.65rem; padding: 0.4rem 0.3rem; }
-        .profit-table td { font-size: 0.65rem; padding: 0.35rem 0.3rem; }
         .section-title { font-size: 0.85rem; }
+
+        .profit-table tbody td {
+            font-size: 0.8rem;
+            padding: 8px 0 !important;
+        }
+
+        .profit-table tbody td::before {
+            font-size: 0.68rem;
+        }
+
+        .profit-table tbody td[data-label="ناوی کاڵا"] {
+            font-size: 0.95rem;
+        }
+
+        .pagination-btn {
+            min-width: 32px;
+            padding: 0.35rem 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .page-info {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        button, .btn, input, select, a {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:active, button:active {
+            transform: scale(0.98);
+        }
     }
 </style>
 
@@ -856,6 +1064,8 @@ $(document).ready(function(){
         if (!summary) return;
         
         const netSales = (summary.total_sales || 0) - (summary.total_loans || 0) - (summary.total_discount || 0);
+        // قازانج = قازانج خاو - داشکاندن
+        const netProfit = (summary.total_profit || 0) - (summary.total_discount || 0);
         
         $('#infoContainer').html(`
             <div class="info-card">
@@ -874,7 +1084,7 @@ $(document).ready(function(){
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <small class="text-muted d-block">کۆی قازانج</small>
-                        <span class="info-display text-success">${formatNum(summary.total_profit)} د.ع</span>
+                        <span class="info-display text-success">${formatNum(netProfit)} د.ع</span>
                     </div>
                 </div>
             </div>
@@ -885,15 +1095,17 @@ $(document).ready(function(){
         if (!summary) return;
         
         const netSales = (summary.total_sales || 0) - (summary.total_loans || 0) - (summary.total_discount || 0);
+        // قازانج = قازانج خاو - داشکاندن
+        const netProfit = (summary.total_profit || 0) - (summary.total_discount || 0);
         
         const cards = [
             { icon: 'items', label: 'کۆی کاڵا', value: formatNum(summary.total_items_sold), sub: 'دانە', iconClass: 'fa-boxes' },
             { icon: 'sales', label: 'کۆی فرۆش', value: formatNum(summary.total_sales), sub: 'د.ع', iconClass: 'fa-shopping-cart' },
             { icon: 'discount', label: 'کۆی داشکاندن', value: formatNum(summary.total_discount || 0), sub: 'د.ع', iconClass: 'fa-tags' },
             { icon: 'loans', label: 'کۆی قەرز', value: formatNum(summary.total_loans || 0), sub: 'د.ع', iconClass: 'fa-hand-holding-usd' },
-            { icon: 'net', label: 'پوختەی فرۆش', value: formatNum(netSales), sub: 'د.ع', iconClass: 'fa-calculator' },
+         
             { icon: 'purchase', label: 'کۆی کڕین', value: formatNum(summary.total_purchase), sub: 'د.ع', iconClass: 'fa-shopping-bag' },
-            { icon: 'profit', label: 'کۆی قازانج', value: formatNum(summary.total_profit), sub: 'د.ع', iconClass: 'fa-chart-line' },
+            { icon: 'profit', label: 'کۆی قازانج', value: formatNum(netProfit), sub: 'د.ع', iconClass: 'fa-chart-line' },
         ];
 
         let html = '';
@@ -936,25 +1148,26 @@ $(document).ready(function(){
             const salePrice = rec.sale_price || rec.price || 0;
             const totalSale = rec.total_sale || rec.total || (salePrice * quantity) || 0;
             const discount = rec.discount || rec.total_discount || 0;
-            // پوختەی فرۆش = کۆی فرۆشتن - داشکاندن
             const netSale = totalSale - discount;
-            const profit = rec.profit || (netSale - totalPurchase) || 0;
+            // قازانج = قازانج خاو - داشکاندن
+            const rawProfit = rec.profit || (netSale - totalPurchase) || 0;
+            const profit = rawProfit - discount;
             const companyName = rec.company || rec.company_name || '---';
             
             const profitClass = profit >= 0 ? 'badge-profit' : 'badge-loss';
 
             tbody.append(`<tr>
-                <td>${idx}</td>
-                <td><strong>${rec.product_name || rec.name || '---'}</strong></td>
-                <td>${companyName}</td>
-                <td>${quantity}</td>
-                <td>${formatNum(purchasePrice)}</td>
-                <td>${formatNum(totalPurchase)}</td>
-                <td>${formatNum(salePrice)}</td>
-                <td>${formatNum(totalSale)}</td>
-                <td><span class="text-warning">${formatNum(discount)}</span></td>
-                <td><strong>${formatNum(netSale)}</strong></td>
-                <td><span class="badge ${profitClass}">${formatNum(profit)}</span></td>
+                <td data-label="#">${idx}</td>
+                <td data-label="ناوی کاڵا"><strong>${rec.product_name || rec.name || '---'}</strong></td>
+                <td data-label="کۆمپانیا">${companyName}</td>
+                <td data-label="ژمارە">${quantity}</td>
+                <td data-label="نرخی کڕین (تاک)">${formatNum(purchasePrice)}</td>
+                <td data-label="کۆی کڕین">${formatNum(totalPurchase)}</td>
+                <td data-label="نرخی فرۆشتن (تاک)">${formatNum(salePrice)}</td>
+                <td data-label="کۆی فرۆشتن">${formatNum(totalSale)}</td>
+                <td data-label="داشکاندن"><span class="text-warning">${formatNum(discount)}</span></td>
+                <td data-label="پوختەی فرۆش"><strong>${formatNum(netSale)}</strong></td>
+                <td data-label="قازانج"><span class="badge ${profitClass}">${formatNum(profit)}</span></td>
             </tr>`);
         });
 

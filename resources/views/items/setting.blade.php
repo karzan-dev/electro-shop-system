@@ -4,962 +4,941 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <style>
-    :root {
-        --primary: #8b5cf6;
-        --primary-dark: #6d28d9;
-        --primary-light: #c4b5fd;
-        --primary-soft: rgba(139, 92, 246, 0.1);
-        --success: #10b981;
-        --success-soft: rgba(16, 185, 129, 0.1);
-        --success-dark: #065f46;
-        --success-light: #d1fae5;
-        --warning: #f59e0b;
-        --warning-soft: rgba(245, 158, 11, 0.1);
-        --warning-dark: #92400e;
-        --warning-light: #fef3c7;
-        --danger: #ef4444;
-        --danger-soft: rgba(239, 68, 68, 0.1);
-        --danger-dark: #991b1b;
-        --danger-light: #fee2e2;
-        --info: #3b82f6;
-        --info-soft: rgba(59, 130, 246, 0.1);
-        --info-dark: #1e40af;
-        --info-light: #dbeafe;
-        --text: #1e293b;
-        --text-secondary: #64748b;
-        --text-muted: #94a3b8;
-        --border-color: #e2e8f0;
-        --bg-white: #ffffff;
-        --bg-light: #f8fafc;
-        --bg-body: #f1f5f9;
-        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-        --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-        --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-        --radius-sm: 0.375rem;
-        --radius: 0.5rem;
-        --radius-md: 0.75rem;
-        --radius-lg: 1rem;
-        --radius-xl: 1.5rem;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        --gradient-purple: linear-gradient(135deg, #8b5cf6, #6d28d9);
-        --gradient-dark: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    /* ============================================
+       DARK MODE - ڕێک و پاک
+       ============================================ */
+    
+    body.dark-mode .card {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
     }
-
+    
+    body.dark-mode .card-header {
+        background-color: #1e293b !important;
+        border-bottom-color: #334155 !important;
+    }
+    
+    body.dark-mode .card-header.bg-white,
+    body.dark-mode .bg-white {
+        background-color: #1e293b !important;
+    }
+    
+    body.dark-mode .card-body {
+        background-color: #1e293b !important;
+    }
+    
     body.dark-mode {
-        --text: #e2e8f0;
-        --text-secondary: #94a3b8;
-        --text-muted: #64748b;
-        --border-color: #334155;
-        --bg-white: #1e293b;
-        --bg-light: #1e293b;
-        --bg-body: #0f172a;
-        --primary-soft: rgba(139, 92, 246, 0.15);
-        --success-soft: rgba(16, 185, 129, 0.15);
-        --warning-soft: rgba(245, 158, 11, 0.15);
-        --danger-soft: rgba(239, 68, 68, 0.15);
-        --info-soft: rgba(59, 130, 246, 0.15);
-        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-        --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4);
-        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
-        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
-        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4);
-        --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+        background-color: #0f172a !important;
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode h1,
+    body.dark-mode h2,
+    body.dark-mode h3,
+    body.dark-mode h4,
+    body.dark-mode h5,
+    body.dark-mode h6,
+    body.dark-mode .fw-bold,
+    body.dark-mode .fw-semibold,
+    body.dark-mode .form-label {
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode .text-muted {
+        color: #94a3b8 !important;
+    }
+    
+    body.dark-mode small.text-muted {
+        color: #94a3b8 !important;
+    }
+    
+    /* خشتەکان */
+    body.dark-mode .table {
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode .table-light {
+        background-color: #1e293b !important;
+    }
+    
+    body.dark-mode .table-light th {
+        background-color: #1e293b !important;
+        color: #e2e8f0 !important;
+        border-bottom-color: #334155 !important;
+    }
+    
+    body.dark-mode .table td {
+        border-bottom-color: #334155 !important;
+        color: #e2e8f0 !important;
+        background-color: #1e293b !important;
+    }
+    
+    body.dark-mode .table-hover tbody tr:hover {
+        background-color: #334155 !important;
+    }
+    
+    body.dark-mode .table-hover tbody tr:hover td {
+        background-color: #334155 !important;
+    }
+    
+    body.dark-mode .table-responsive {
+        background-color: #1e293b !important;
+    }
+    
+    /* ناوی بەکارهێنەر و ئیمەیڵ */
+    body.dark-mode .user-name {
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode .user-email {
+        color: #94a3b8 !important;
+    }
+    
+    body.dark-mode .date-cell {
+        color: #94a3b8 !important;
+    }
+    
+    /* ئینپوت و سێلێکت */
+    body.dark-mode .form-control,
+    body.dark-mode .form-select {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+        border-color: #475569 !important;
+    }
+    
+    body.dark-mode .form-control:focus,
+    body.dark-mode .form-select:focus {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+        border-color: #4a6491 !important;
+        box-shadow: 0 0 0 0.2rem rgba(74, 100, 145, 0.25) !important;
+    }
+    
+    body.dark-mode .form-control::placeholder {
+        color: #64748b !important;
+    }
+    
+    body.dark-mode .form-select option {
+        background-color: #1e293b !important;
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode .input-group-text {
+        background-color: #334155 !important;
+        color: #94a3b8 !important;
+        border-color: #475569 !important;
+    }
+    
+    body.dark-mode .input-group-text.bg-white {
+        background-color: #334155 !important;
+    }
+    
+    /* دوگمەکان */
+    body.dark-mode .btn-light {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+        border-color: #475569 !important;
+    }
+    
+    body.dark-mode .btn-light:hover {
+        background-color: #475569 !important;
+    }
+    
+    body.dark-mode .btn-outline-secondary {
+        color: #94a3b8 !important;
+        border-color: #475569 !important;
+    }
+    
+    body.dark-mode .btn-outline-secondary:hover {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode .btn-outline-danger {
+        color: #ef4444 !important;
+        border-color: #ef4444 !important;
+    }
+    
+    body.dark-mode .btn-outline-danger:hover {
+        background-color: #ef4444 !important;
+        color: white !important;
+    }
+    
+    /* مۆداڵ */
+    body.dark-mode .modal-content {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+    
+    body.dark-mode .modal-header {
+        border-bottom-color: #334155 !important;
+    }
+    
+    body.dark-mode .modal-footer {
+        border-top-color: #334155 !important;
+    }
+    
+    body.dark-mode .modal-title {
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+    
+    body.dark-mode .modal-body p,
+    body.dark-mode .modal-body div {
+        color: #e2e8f0 !important;
+    }
+    
+    /* بەیج و پیلەکان */
+    body.dark-mode .badge.bg-secondary {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+    }
+    
+    /* چێکبۆکس */
+    body.dark-mode .form-check-input {
+        background-color: #334155 !important;
+        border-color: #475569 !important;
+    }
+    
+    body.dark-mode .form-check-input:checked {
+        background-color: #4a6491 !important;
+        border-color: #4a6491 !important;
+    }
+    
+    body.dark-mode .input-group-text i {
+        color: #94a3b8 !important;
+    }
+    
+    body.dark-mode .spinner-border {
+        border-color: #334155;
+        border-right-color: #4a6491;
+    }
+    
+    body.dark-mode .empty-state {
+        color: #94a3b8 !important;
+    }
+    
+    body.dark-mode .empty-state i {
+        color: #94a3b8 !important;
+    }
+    
+    body.dark-mode #confirmModal .modal-content {
+        background-color: #1e293b !important;
+    }
+    
+    body.dark-mode #confirmModal .bg-light {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode #confirmModal .alert-warning {
+        background-color: rgba(245, 158, 11, 0.1) !important;
+        color: #fbbf24 !important;
+        border-color: rgba(245, 158, 11, 0.3) !important;
+    }
+    
+    body.dark-mode .bg-light {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+    }
+    
+    body.dark-mode .bg-primary.bg-opacity-10 {
+        background-color: rgba(74, 100, 145, 0.2) !important;
+    }
+    
+    body.dark-mode ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    body.dark-mode ::-webkit-scrollbar-track {
+        background: #0f172a;
+    }
+    
+    body.dark-mode ::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 4px;
+    }
+    
+    body.dark-mode ::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+    }
+    
+    body.dark-mode .table-hover tbody tr {
+        transition: all 0.2s ease;
+    }
+    
+    body.dark-mode .table-hover tbody tr:hover {
+        background-color: #334155 !important;
+        transform: translateX(-5px);
+    }
+    
+    body.dark-mode .pagination .page-link {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+        border-color: #475569 !important;
+    }
+    
+    body.dark-mode .pagination .page-item.active .page-link {
+        background: linear-gradient(135deg, #4a6491, #2c3e50) !important;
+        color: white !important;
+        border-color: #4a6491 !important;
+    }
+    
+    body.dark-mode .pagination .page-item.disabled .page-link {
+        color: #64748b !important;
+        opacity: 0.5;
+    }
+                                    
+    .aa { color: #ffffff; }
+    .aaa { color: #ffffff; }
+
+    /* ============================================
+       ROLE BADGES
+       ============================================ */
+    .role-badge {
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+        white-space: nowrap;
     }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+    .role-admin {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
     }
 
-    body {
-        background: var(--bg-body);
-        font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-        color: var(--text);
-        transition: background-color 0.3s ease, color 0.3s ease;
-        min-height: 100vh;
-        line-height: 1.6;
+    .role-casher {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
     }
 
-    /* ==================== ALERT STYLES ==================== */
-    #alert-container {
-        position: fixed;
-        top: 24px;
-        right: 24px;
-        z-index: 10000;
-        width: 440px;
-        max-width: 90vw;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+    .role-unknown {
+        background: #6c757d;
+        color: white;
     }
 
-    .alert-toast {
-        display: flex;
-        align-items: stretch;
-        gap: 0;
-        border-radius: var(--radius-lg);
-        backdrop-filter: blur(12px);
-        box-shadow: var(--shadow-2xl);
-        animation: slideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        position: relative;
-        overflow: hidden;
-        border: 1px solid;
-        min-height: 80px;
+    .user-name {
+        font-weight: 600;
     }
 
-    .alert-toast .alert-stripe {
-        width: 6px;
-        flex-shrink: 0;
+    .user-email {
+        font-size: 0.9rem;
     }
 
-    .alert-toast .alert-body {
-        flex: 1;
-        padding: 16px 18px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        z-index: 1;
-        min-width: 0;
+    .date-cell {
+        font-size: 0.85rem;
+        direction: ltr;
+        display: inline-block;
     }
 
-    .alert-toast .alert-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 6px;
-    }
-
-    .alert-toast .alert-badge {
+    /* ============================================
+       ACTION BUTTONS
+       ============================================ */
+    .btn-icon {
+        padding: 0.4rem 0.75rem;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+        font-size: 0.875rem;
+        cursor: pointer;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        border-radius: 50px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+        gap: 4px;
     }
 
-    .alert-toast .alert-title {
-        font-weight: 700;
-        font-size: 0.9rem;
-        margin-bottom: 4px;
-        line-height: 1.3;
+    .btn-icon-edit {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+        border-color: rgba(59, 130, 246, 0.2);
     }
 
-    .alert-toast .alert-message {
-        font-size: 0.85rem;
-        opacity: 0.85;
-        line-height: 1.5;
-        word-wrap: break-word;
-        font-weight: 400;
-    }
-
-    .alert-close-btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        border: none;
-        background: rgba(0, 0, 0, 0.08);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.85rem;
-        flex-shrink: 0;
-        transition: var(--transition);
-        opacity: 0.6;
-        color: inherit;
-    }
-
-    .alert-close-btn:hover {
-        opacity: 1;
-        background: rgba(0, 0, 0, 0.15);
-        transform: scale(1.1) rotate(90deg);
-    }
-
-    .alert-success {
-        background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-        border-color: #a7f3d0;
-        color: var(--success-dark);
-    }
-
-    .alert-success .alert-stripe {
-        background: linear-gradient(180deg, #10b981, #059669);
-    }
-
-    .alert-success .alert-badge {
-        background: rgba(16, 185, 129, 0.15);
-        color: #059669;
-    }
-
-    .alert-error {
-        background: linear-gradient(135deg, #fef2f2, #fee2e2);
-        border-color: #fca5a5;
-        color: var(--danger-dark);
-    }
-
-    .alert-error .alert-stripe {
-        background: linear-gradient(180deg, #ef4444, #dc2626);
-    }
-
-    .alert-error .alert-badge {
-        background: rgba(239, 68, 68, 0.15);
-        color: #dc2626;
-    }
-
-    .alert-warning {
-        background: linear-gradient(135deg, #fffbeb, #fef3c7);
-        border-color: #fcd34d;
-        color: var(--warning-dark);
-    }
-
-    .alert-warning .alert-stripe {
-        background: linear-gradient(180deg, #f59e0b, #d97706);
-    }
-
-    .alert-warning .alert-badge {
-        background: rgba(245, 158, 11, 0.15);
-        color: #d97706;
-    }
-
-    .alert-info {
-        background: linear-gradient(135deg, #eff6ff, #dbeafe);
-        border-color: #93c5fd;
-        color: var(--info-dark);
-    }
-
-    .alert-info .alert-stripe {
-        background: linear-gradient(180deg, #3b82f6, #2563eb);
-    }
-
-    .alert-info .alert-badge {
-        background: rgba(59, 130, 246, 0.15);
-        color: #2563eb;
-    }
-
-    body.dark-mode .alert-success {
-        background: linear-gradient(135deg, #064e3b, #065f46);
-        border-color: #059669;
-        color: #d1fae5;
-    }
-
-    body.dark-mode .alert-error {
-        background: linear-gradient(135deg, #7f1d1d, #991b1b);
-        border-color: #dc2626;
-        color: #fecaca;
-    }
-
-    body.dark-mode .alert-warning {
-        background: linear-gradient(135deg, #78350f, #92400e);
-        border-color: #d97706;
-        color: #fde68a;
-    }
-
-    body.dark-mode .alert-info {
-        background: linear-gradient(135deg, #1e3a5f, #1e40af);
-        border-color: #2563eb;
-        color: #bfdbfe;
-    }
-
-    .alert-progress {
-        position: absolute;
-        bottom: 0;
-        left: 6px;
-        right: 0;
-        height: 3px;
-        background: rgba(0, 0, 0, 0.05);
-    }
-
-    .alert-progress-bar {
-        height: 100%;
-        border-radius: 0 0 var(--radius-lg) 0;
-        animation: progressShrink 4s linear forwards;
-    }
-
-    .alert-success .alert-progress-bar { background: var(--success); }
-    .alert-error .alert-progress-bar { background: var(--danger); }
-    .alert-warning .alert-progress-bar { background: var(--warning); }
-    .alert-info .alert-progress-bar { background: var(--info); }
-
-    @keyframes slideInRight {
-        from { opacity: 0; transform: translateX(120px) scale(0.9); }
-        to { opacity: 1; transform: translateX(0) scale(1); }
-    }
-
-    @keyframes progressShrink {
-        from { width: 100%; }
-        to { width: 0%; }
-    }
-
-    @keyframes fadeOutRight {
-        from { opacity: 1; transform: translateX(0) scale(1); }
-        to { opacity: 0; transform: translateX(100px) scale(0.9); }
-    }
-
-    .alert-removing {
-        animation: fadeOutRight 0.4s ease forwards;
-    }
-
-    /* ==================== CONFIRM DIALOG ==================== */
-    .confirm-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
-        z-index: 10001;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        animation: fadeIn 0.2s ease;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    .confirm-dialog {
-        background: var(--bg-white);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-2xl);
-        width: 440px;
-        max-width: 90vw;
-        overflow: hidden;
-        animation: scaleIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        border: 1px solid var(--border-color);
-    }
-
-    @keyframes scaleIn {
-        from { opacity: 0; transform: scale(0.9); }
-        to { opacity: 1; transform: scale(1); }
-    }
-
-    .confirm-header {
-        padding: 20px 24px;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .confirm-icon-wrapper {
-        width: 48px;
-        height: 48px;
-        border-radius: var(--radius-md);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        flex-shrink: 0;
-    }
-
-    .confirm-icon-wrapper.warning { background: var(--warning-soft); color: var(--warning); }
-    .confirm-icon-wrapper.danger { background: var(--danger-soft); color: var(--danger); }
-    .confirm-icon-wrapper.info { background: var(--info-soft); color: var(--info); }
-
-    .confirm-title-section h4 {
-        font-weight: 700;
-        font-size: 1.1rem;
-        color: var(--text);
-        margin-bottom: 2px;
-    }
-
-    .confirm-title-section p {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        margin: 0;
-    }
-
-    .confirm-body {
-        padding: 24px;
-    }
-
-    .confirm-body .user-info-highlight {
-        background: var(--bg-light);
-        border-radius: var(--radius-md);
-        padding: 16px;
-        text-align: center;
-        margin-bottom: 16px;
-        border: 1px solid var(--border-color);
-    }
-
-    .confirm-body .user-info-highlight .user-name-large {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: var(--primary);
-        margin-bottom: 4px;
-    }
-
-    .confirm-body .user-info-highlight .role-change-info {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-    }
-
-    .confirm-body .user-info-highlight .role-change-info .old-role {
-        text-decoration: line-through;
-        opacity: 0.6;
-        margin: 0 4px;
-    }
-
-    .confirm-body .user-info-highlight .role-change-info .new-role {
-        font-weight: 700;
-        color: var(--primary);
-        margin: 0 4px;
-    }
-
-    .confirm-body .warning-text {
-        color: var(--danger);
-        font-size: 0.85rem;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 14px;
-        background: var(--danger-soft);
-        border-radius: var(--radius-md);
-        margin-top: 12px;
-    }
-
-    .confirm-footer {
-        padding: 16px 24px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-        border-top: 1px solid var(--border-color);
-        background: var(--bg-light);
-    }
-
-    .btn-confirm {
-        padding: 10px 20px;
-        border-radius: var(--radius-md);
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: var(--transition);
-        border: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .btn-confirm-cancel {
-        background: transparent;
-        color: var(--text-secondary);
-        border: 2px solid var(--border-color);
-    }
-
-    .btn-confirm-cancel:hover {
-        border-color: var(--text-muted);
-        color: var(--text);
-    }
-
-    .btn-confirm-primary {
-        background: var(--primary);
+    .btn-icon-edit:hover {
+        background: #3b82f6;
         color: white;
-    }
-
-    .btn-confirm-primary:hover {
-        background: var(--primary-dark);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
 
-    .btn-confirm-danger {
-        background: var(--danger);
+    .btn-icon-delete {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-icon-delete:hover {
+        background: #ef4444;
         color: white;
-    }
-
-    .btn-confirm-danger:hover {
-        background: #dc2626;
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     }
 
-    .btn-confirm:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    /* ==================== LAYOUT ==================== */
-    .container-fluid {
-        padding: 2rem 2rem;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    @media (max-width: 768px) {
-        .container-fluid { padding: 1rem; }
-    }
-
-    .page-header {
-        background: var(--bg-white);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-md);
-        padding: 2rem 2.5rem;
-        margin-bottom: 2rem;
+    .action-buttons {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .page-header-left {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .header-icon {
-        width: 60px;
-        height: 60px;
-        background: var(--gradient-purple);
-        color: white;
-        border-radius: var(--radius-md);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-    }
-
-    .header-title {
-        font-weight: 700;
-        font-size: 1.5rem;
-        color: var(--text);
-        margin-bottom: 0.25rem;
-    }
-
-    .header-subtitle {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-    }
-
-    .btn-add-user {
-        background: var(--gradient-purple);
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius-md);
-        font-weight: 600;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
         gap: 0.5rem;
-        white-space: nowrap;
-    }
-
-    .btn-add-user:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
-    }
-
-    .table-card {
-        background: var(--bg-white);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-lg);
-        overflow: hidden;
-    }
-
-    .table-header {
-        background: var(--gradient-dark);
-        color: white;
-        padding: 1rem 1.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         flex-wrap: wrap;
-        gap: 1rem;
     }
 
-    .table-header h5 {
-        font-weight: 700;
-        margin-bottom: 0;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+    .select-all-cell {
+        width: 40px;
+        text-align: center;
     }
 
-    .table-header h5 i { color: var(--primary-light); }
-
-    .search-box { display: flex; align-items: center; }
-
-    .search-icon {
-        background: rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.5);
-        padding: 0.5rem 0.75rem;
-        border-radius: var(--radius-md);
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+    /* ============================================
+       ALERT TOAST - DARK MODE COMPATIBLE
+       ============================================ */
+    .alert-toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        min-width: 350px;
+        max-width: 450px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        padding: 1.25rem;
+        z-index: 99999;
+        animation: slideInRight 0.4s ease;
+        border-right: 4px solid;
+        word-wrap: break-word;
+        transition: background 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .search-input {
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        color: white;
-        padding: 0.5rem 0.75rem;
-        border-radius: var(--radius-md);
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        font-size: 0.9rem;
-        min-width: 220px;
+    /* Light Mode Alert Colors */
+    .alert-toast.alert-success {
+        border-right-color: #10b981;
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    }
+    .alert-toast.alert-success .badge {
+        background: #10b981 !important;
+    }
+    .alert-toast.alert-success h6 {
+        color: #065f46;
+    }
+    .alert-toast.alert-success p {
+        color: #047857;
     }
 
-    .search-input::placeholder { color: rgba(255, 255, 255, 0.5); }
-    .search-input:focus { outline: none; background: rgba(255, 255, 255, 0.2); }
-
-    .table-body { padding: 0; overflow-x: auto; }
-
-    .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-
-    .data-table thead {
-        background: var(--bg-light);
-        position: sticky;
-        top: 0;
-        z-index: 10;
+    .alert-toast.alert-error {
+        border-right-color: #ef4444;
+        background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    }
+    .alert-toast.alert-error .badge {
+        background: #ef4444 !important;
+    }
+    .alert-toast.alert-error h6 {
+        color: #991b1b;
+    }
+    .alert-toast.alert-error p {
+        color: #b91c1c;
     }
 
-    .data-table thead th {
+    .alert-toast.alert-warning {
+        border-right-color: #f59e0b;
+        background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    }
+    .alert-toast.alert-warning .badge {
+        background: #f59e0b !important;
+    }
+    .alert-toast.alert-warning h6 {
+        color: #92400e;
+    }
+    .alert-toast.alert-warning p {
+        color: #b45309;
+    }
+
+    .alert-toast.alert-info {
+        border-right-color: #3b82f6;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    }
+    .alert-toast.alert-info .badge {
+        background: #3b82f6 !important;
+    }
+    .alert-toast.alert-info h6 {
+        color: #1e3a8a;
+    }
+    .alert-toast.alert-info p {
+        color: #1d4ed8;
+    }
+
+    /* Dark Mode Alert Colors */
+    body.dark-mode .alert-toast {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        border: 1px solid #334155;
+        border-right-width: 4px;
+    }
+
+    body.dark-mode .alert-toast.alert-success {
+        border-right-color: #10b981;
+        background: linear-gradient(135deg, #064e3b, #065f46);
+    }
+    body.dark-mode .alert-toast.alert-success .badge {
+        background: #10b981 !important;
+        color: #ffffff !important;
+    }
+    body.dark-mode .alert-toast.alert-success h6 {
+        color: #a7f3d0 !important;
+    }
+    body.dark-mode .alert-toast.alert-success p {
+        color: #6ee7b7 !important;
+    }
+
+    body.dark-mode .alert-toast.alert-error {
+        border-right-color: #ef4444;
+        background: linear-gradient(135deg, #7f1d1d, #991b1b);
+    }
+    body.dark-mode .alert-toast.alert-error .badge {
+        background: #ef4444 !important;
+        color: #ffffff !important;
+    }
+    body.dark-mode .alert-toast.alert-error h6 {
+        color: #fecaca !important;
+    }
+    body.dark-mode .alert-toast.alert-error p {
+        color: #fca5a5 !important;
+    }
+
+    body.dark-mode .alert-toast.alert-warning {
+        border-right-color: #f59e0b;
+        background: linear-gradient(135deg, #78350f, #92400e);
+    }
+    body.dark-mode .alert-toast.alert-warning .badge {
+        background: #f59e0b !important;
+        color: #ffffff !important;
+    }
+    body.dark-mode .alert-toast.alert-warning h6 {
+        color: #fde68a !important;
+    }
+    body.dark-mode .alert-toast.alert-warning p {
+        color: #fcd34d !important;
+    }
+
+    body.dark-mode .alert-toast.alert-info {
+        border-right-color: #3b82f6;
+        background: linear-gradient(135deg, #1e3a8a, #1e40af);
+    }
+    body.dark-mode .alert-toast.alert-info .badge {
+        background: #3b82f6 !important;
+        color: #ffffff !important;
+    }
+    body.dark-mode .alert-toast.alert-info h6 {
+        color: #bfdbfe !important;
+    }
+    body.dark-mode .alert-toast.alert-info p {
+        color: #93c5fd !important;
+    }
+
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .alert-toast {
+            top: 10px;
+            right: 10px;
+            left: 10px;
+            min-width: auto;
+            max-width: none;
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .table > :not(caption) > * > * {
         padding: 1rem 1.25rem;
-        text-align: right;
-        font-weight: 700;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-bottom: 2px solid var(--border-color);
-        white-space: nowrap;
+        vertical-align: middle;
     }
 
-    .data-table thead th:first-child { width: 50px; text-align: center; }
-    .data-table thead th:last-child { text-align: center; width: 200px; }
-
-    .data-table tbody td {
-        padding: 0.875rem 1.25rem;
-        border-bottom: 1px solid var(--border-color);
-        color: var(--text);
-        transition: var(--transition);
-        white-space: nowrap;
+    .table-hover tbody tr {
+        transition: all 0.2s ease;
     }
 
-    .data-table tbody td:first-child { text-align: center; }
-    .data-table tbody td:last-child { text-align: center; }
-    .data-table tbody tr:hover { background: var(--primary-soft); }
-
-    .user-name { font-weight: 600; color: var(--text); }
-    .user-email { color: var(--text-secondary); font-size: 0.85rem; }
-
-    .role-badge {
-        padding: 0.3rem 0.75rem;
-        border-radius: 50px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        display: inline-block;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+    .table-hover tbody tr:hover {
+        transform: translateX(-5px);
     }
 
-    .role-admin { background: var(--danger-soft); color: var(--danger); }
-    .role-casher { background: var(--info-soft); color: var(--info); }
-    .role-unknown { background: var(--warning-soft); color: var(--warning); }
+    /* ============================================
+       MOBILE RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+        .page-header-mobile {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 1rem;
+        }
 
-    .date-cell { font-size: 0.8rem; color: var(--text-muted); }
+        .page-header-mobile .btn {
+            width: 100%;
+            justify-content: center;
+        }
 
-    .action-buttons { display: flex; gap: 0.5rem; justify-content: center; align-items: center; }
+        .card-header .d-flex {
+            flex-direction: column;
+            align-items: stretch !important;
+        }
 
-    .btn-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        border: 2px solid;
-        background: transparent;
-        cursor: pointer;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.8rem;
-        font-weight: 700;
+        .card-header .input-group {
+            max-width: 100% !important;
+            width: 100%;
+        }
+
+        .card-header #bulkDeleteBtn {
+            width: 100%;
+        }
+
+        .table-responsive {
+            overflow-x: visible !important;
+            background-color: transparent !important;
+        }
+
+        .table {
+            display: block;
+            white-space: normal;
+        }
+
+        .table thead {
+            display: none;
+        }
+
+        .table tbody {
+            display: block;
+        }
+
+        .table tbody tr {
+            display: block;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 14px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .table tbody tr {
+            background: #1e293b;
+            border-color: #334155;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .table tbody tr:hover {
+            background: white;
+            transform: none;
+        }
+
+        body.dark-mode .table tbody tr:hover {
+            background: #1e293b;
+        }
+
+        .table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 !important;
+            border: none !important;
+            border-bottom: 1px solid #e5e7eb !important;
+            text-align: right;
+            gap: 10px;
+            font-size: 0.85rem;
+            background: transparent !important;
+        }
+
+        body.dark-mode .table tbody td {
+            border-bottom-color: #334155 !important;
+            background: transparent !important;
+        }
+
+        .table tbody td:last-child {
+            border-bottom: none !important;
+            padding-top: 12px !important;
+            margin-top: 8px;
+            border-top: 1px solid #e5e7eb !important;
+            justify-content: center;
+        }
+
+        body.dark-mode .table tbody td:last-child {
+            border-top-color: #334155 !important;
+        }
+
+        .table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.72rem;
+            color: #4a6491;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            text-align: left;
+        }
+
+        body.dark-mode .table tbody td::before {
+            color: #94a3b8;
+        }
+
+        .table tbody td:last-child::before {
+            display: none;
+        }
+
+        .table tbody td[data-label="#"],
+        .table tbody td.select-all-cell {
+            display: none;
+        }
+
+        .table tbody td[data-label="ناو"] {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #4a6491;
+            border-bottom: 2px solid #e5e7eb !important;
+            padding-bottom: 12px !important;
+            justify-content: center;
+            text-align: center;
+        }
+
+        body.dark-mode .table tbody td[data-label="ناو"] {
+            color: #93c5fd;
+            border-bottom-color: #334155 !important;
+        }
+
+        .table tbody td[data-label="ناو"]::before {
+            display: none;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-icon {
+            width: 100%;
+            justify-content: center;
+            padding: 10px;
+            font-size: 0.85rem;
+        }
+
+        .modal-dialog {
+            margin: 0.5rem;
+        }
+
+        .modal-content {
+            border-radius: 16px !important;
+        }
+
+        .modal-header {
+            padding: 1rem !important;
+        }
+
+        .modal-body {
+            padding: 1rem !important;
+        }
+
+        .modal-footer {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .modal-footer .btn {
+            width: 100%;
+        }
+
+        .date-cell {
+            font-size: 0.75rem;
+        }
     }
 
-    .btn-icon-edit { color: var(--info); border-color: var(--info); }
-    .btn-icon-edit:hover { background: var(--info); color: white; transform: scale(1.15); }
+    @media (max-width: 480px) {
+        .table tbody tr {
+            padding: 12px;
+            margin-bottom: 10px;
+        }
 
-    .btn-icon-delete { color: var(--danger); border-color: var(--danger); }
-    .btn-icon-delete:hover { background: var(--danger); color: white; transform: scale(1.15); }
+        .table tbody td {
+            font-size: 0.8rem;
+            padding: 6px 0 !important;
+        }
 
-    .btn-icon-role {
-        width: auto;
-        min-width: 36px;
-        padding: 0 10px;
-        border-radius: 50px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        .table tbody td::before {
+            font-size: 0.68rem;
+        }
+
+        .table tbody td[data-label="ناو"] {
+            font-size: 0.95rem;
+        }
+
+        .role-badge {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+        }
     }
 
-    .btn-make-admin { color: var(--danger); border-color: var(--danger); }
-    .btn-make-admin:hover { background: var(--danger); color: white; }
-
-    .btn-make-casher { color: var(--info); border-color: var(--info); }
-    .btn-make-casher:hover { background: var(--info); color: white; }
-
-    .select-all-cell { width: 40px; text-align: center; }
-    .select-all-cell input[type="checkbox"],
-    .row-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); }
-
-    .btn-bulk-delete {
-        background: var(--danger);
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: var(--radius-md);
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+    @media (max-width: 576px) {
+        input, select, textarea {
+            font-size: 16px !important;
+        }
     }
-
-    .btn-bulk-delete:hover { background: #dc2626; transform: translateY(-2px); }
-    .btn-bulk-delete:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    /* Modal */
-    .custom-modal .modal-content {
-        border-radius: var(--radius-xl);
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-xl);
-        background: var(--bg-white);
-        overflow: hidden;
-    }
-
-    .custom-modal .modal-header {
-        background: var(--gradient-purple);
-        color: white;
-        border-bottom: none;
-        padding: 1.25rem 1.5rem;
-    }
-
-    .custom-modal .modal-title { font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
-    .custom-modal .btn-close { filter: brightness(0) invert(1); }
-    .custom-modal .modal-body { padding: 2rem; }
-    .custom-modal .modal-footer { border-top: 1px solid var(--border-color); padding: 1rem 1.5rem; }
-
-    .form-label { font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
-
-    .form-control-custom {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 2px solid var(--border-color);
-        border-radius: var(--radius-md);
-        font-size: 0.95rem;
-        transition: var(--transition);
-        background: var(--bg-light);
-        color: var(--text);
-    }
-
-    .form-control-custom:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.15);
-        background: var(--bg-white);
-    }
-
-    .form-control-custom::placeholder { color: var(--text-muted); }
-    .form-group { margin-bottom: 1.25rem; }
-
-    /* Password Input Group */
-    .password-input-group {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
-    .password-input-group .form-control-custom {
-        padding-left: 45px;
-    }
-
-    .password-toggle-btn {
-        position: absolute;
-        left: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-muted);
-        transition: var(--transition);
-        font-size: 0.9rem;
-    }
-
-    .password-toggle-btn:hover {
-        color: var(--primary);
-        background: var(--primary-soft);
-    }
-
-    .btn-primary-custom {
-        background: var(--gradient-purple);
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius-md);
-        font-weight: 600;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .btn-primary-custom:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4); }
-    .btn-primary-custom:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-    .btn-secondary-custom {
-        background: transparent;
-        color: var(--text-secondary);
-        border: 2px solid var(--border-color);
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius-md);
-        font-weight: 600;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .btn-secondary-custom:hover { border-color: var(--primary); color: var(--primary); }
-
-    .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
-    .empty-state i { font-size: 4rem; margin-bottom: 1rem; display: block; opacity: 0.4; }
-    .empty-state h5 { margin-bottom: 0.5rem; color: var(--text-secondary); }
 
     @media (max-width: 768px) {
-        .page-header { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
-        .table-header { flex-direction: column; align-items: flex-start; }
-        .search-input { min-width: 150px; }
-        .action-buttons { flex-wrap: wrap; }
-        #alert-container { width: 90vw; right: 5vw; }
+        button, .btn, input, select, a {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:active, button:active {
+            transform: scale(0.98);
+        }
     }
 </style>
 
-<div id="alert-container"></div>
-<div id="confirm-container"></div>
-
-<div class="container-fluid">
+<div class="container-fluid py-4">
+    <!-- Alert Container -->
+    <div id="alert-container" class="position-fixed top-0 end-0 p-3" style="z-index: 99999;"></div>
     
-    <div class="page-header">
-        <div class="page-header-left">
-            <div class="header-icon">
-                <i class="fas fa-users-cog"></i>
+    <!-- Confirm Container -->
+    <div id="confirm-container"></div>
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 page-header-mobile">
+        <div class="d-flex align-items-center">
+            <div class="bg-primary bg-opacity-10 rounded-3 p-3 me-3">
+                <i class="fas fa-users-cog text-primary fs-4"></i>
             </div>
             <div>
-                <h2 class="header-title">ڕێکخستنەکانی بەکارهێنەران</h2>
-                <p class="header-subtitle">بەڕێوەبردنی بەکارهێنەران و ڕۆڵەکانیان</p>
+                <h2 class="aa mb-1 me-4">ڕێکخستنەکانی بەکارهێنەران</h2>
+                <p class="aaa mb-0 me-4">بەڕێوەبردنی بەکارهێنەران و ڕۆڵەکانیان</p>
             </div>
         </div>
-        <button class="btn-add-user" onclick="openAddModal()">
-            <i class="fas fa-user-plus"></i>
+        <button class="btn btn-primary btn-lg rounded-3 shadow-sm" onclick="openAddModal()">
+            <i class="fas fa-user-plus me-2"></i>
             زیادکردنی بەکارهێنەر
         </button>
     </div>
 
-    <div class="table-card">
-        <div class="table-header">
-            <h5><i class="fas fa-list"></i> لیستی بەکارهێنەران</h5>
-            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-             
-                <div class="search-box">
-                    <span class="search-icon"><i class="fas fa-search"></i></span>
-                    <input type="text" id="searchInput" class="search-input" placeholder="گەڕان...">
+    <!-- Users Table Card -->
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-white border-0 py-3 px-4 rounded-top-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h5 class="fw-bold mb-0">
+                    <i class="fas fa-list text-primary me-2"></i>
+                    لیستی بەکارهێنەران
+                </h5>
+                <div class="d-flex gap-3 align-items-center flex-wrap">
+                    <div class="input-group shadow-sm" style="max-width: 300px;">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" id="searchInput" class="form-control border-start-0 ps-0" 
+                               placeholder="گەڕان بە ناو یان ئیمەیڵ...">
+                    </div>
+                    <button class="btn btn-outline-danger rounded-3" onclick="bulkDelete()" id="bulkDeleteBtn" style="display: none;">
+                        <i class="fas fa-trash-alt me-2"></i>
+                        سڕینەوەی گروپی
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="table-body">
-            <div id="table-content">
-                <div class="empty-state">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <h5>بارکردنی زانیاری...</h5>
+        
+        <div class="card-body p-0">
+            <div id="table-content" class="p-4">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-muted">بارکردنی زانیاری...</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-{{-- User Modal --}}
-<div class="modal fade custom-modal" id="userModal" tabindex="-1" aria-hidden="true">
+<!-- User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userModalTitle">
-                    <i class="fas fa-user-plus"></i> زیادکردنی بەکارهێنەر
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" id="userModalTitle">
+                    <i class="fas fa-user-plus me-2"></i>
+                    زیادکردنی بەکارهێنەر
                 </h5>
-         
             </div>
-            <div class="modal-body">
+            <div class="modal-body pt-3">
                 <form id="userForm" onsubmit="saveUser(event)">
                     <input type="hidden" id="userId">
                     
-                    <div class="form-group">
-                        <label class="form-label">ناوی بەکارهێنەر <span class="text-danger">*</span></label>
-                        <input type="text" id="userName" class="form-control-custom" placeholder="ناو بنووسە..." required>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">ناوی بەکارهێنەر <span class="text-danger">*</span></label>
+                        <input type="text" id="userName" class="form-control rounded-3" placeholder="ناو بنووسە..." required>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label">ئیمەیڵ <span class="text-danger">*</span></label>
-                        <input type="email" id="userEmail" class="form-control-custom" placeholder="example@email.com" required>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">ئیمەیڵ <span class="text-danger">*</span></label>
+                        <input type="email" id="userEmail" class="form-control rounded-3" placeholder="example@email.com" required>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
                             پاسۆرد <span class="text-danger" id="passwordRequired">*</span>
                         </label>
-                        <div class="password-input-group">
-                            <input type="password" id="userPassword" class="form-control-custom" placeholder="پاسۆرد بنووسە...">
-                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('userPassword', this)" title="نیشاندانی پاسۆرد">
+                        <div class="input-group">
+                            <input type="password" id="userPassword" class="form-control rounded-3" 
+                                   placeholder="پاسۆرد بنووسە...">
+                            <button type="button" class="btn btn-outline-secondary rounded-3 ms-2" 
+                                    onclick="togglePasswordVisibility('userPassword', this)" 
+                                    title="نیشاندانی پاسۆرد">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <small class="text-muted" id="passwordHint" style="display: none;">بەتاڵ بەجێبهێڵە ئەگەر ناتەوێت بیگۆڕیت</small>
+                        <small class="text-muted" id="passwordHint" style="display: none;">
+                            بەتاڵ بەجێبهێڵە ئەگەر ناتەوێت بیگۆڕیت
+                        </small>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label">ڕۆڵ <span class="text-danger">*</span></label>
-                        <select id="userRole" class="form-control-custom" required>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">ڕۆڵ <span class="text-danger">*</span></label>
+                        <select id="userRole" class="form-select rounded-3" required>
                             <option value="">ڕۆڵ هەڵبژێرە...</option>
                             <option value="1">ئەدمین (Admin)</option>
                             <option value="2">کاشێر (Casher)</option>
                         </select>
                     </div>
                     
-                    <div class="d-flex justify-content-end gap-3 mt-4">
-                        <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">
-                            <i class="fas fa-times"></i> پاشگەزبوونەوە
+                    <div class="d-flex justify-content-end gap-2 modal-footer-mobile">
+                        <button type="button" class="btn btn-light rounded-3 px-4" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>
+                            پاشگەزبوونەوە
                         </button>
-                        <button type="submit" class="btn-primary-custom" id="saveBtn">
-                            <i class="fas fa-save"></i> تۆمارکردن
+                        <button type="submit" class="btn btn-primary rounded-3 px-4" id="saveBtn">
+                            <i class="fas fa-save me-2"></i>
+                            تۆمارکردن
                         </button>
                     </div>
                 </form>
@@ -968,20 +947,19 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 let isEditMode = false;
 let userModal;
-let alertTimers = {};
 
 $(document).ready(function() {
+    userModal = new bootstrap.Modal(document.getElementById('userModal'));
+    
     $.ajaxSetup({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
-    
-    userModal = new bootstrap.Modal(document.getElementById('userModal'));
     
     loadUsers();
     
@@ -991,13 +969,29 @@ $(document).ready(function() {
         searchTimeout = setTimeout(() => loadUsers(), 300);
     });
     
-    $('#alert-container').on('click', '.alert-close-btn', function() {
-        const alertId = $(this).closest('.alert-toast').attr('id');
-        removeAlert(alertId);
+    $(document).on('click', '.alert-close-btn', function() {
+        $(this).closest('.alert-toast').fadeOut(300, function() { $(this).remove(); });
+    });
+    
+    $(document).on('change', '.row-checkbox, #selectAll', function() {
+        const selectedCount = $('.row-checkbox:checked').length;
+        if (selectedCount > 0) {
+            $('#bulkDeleteBtn').fadeIn(300);
+        } else {
+            $('#bulkDeleteBtn').fadeOut(300);
+        }
     });
 });
 
-// ==================== TOGGLE PASSWORD VISIBILITY ====================
+function openUserModal() {
+    userModal.show();
+}
+
+function closeUserModal() {
+    userModal.hide();
+    $('#userForm')[0].reset();
+}
+
 function togglePasswordVisibility(inputId, btn) {
     const input = document.getElementById(inputId);
     const icon = btn.querySelector('i');
@@ -1013,7 +1007,6 @@ function togglePasswordVisibility(inputId, btn) {
     }
 }
 
-// ==================== ALERT FUNCTIONS ====================
 function showAlert(type, message, title = null, duration = 4000) {
     let badgeText, alertClass, defaultTitle;
     
@@ -1044,58 +1037,31 @@ function showAlert(type, message, title = null, duration = 4000) {
             defaultTitle = 'زانیاری';
     }
     
-    const alertId = 'alert-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
     const alertTitle = title || defaultTitle;
+    const uniqueId = 'alert-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
     
     const alertHtml = `
-        <div id="${alertId}" class="alert-toast ${alertClass}">
-            <div class="alert-stripe"></div>
-            <div class="alert-body">
-                <div class="alert-header">
-                    <span class="alert-badge">${badgeText}</span>
-                    <button class="alert-close-btn" title="داخستن">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="alert-title">${alertTitle}</div>
-                <div class="alert-message">${escapeHtml(message)}</div>
+        <div class="alert-toast ${alertClass}" id="${uniqueId}">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge px-3 py-2 rounded-pill">${badgeText}</span>
             </div>
-            <div class="alert-progress">
-                <div class="alert-progress-bar"></div>
-            </div>
+            <h6 class="fw-bold mb-1">${escapeHtml(alertTitle)}</h6>
+            <p class="mb-0" style="font-size: 0.9rem;">${escapeHtml(message)}</p>
         </div>
     `;
     
     $('#alert-container').append(alertHtml);
     
     if (duration > 0) {
-        alertTimers[alertId] = setTimeout(() => removeAlert(alertId), duration);
-    }
-    
-    $(`#${alertId}`).on('mouseenter', function() {
-        clearTimeout(alertTimers[alertId]);
-        $(this).find('.alert-progress-bar').css('animation-play-state', 'paused');
-    });
-    
-    $(`#${alertId}`).on('mouseleave', function() {
-        $(this).find('.alert-progress-bar').css('animation-play-state', 'running');
-        alertTimers[alertId] = setTimeout(() => removeAlert(alertId), duration);
-    });
-}
-
-function removeAlert(alertId) {
-    if (!alertId) return;
-    clearTimeout(alertTimers[alertId]);
-    delete alertTimers[alertId];
-    
-    const $alert = $(`#${alertId}`);
-    if ($alert.length) {
-        $alert.addClass('alert-removing');
-        setTimeout(() => $alert.remove(), 400);
+        setTimeout(() => {
+            $('#' + uniqueId).css('animation', 'slideOutRight 0.3s ease forwards');
+            setTimeout(() => {
+                $('#' + uniqueId).remove();
+            }, 300);
+        }, duration);
     }
 }
 
-// ==================== CONFIRM DIALOG ====================
 function showConfirm(options) {
     const {
         title = 'پشتڕاستکردنەوە',
@@ -1103,26 +1069,27 @@ function showConfirm(options) {
         iconType = 'warning',
         confirmText = 'بەڵێ',
         cancelText = 'پاشگەزبوونەوە',
-        confirmClass = 'btn-confirm-primary',
+        confirmClass = 'btn-primary',
         userInfo = null,
         warningMessage = null,
         onConfirm = null,
         onCancel = null
     } = options;
     
-    let iconClass = 'fa-exclamation-triangle';
-    if (iconType === 'danger') iconClass = 'fa-trash-alt';
-    else if (iconType === 'info') iconClass = 'fa-info-circle';
+    let iconClass = 'fa-exclamation-triangle text-warning';
+    if (iconType === 'danger') iconClass = 'fa-trash-alt text-danger';
+    else if (iconType === 'info') iconClass = 'fa-info-circle text-primary';
     
     let userInfoHtml = '';
     if (userInfo) {
         userInfoHtml = `
-            <div class="user-info-highlight">
-                <div class="user-name-large">${escapeHtml(userInfo.name || '')}</div>
+            <div class="bg-light rounded-3 p-3 mb-3">
+                <div class="fw-bold fs-5">${escapeHtml(userInfo.name || '')}</div>
                 ${userInfo.roleChange ? `
-                    <div class="role-change-info">
-                        گۆڕینی ڕۆڵ لە <span class="old-role">${escapeHtml(userInfo.roleChange.from)}</span> 
-                        بۆ <span class="new-role">${escapeHtml(userInfo.roleChange.to)}</span>
+                    <div class="mt-2">
+                        <span class="badge bg-secondary">${escapeHtml(userInfo.roleChange.from)}</span>
+                        <i class="fas fa-arrow-right mx-2 text-muted"></i>
+                        <span class="badge bg-primary">${escapeHtml(userInfo.roleChange.to)}</span>
                     </div>
                 ` : ''}
             </div>
@@ -1132,70 +1099,63 @@ function showConfirm(options) {
     let warningHtml = '';
     if (warningMessage) {
         warningHtml = `
-            <div class="warning-text">
-                <i class="fas fa-exclamation-triangle"></i>
+            <div class="alert alert-warning rounded-3 mt-3">
+                <i class="fas fa-exclamation-triangle me-2"></i>
                 ${escapeHtml(warningMessage)}
             </div>
         `;
     }
     
     const confirmHtml = `
-        <div id="confirm-overlay" class="confirm-overlay">
-            <div class="confirm-dialog">
-                <div class="confirm-header">
-                    <div class="confirm-icon-wrapper ${iconType}">
-                        <i class="fas ${iconClass}"></i>
+        <div class="modal fade" id="confirmModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title fw-bold">
+                            <i class="fas ${iconClass} me-2"></i>
+                            ${escapeHtml(title)}
+                        </h5>
                     </div>
-                    <div class="confirm-title-section">
-                        <h4>${escapeHtml(title)}</h4>
-                        <p>تکایە پشتڕاستی بکەرەوە</p>
+                    <div class="modal-body">
+                        <p class="text-muted">تکایە پشتڕاستی بکەرەوە</p>
+                        ${userInfoHtml}
+                        <p>${escapeHtml(message)}</p>
+                        ${warningHtml}
                     </div>
-                </div>
-                <div class="confirm-body">
-                    ${userInfoHtml}
-                    <p style="color: var(--text-secondary); font-size: 0.95rem;">${escapeHtml(message)}</p>
-                    ${warningHtml}
-                </div>
-                <div class="confirm-footer">
-                    <button class="btn-confirm btn-confirm-cancel" id="confirm-cancel-btn">
-                        <i class="fas fa-times"></i> ${escapeHtml(cancelText)}
-                    </button>
-                    <button class="btn-confirm ${confirmClass}" id="confirm-ok-btn">
-                        <i class="fas fa-check"></i> ${escapeHtml(confirmText)}
-                    </button>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light rounded-3 px-4" id="confirm-cancel-btn">
+                            <i class="fas fa-times me-2"></i>
+                            ${escapeHtml(cancelText)}
+                        </button>
+                        <button type="button" class="btn ${confirmClass} rounded-3 px-4" id="confirm-ok-btn">
+                            <i class="fas fa-check me-2"></i>
+                            ${escapeHtml(confirmText)}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     `;
     
     $('#confirm-container').html(confirmHtml);
+    const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+    confirmModal.show();
     
     $('#confirm-cancel-btn').on('click', function() {
-        closeConfirm();
+        confirmModal.hide();
         if (onCancel) onCancel();
     });
     
     $('#confirm-ok-btn').on('click', function() {
-        closeConfirm();
+        confirmModal.hide();
         if (onConfirm) onConfirm();
     });
     
-    $('#confirm-overlay').on('click', function(e) {
-        if (e.target === this) {
-            closeConfirm();
-            if (onCancel) onCancel();
-        }
+    $('#confirmModal').on('hidden.bs.modal', function() {
+        $(this).remove();
     });
 }
 
-function closeConfirm() {
-    const $overlay = $('#confirm-overlay');
-    if ($overlay.length) {
-        $overlay.fadeOut(200, function() { $(this).remove(); });
-    }
-}
-
-// ==================== DATA FUNCTIONS ====================
 function escapeHtml(text) {
     if (!text) return '';
     return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
@@ -1241,8 +1201,8 @@ function renderTable(users) {
     if (!users || users.length === 0) {
         $('#table-content').html(`
             <div class="empty-state">
-                <i class="fas fa-users-slash"></i>
-                <h5>هیچ بەکارهێنەرێک نەدۆزرایەوە</h5>
+                <i class="fas fa-users-slash fs-1 text-muted"></i>
+                <h5 class="mt-3">هیچ بەکارهێنەرێک نەدۆزرایەوە</h5>
                 <p class="text-muted">بەکارهێنەرێکی نوێ زیاد بکە</p>
             </div>
         `);
@@ -1250,72 +1210,64 @@ function renderTable(users) {
     }
     
     let html = `
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th class="select-all-cell">
-                        <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)">
-                    </th>
-                    <th>#</th>
-                    <th>ناو</th>
-                    <th>ئیمەیڵ</th>
-                    <th>ڕۆڵ</th>
-                    <th>بەرواری دروستکردن</th>
-                    <th>دوایین نوێکردنەوە</th>
-                    <th>کردارەکان</th>
-                </tr>
-            </thead>
-            <tbody>`;
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="select-all-cell">
+                            <input type="checkbox" class="form-check-input" id="selectAll" onchange="toggleSelectAll(this)">
+                        </th>
+                        <th>#</th>
+                        <th>ناو</th>
+                        <th>ئیمەیڵ</th>
+                        <th>ڕۆڵ</th>
+                        <th>بەرواری دروستکردن</th>
+                        <th>دوایین نوێکردنەوە</th>
+                        <th>کردارەکان</th>
+                    </tr>
+                </thead>
+                <tbody>`;
     
     users.forEach(function(user, index) {
-        let roleButton = '';
-        if (user.role == 1) { // Admin
-            roleButton = `
-                <button class="btn-icon btn-icon-role btn-make-casher" 
-                    onclick="changeUserRole(${user.id}, '2', '${escapeHtml(user.name)}', 'ئەدمین', 'کاشێر')" 
-                    title="گۆڕین بۆ کاشێر">
-                    کاشێر
-                </button>`;
-        } else {
-            roleButton = `
-                <button class="btn-icon btn-icon-role btn-make-admin" 
-                    onclick="changeUserRole(${user.id}, '1', '${escapeHtml(user.name)}', 'کاشێر', 'ئەدمین')" 
-                    title="گۆڕین بۆ ئەدمین">
-                    ئەدمین
-                </button>`;
-        }
-        
         html += `
             <tr>
-                <td class="select-all-cell">
-                    <input type="checkbox" class="row-checkbox" value="${user.id}">
+                <td class="select-all-cell" data-label="هەڵبژاردن">
+                    <input type="checkbox" class="row-checkbox form-check-input" value="${user.id}">
                 </td>
-                <td>${index + 1}</td>
-                <td><span class="user-name">${escapeHtml(user.name)}</span></td>
-                <td><span class="user-email">${escapeHtml(user.email)}</span></td>
-                <td>${getRoleBadge(user.role)}</td>
-                <td><span class="date-cell">${user.created_at || '-'}</span></td>
-                <td><span class="date-cell">${user.updated_at || '-'}</span></td>
-                <td>
+                <td data-label="#">${index + 1}</td>
+                <td data-label="ناو"><span class="user-name">${escapeHtml(user.name)}</span></td>
+                <td data-label="ئیمەیڵ"><span class="user-email">${escapeHtml(user.email)}</span></td>
+                <td data-label="ڕۆڵ">${getRoleBadge(user.role)}</td>
+                <td data-label="بەرواری دروستکردن"><span class="date-cell">${user.created_at || '-'}</span></td>
+                <td data-label="دوایین نوێکردنەوە"><span class="date-cell">${user.updated_at || '-'}</span></td>
+                <td data-label="کردارەکان">
                     <div class="action-buttons">
-                        <button class="btn-icon btn-icon-edit" onclick="openEditModal(${user.id}, '${escapeHtml(user.name)}', '${escapeHtml(user.email)}', '${user.role}')" title="دەستکاری">
-                            <i class="fas fa-edit"></i>
+                        <button class="btn-icon btn-icon-edit" 
+                            onclick="openEditModal(${user.id}, '${escapeHtml(user.name)}', '${escapeHtml(user.email)}', '${user.role}')" 
+                            title="دەستکاری">
+                            <i class="fas fa-edit"></i> دەستکاری
                         </button>
-                       
-                        <button class="btn-icon btn-icon-delete" onclick="deleteUserConfirm(${user.id}, '${escapeHtml(user.name)}')" title="سڕینەوە">
-                            <i class="fas fa-trash"></i>
+                        <button class="btn-icon btn-icon-delete" 
+                            onclick="deleteUserConfirm(${user.id}, '${escapeHtml(user.name)}')" 
+                            title="سڕینەوە">
+                            <i class="fas fa-trash"></i> سڕینەوە
                         </button>
                     </div>
                 </td>
             </tr>`;
     });
     
-    html += '</tbody></table>';
+    html += '</tbody></table></div>';
     $('#table-content').html(html);
 }
 
 function toggleSelectAll(checkbox) {
     $('.row-checkbox').prop('checked', checkbox.checked);
+    if (checkbox.checked) {
+        $('#bulkDeleteBtn').fadeIn(300);
+    } else {
+        $('#bulkDeleteBtn').fadeOut(300);
+    }
 }
 
 function getSelectedIds() {
@@ -1326,14 +1278,13 @@ function getSelectedIds() {
     return ids;
 }
 
-// ==================== USER ACTIONS ====================
 function changeUserRole(userId, newRole, userName, oldRoleName, newRoleName) {
     showConfirm({
         title: 'گۆڕینی ڕۆڵی بەکارهێنەر',
         message: `ئایا دڵنیایت کە دەتەوێت ڕۆڵی ئەم بەکارهێنەرە بگۆڕیت؟`,
         iconType: 'info',
         confirmText: 'بەڵێ، بیگۆڕە',
-        confirmClass: 'btn-confirm-primary',
+        confirmClass: 'btn-primary',
         userInfo: {
             name: userName,
             roleChange: {
@@ -1370,7 +1321,7 @@ function deleteUserConfirm(userId, userName) {
         message: `ئایا دڵنیایت کە دەتەوێت "${escapeHtml(userName)}" بسڕیتەوە؟`,
         iconType: 'danger',
         confirmText: 'بەڵێ، بیسڕەوە',
-        confirmClass: 'btn-confirm-danger',
+        confirmClass: 'btn-danger',
         warningMessage: 'ئاگاداری: ئەم کردارە هەڵنەگەڕێتەوە و هەموو زانیارییەکانی ئەم بەکارهێنەرە دەسڕێتەوە!',
         onConfirm: function() {
             $.ajax({
@@ -1400,14 +1351,19 @@ function openAddModal() {
     $('#userName').val('');
     $('#userEmail').val('');
     $('#userPassword').val('').attr('type', 'password');
-    $('#userPassword').siblings('.password-toggle-btn').find('i').removeClass('fa-eye-slash').addClass('fa-eye');
     $('#userRole').val('');
-    $('#userModalTitle').html('<i class="fas fa-user-plus"></i> زیادکردنی بەکارهێنەر');
-    $('#saveBtn').html('<i class="fas fa-save"></i> تۆمارکردن');
+    $('#userModalTitle').html('<i class="fas fa-user-plus me-2"></i> زیادکردنی بەکارهێنەر');
+    $('#saveBtn').html('<i class="fas fa-save me-2"></i> تۆمارکردن');
     $('#passwordRequired').show();
     $('#passwordHint').hide();
     $('#userPassword').prop('required', true);
-    userModal.show();
+    
+    const toggleBtn = $('#userPassword').siblings('button');
+    if (toggleBtn.length) {
+        toggleBtn.find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+    }
+    
+    openUserModal();
 }
 
 function openEditModal(id, name, email, role) {
@@ -1416,14 +1372,19 @@ function openEditModal(id, name, email, role) {
     $('#userName').val(name);
     $('#userEmail').val(email);
     $('#userPassword').val('').attr('type', 'password');
-    $('#userPassword').siblings('.password-toggle-btn').find('i').removeClass('fa-eye-slash').addClass('fa-eye');
     $('#userRole').val(role);
-    $('#userModalTitle').html('<i class="fas fa-edit"></i> دەستکاری بەکارهێنەر');
-    $('#saveBtn').html('<i class="fas fa-save"></i> نوێکردنەوە');
+    $('#userModalTitle').html('<i class="fas fa-edit me-2"></i> دەستکاری بەکارهێنەر');
+    $('#saveBtn').html('<i class="fas fa-save me-2"></i> نوێکردنەوە');
     $('#passwordRequired').hide();
     $('#passwordHint').show();
     $('#userPassword').prop('required', false);
-    userModal.show();
+    
+    const toggleBtn = $('#userPassword').siblings('button');
+    if (toggleBtn.length) {
+        toggleBtn.find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+    }
+    
+    openUserModal();
 }
 
 function saveUser(e) {
@@ -1447,7 +1408,7 @@ function saveUser(e) {
     
     const $btn = $('#saveBtn');
     const originalText = $btn.html();
-    $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span> چاوەڕێ بکە...');
+    $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span> چاوەڕێ بکە...');
     
     const url = isEditMode ? `{{ url('/users') }}/${id}` : '{{ route("users.store") }}';
     const method = isEditMode ? 'PUT' : 'POST';
@@ -1462,7 +1423,7 @@ function saveUser(e) {
         success: function(response) {
             if (response.success) {
                 showAlert('success', isEditMode ? 'بەکارهێنەر بە سەرکەوتوویی نوێکرایەوە' : 'بەکارهێنەری نوێ بە سەرکەوتوویی زیادکرا');
-                userModal.hide();
+                closeUserModal();
                 loadUsers();
             } else {
                 showAlert('error', response.message || 'هەڵەیەک ڕوویدا');
@@ -1495,12 +1456,9 @@ function bulkDelete() {
         message: `ئایا دڵنیایت کە دەتەوێت ${ids.length} بەکارهێنەر بسڕیتەوە؟`,
         iconType: 'danger',
         confirmText: 'بەڵێ، بیانسرەوە',
-        confirmClass: 'btn-confirm-danger',
+        confirmClass: 'btn-danger',
         warningMessage: `ئاگاداری: ئەم کردارە ${ids.length} بەکارهێنەر دەسڕێتەوە و هەڵنەگەڕێتەوە!`,
         onConfirm: function() {
-            const $btn = $('.btn-bulk-delete');
-            $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span>');
-            
             $.ajax({
                 url: '{{ route("users.bulk.delete") }}',
                 type: 'POST',
@@ -1509,15 +1467,15 @@ function bulkDelete() {
                     if (response.success) {
                         showAlert('success', response.message);
                         $('#selectAll').prop('checked', false);
+                        $('#bulkDeleteBtn').fadeOut(300);
                         loadUsers();
                     } else {
                         showAlert('error', response.message || 'هەڵەیەک ڕوویدا');
                     }
                 },
                 error: function() {
-                    showAlert('error', 'هەڵەی پەیوەندی، تکایە دووبارە هەوڵبدەوە');
-                },
-            
+                    showAlert('error', 'هەڵەی پەیوەندی، تکایە دووبارە هەوڵبدەرەوە');
+                }
             });
         }
     });

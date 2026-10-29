@@ -3,6 +3,8 @@
     List of debtors (قەرزارەکان) with search, filtering, and responsive design
     DARK MODE SUPPORTED
     EACH PRODUCT IN SEPARATE ROW - NO GROUPING
+    ALL ACTIONS HAVE ALERTS - DARK MODE COMPATIBLE
+    TABLE → CARD VIEW ON MOBILE
 --}}
 
 @extends('layouts.navigation')
@@ -12,7 +14,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>{{ config('app.name', 'Laravel') }} - لیستی قەرزەکان</title>
+<title>{{ config('app.name', 'Laravel') }} - ڕاپۆرتی قەرزەکان</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
@@ -153,61 +155,6 @@
         font-size: 0.9rem;
         opacity: 0.9;
         position: relative;
-    }
-
-    .btn-record-own-debt {
-        position: relative;
-        z-index: 1;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        color: white;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        padding: 12px 24px;
-        border-radius: 16px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.95rem;
-        text-decoration: none;
-        white-space: nowrap;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-record-own-debt:hover {
-        background: rgba(255, 255, 255, 0.3);
-        border-color: rgba(255, 255, 255, 0.5);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        color: white;
-        text-decoration: none;
-    }
-
-    .btn-record-own-debt i {
-        font-size: 1.2rem;
-        background: rgba(255, 255, 255, 0.25);
-        padding: 8px;
-        border-radius: 12px;
-        transition: all 0.3s;
-    }
-
-    .btn-record-own-debt:hover i {
-        background: rgba(255, 255, 255, 0.4);
-        transform: rotate(-10deg);
-    }
-
-    .btn-record-own-debt .btn-text {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.2;
-    }
-
-    .btn-record-own-debt .btn-text-small {
-        font-size: 0.7rem;
-        opacity: 0.8;
-        font-weight: 500;
     }
 
     .filter-bar {
@@ -409,18 +356,37 @@
         color: #166534;
     }
 
+    body.dark-mode .badge-active {
+        background: #14532d;
+        color: #86efac;
+    }
+
     .badge-overdue {
         background: #fee2e2;
         color: #991b1b;
+    }
+
+    body.dark-mode .badge-overdue {
+        background: #7f1d1d;
+        color: #fecaca;
     }
 
     .badge-warning {
         background: #f6e8d3;
         color: #92400e;
     }
+    body.dark-mode .badge-warning {
+        background: #78350f;
+        color: #fde68a;
+    }
+    
     .badge-warningg{
         background: #fef3c7;
         color: #78350f;
+    }
+    body.dark-mode .badge-warningg {
+        background: #451a03;
+        color: #fcd34d;
     }
 
     .amount-positive {
@@ -532,12 +498,13 @@
         z-index: 10000;
         align-items: center;
         justify-content: center;
+        padding: 16px;
     }
 
     .modal-content {
         background: var(--card-bg);
         border-radius: 28px;
-        width: 90%;
+        width: 100%;
         max-width: 700px;
         max-height: 85vh;
         overflow-y: auto;
@@ -556,6 +523,14 @@
         position: sticky;
         top: 0;
         z-index: 10;
+    }
+
+    .modal-header h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     .modal-body {
@@ -583,6 +558,9 @@
         cursor: pointer;
         font-size: 1.2rem;
         transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .close-modal:hover {
@@ -595,16 +573,21 @@
         justify-content: space-between;
         padding: 12px 0;
         border-bottom: 1px solid var(--border-color);
+        gap: 12px;
+        align-items: center;
     }
 
     .detail-label {
         font-weight: 700;
         color: var(--text-secondary);
+        flex-shrink: 0;
     }
 
     .detail-value {
         color: var(--text);
         font-weight: 600;
+        text-align: left;
+        word-break: break-word;
     }
 
     .image-fullscreen-overlay {
@@ -681,40 +664,151 @@
         margin-right: 2px;
     }
 
+    /* ============================================
+       TOAST ALERTS - GUARANTEED WORKING + DARK MODE
+       ============================================ */
     .toast-container {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 11000;
-        width: calc(100% - 40px);
-        max-width: 360px;
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        z-index: 999999 !important;
+        width: calc(100% - 40px) !important;
+        max-width: 380px !important;
+        pointer-events: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
     }
 
     .toast {
-        background: var(--card-bg);
-        border-radius: 16px;
-        padding: 14px 16px;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        animation: slideInRight 0.3s ease;
-        border-right: 4px solid;
-        color: var(--text);
+        background: #ffffff !important;
+        border-radius: 16px !important;
+        padding: 14px 16px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+        animation: toastSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        border-right: 5px solid #4a6491 !important;
+        color: #1e293b !important;
+        pointer-events: auto !important;
+        word-wrap: break-word !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: relative !important;
+    }
+
+    .toast i {
+        font-size: 1.3rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    .toast span {
+        flex: 1 !important;
+        line-height: 1.4 !important;
+    }
+
+    .toast-success {
+        border-right-color: #10b981 !important;
+        background: linear-gradient(135deg, #d1fae5, #a7f3d0) !important;
+        color: #065f46 !important;
+    }
+    .toast-success i {
+        color: #059669 !important;
+    }
+
+    .toast-error {
+        border-right-color: #ef4444 !important;
+        background: linear-gradient(135deg, #fee2e2, #fecaca) !important;
+        color: #991b1b !important;
+    }
+    .toast-error i {
+        color: #dc2626 !important;
+    }
+
+    .toast-warning {
+        border-right-color: #f59e0b !important;
+        background: linear-gradient(135deg, #fef3c7, #fde68a) !important;
+        color: #92400e !important;
+    }
+    .toast-warning i {
+        color: #d97706 !important;
+    }
+
+    .toast-info {
+        border-right-color: #3b82f6 !important;
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe) !important;
+        color: #1e3a8a !important;
+    }
+    .toast-info i {
+        color: #2563eb !important;
     }
 
     body.dark-mode .toast {
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
     }
 
-    .toast-success { border-right-color: var(--success); }
-    .toast-error { border-right-color: var(--danger); }
-    .toast-info { border-right-color: var(--info); }
+    body.dark-mode .toast-success {
+        background: linear-gradient(135deg, #064e3b, #065f46) !important;
+        color: #a7f3d0 !important;
+    }
+    body.dark-mode .toast-success i {
+        color: #34d399 !important;
+    }
 
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
+    body.dark-mode .toast-error {
+        background: linear-gradient(135deg, #7f1d1d, #991b1b) !important;
+        color: #fecaca !important;
+    }
+    body.dark-mode .toast-error i {
+        color: #f87171 !important;
+    }
+
+    body.dark-mode .toast-warning {
+        background: linear-gradient(135deg, #78350f, #92400e) !important;
+        color: #fde68a !important;
+    }
+    body.dark-mode .toast-warning i {
+        color: #fbbf24 !important;
+    }
+
+    body.dark-mode .toast-info {
+        background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+        color: #bfdbfe !important;
+    }
+    body.dark-mode .toast-info i {
+        color: #60a5fa !important;
+    }
+
+    @keyframes toastSlideIn {
+        from { transform: translateX(120%); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes toastSlideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(120%); opacity: 0; }
+    }
+
+    @media (max-width: 576px) {
+        .toast-container {
+            top: 10px !important;
+            right: 10px !important;
+            left: 10px !important;
+            width: auto !important;
+            max-width: none !important;
+        }
+
+        .toast {
+            padding: 12px 14px !important;
+            font-size: 0.85rem !important;
+        }
+
+        .toast i {
+            font-size: 1.1rem !important;
+        }
     }
 
     .loading-spinner {
@@ -731,7 +825,9 @@
         to { transform: rotate(360deg); }
     }
 
-    /* 🔴 ستایلی تەیبڵی کۆی گشتییەکان */
+    /* ============================================
+       SUMMARY TABLE
+       ============================================ */
     .summary-table-wrapper {
         background: var(--card-bg);
         border-radius: 20px;
@@ -800,62 +896,424 @@
     .summary-icon.paid { background: linear-gradient(135deg, #10b981, #059669); }
     .summary-icon.remaining { background: linear-gradient(135deg, #ef4444, #dc2626); }
 
-    @media (max-width: 640px) {
-        .debtors-table thead {
-            display: none;
+    /* ============================================
+       MOBILE RESPONSIVE - TABLE TO CARDS
+       ============================================ */
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
         }
-        
+
+        .page-title {
+            font-size: 1.3rem;
+        }
+
+        .page-title i {
+            padding: 8px;
+            border-radius: 14px;
+            font-size: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 0.8rem;
+        }
+
+        .filter-bar {
+            padding: 12px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+
+        .filter-grid {
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-size: 0.65rem;
+            margin-bottom: 4px;
+        }
+
+        .filter-input {
+            padding: 9px 12px;
+            font-size: 0.85rem;
+            border-radius: 12px;
+        }
+
+        .btn-reset {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+        }
+
+        /* ============================================
+           TABLE → CARDS
+           ============================================ */
+        .table-wrapper {
+            border-radius: 16px;
+            overflow: visible;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+        }
+
+        .table-wrapper > div {
+            overflow-x: visible !important;
+        }
+
+        .debtors-table {
+            display: block;
+            width: 100%;
+        }
+
+        .debtors-table thead {
+            display: none !important;
+        }
+
+        .debtors-table tbody {
+            display: block;
+            width: 100%;
+        }
+
+        /* هەر ڕیزێک = کارتێک */
         .debtors-table tbody tr {
             display: block;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 12px;
+            padding: 14px;
             background: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
         }
-        
+
+        body.dark-mode .debtors-table tbody tr {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .debtors-table tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .debtors-table tbody tr:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* هەر خانەیەک = ڕیزێک لە کارت */
         .debtors-table tbody td {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0 !important;
+            border: none !important;
+            border-bottom: 1px solid var(--border-color) !important;
             text-align: right;
+            gap: 10px;
+            font-size: 0.85rem;
+            background: transparent !important;
+            color: var(--text);
         }
-        
+
+        body.dark-mode .debtors-table tbody td {
+            border-bottom-color: #334155 !important;
+        }
+
         .debtors-table tbody td:last-child {
-            border-bottom: none;
+            border-bottom: none !important;
+            padding-top: 12px !important;
+            margin-top: 8px;
+            border-top: 1px solid var(--border-color) !important;
+            justify-content: center;
         }
-        
+
+        body.dark-mode .debtors-table tbody td:last-child {
+            border-top-color: #334155 !important;
+        }
+
+        /* ناوی خانەکان */
         .debtors-table tbody td::before {
             content: attr(data-label);
             font-weight: 700;
             font-size: 0.7rem;
             color: var(--primary);
             text-transform: uppercase;
-        }
-        
-        .action-btns {
-            justify-content: flex-end;
+            flex-shrink: 0;
+            text-align: left;
+            letter-spacing: 0.3px;
         }
 
-        .page-header {
+        body.dark-mode .debtors-table tbody td::before {
+            color: var(--primary-light);
+        }
+
+        .debtors-table tbody td:last-child::before {
+            display: none;
+        }
+
+        /* ناوی کڕیار لە سەرەوەی کارت */
+        .debtors-table tbody td[data-label="ناوی کڕیار"] {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color) !important;
+            padding-bottom: 12px !important;
+            padding-top: 0 !important;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 8px;
             flex-direction: column;
-            align-items: stretch;
+            gap: 4px;
         }
 
-        .btn-record-own-debt {
+        body.dark-mode .debtors-table tbody td[data-label="ناوی کڕیار"] {
+            color: #93c5fd;
+            border-bottom-color: #334155 !important;
+        }
+
+        .debtors-table tbody td[data-label="ناوی کڕیار"]::before {
+            display: none;
+        }
+
+        /* ناوی کاڵا */
+        .debtors-table tbody td[data-label="ناوی کاڵا"] {
+            justify-content: space-between;
+        }
+
+        .debtors-table tbody td[data-label="ناوی کاڵا"] .product-info-container {
+            justify-content: flex-end;
+            flex-direction: row;
+        }
+
+        /* بڕی پارەی ماوە */
+        .debtors-table tbody td[data-label="بڕی پارەی ماوە"] {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        /* ڕەوش */
+        .debtors-table tbody td[data-label="ڕەوش"] {
+            justify-content: space-between;
+        }
+
+        /* کردارەکان */
+        .debtors-table tbody td[data-label="کردارەکان"] {
+            justify-content: center;
+        }
+
+        .action-btns {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+            border-radius: 12px;
+        }
+
+        .product-info-container {
+            justify-content: flex-end;
+            flex-direction: row;
+            gap: 8px;
+        }
+
+        .product-image {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        /* Pagination Mobile */
+        .pagination-container {
+            flex-direction: column;
+            justify-content: center;
+            padding: 16px 12px;
+            border-radius: 0 0 16px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            margin-top: 8px;
+        }
+
+        .showing-info {
+            text-align: center;
+            font-size: 0.75rem;
+        }
+
+        .pagination {
+            justify-content: center;
+        }
+
+        .pagination button, .pagination a {
+            width: 34px;
+            height: 34px;
+            font-size: 0.8rem;
+        }
+
+        /* Modal Mobile */
+        .modal-content {
+            border-radius: 20px;
+            max-height: 90vh;
+        }
+
+        .modal-header {
+            padding: 16px;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-header h3 {
+            font-size: 1rem;
+        }
+
+        .modal-body {
+            padding: 16px;
+        }
+
+        .modal-footer {
+            padding: 12px 16px;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .modal-footer .btn-reset {
             width: 100%;
             justify-content: center;
         }
 
-        .summary-table th,
-        .summary-table td {
-            padding: 10px 8px;
+        .detail-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            padding: 10px 0;
+        }
+
+        .detail-label {
             font-size: 0.75rem;
+        }
+
+        .detail-value {
+            text-align: right;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        /* Summary Table Mobile */
+        .summary-table-wrapper {
+            border-radius: 16px;
+            margin-top: 16px;
+        }
+
+        .summary-table thead {
+            display: none;
+        }
+
+        .summary-table tbody {
+            display: block;
+        }
+
+        .summary-table tbody tr {
+            display: block;
+            padding: 12px;
+        }
+
+        .summary-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 !important;
+            border-bottom: 1px solid var(--border-color) !important;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .summary-table tbody td:last-child {
+            border-bottom: none !important;
+        }
+
+        .summary-table tbody td::before {
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            flex-shrink: 0;
+            text-align: left;
+        }
+
+        body.dark-mode .summary-table tbody td::before {
+            color: var(--primary-light);
+        }
+
+        .summary-table tbody td:nth-child(1)::before { content: "کۆی قەرزارەکان"; }
+        .summary-table tbody td:nth-child(2)::before { content: "کۆی قەرزەکان (IQD)"; }
+        .summary-table tbody td:nth-child(3)::before { content: "کۆی پارەی دراو (IQD)"; }
+        .summary-table tbody td:nth-child(4)::before { content: "کۆی قەرزی ماوە (IQD)"; }
+
+        .summary-table .summary-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 0.8rem;
+            margin-right: 8px;
         }
     }
 
+    @media (max-width: 480px) {
+        .debtors-table tbody td {
+            font-size: 0.8rem;
+            padding: 7px 0;
+        }
+
+        .debtors-table tbody td::before {
+            font-size: 0.65rem;
+        }
+
+        .pagination button, .pagination a {
+            width: 30px;
+            height: 30px;
+            font-size: 0.75rem;
+        }
+
+        .action-btns {
+            gap: 4px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 0.85rem;
+        }
+
+        .badge-status {
+            font-size: 0.65rem;
+            padding: 3px 8px;
+        }
+    }
+
+    /* ============================================
+       TOUCH OPTIMIZATIONS
+       ============================================ */
+    @media (max-width: 768px) {
+        button, .btn, input, select, a {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+    }
+
+    @media (max-width: 576px) {
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+    }
+
+    /* Scrollbar */
     .modal-content::-webkit-scrollbar {
         width: 6px;
     }
@@ -885,7 +1343,6 @@
             </div>
             <p class="page-subtitle">هەموو قەرزە تۆمارکراوەکان لێرە بەڕێوەبەرە</p>
         </div>
-
     </div>
 
     <!-- Filter Bar -->
@@ -966,7 +1423,7 @@
         </div>
     </div>
 
-    <!-- 🔴 کۆی گشتییەکان - بە شێوەی تەیبڵ -->
+    <!-- Summary Table -->
     <div class="summary-table-wrapper animate-fade-in-up animate-delay-400" id="summary-table-container" style="display: none;">
         <div style="overflow-x: auto;">
             <table class="summary-table">
@@ -1060,15 +1517,38 @@ function closeFullscreenImage() {
 
 // ==================== TOAST ALERTS ====================
 function showToast(message, type = 'success') {
-    const id = 'toast-' + Date.now();
-    const icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle');
-    const html = `<div id="${id}" class="toast toast-${type}">
-        <i class="fas ${icon} fa-lg"></i>
-        <span>${message}</span>
-    </div>`;
-    $('#toast-container').append(html);
-    setTimeout(() => {
-        $(`#${id}`).fadeOut(300, function() { $(this).remove(); });
+    const container = document.getElementById('toast-container');
+    if (!container) {
+        console.error('Toast container not found!');
+        return;
+    }
+    
+    const id = 'toast-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+    const iconMap = {
+        'success': 'fa-check-circle',
+        'error': 'fa-exclamation-circle',
+        'warning': 'fa-exclamation-triangle',
+        'info': 'fa-info-circle'
+    };
+    const icon = iconMap[type] || iconMap['info'];
+    
+    const toast = document.createElement('div');
+    toast.id = id;
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+    
+    container.appendChild(toast);
+    
+    setTimeout(function() {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.animation = 'toastSlideOut 0.3s ease forwards';
+            setTimeout(function() {
+                if (el && el.parentNode) {
+                    el.parentNode.removeChild(el);
+                }
+            }, 300);
+        }
     }, 4000);
 }
 
@@ -1115,7 +1595,6 @@ function loadDebtors() {
     });
 }
 
-// 🔴 ئەپدەیتی تەیبڵی کۆی گشتییەکان
 function updateSummaryTable(summary) {
     if (summary) {
         $('#summary-total-debtors').text(summary.total_debtors || 0);
@@ -1166,7 +1645,7 @@ function renderDebtorsTable(debtors) {
             </td>
             <td data-label="ژمارەی مۆبایل">${escapeHtml(debtor.customer_phone || '—')}</td>
             <td data-label="ناونیشان">
-                <i class="fas fa-map-marker-alt text-primary me-2"></i> ${escapeHtml(debtor.customer_address || '—')}
+                <i class=" text-primary me-2"></i> ${escapeHtml(debtor.customer_address || '—')}
             </td>
             <td data-label="ناوی کاڵا" onclick="event.stopPropagation()">
                 <div class="product-info-container">
@@ -1236,6 +1715,7 @@ function changePage(page) {
 function showDebtorDetail(debtorId) {
     selectedDebtorId = debtorId;
     $('#detail-modal').css('display', 'flex');
+    document.body.style.overflow = 'hidden';
     $('#modal-body').html('<div style="text-align:center;padding:40px;"><div class="loading-spinner"></div><p style="margin-top:12px;color:var(--text-secondary);">بارده‌کێت...</p></div>');
     
     const debtor = currentDebtors.find(d => d.id == debtorId);
@@ -1336,6 +1816,7 @@ function renderDebtorDetail(debtor) {
 
 function closeModal() {
     $('#detail-modal').css('display', 'none');
+    document.body.style.overflow = 'auto';
     selectedDebtorId = null;
 }
 

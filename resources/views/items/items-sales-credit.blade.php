@@ -1367,9 +1367,10 @@ function searchBarcodeSuggestions(term) {
                 let html = '';
                 res.products.forEach(p => {
                     const stockClass = (p.counter || 0) <= 0 ? 'out-of-stock' : '';
+                    const companyName = p.company_name || p.company || 'بێ کۆمپانیا';
                     html += `<div class="barcode-result-item" onclick='addProductToCart(${JSON.stringify(p).replace(/'/g, "&#39;")})'>
                         ${p.image_producte_path ? `<img src="${p.image_producte_path}" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23cbd5e1%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20text-anchor%3D%22middle%22%20fill%3D%22%234b5563%22%3E${(p.name?.charAt(0)||'?')}%3C%2Ftext%3E%3C%2Fsvg%3E'">` : `<div class="no-image-fallback"><i class="fas fa-image"></i></div>`}
-                        <div class="barcode-result-info"><h4>${escapeHtml(p.name)}</h4><p>${p.barcode} | ${escapeHtml(p.company||'بێ کۆمپانیا')} | ${formatNumber(p.selling_price)} دینار</p></div>
+                        <div class="barcode-result-info"><h4>${escapeHtml(p.name)}</h4><p>${p.barcode} | ${escapeHtml(companyName)} | ${formatNumber(p.selling_price)} دینار</p></div>
                         <div class="barcode-result-badge ${stockClass}">${(p.counter||0)<=0?'لە کۆگا نیە':p.counter+' دانە'}</div>
                     </div>`;
                 });
@@ -1390,9 +1391,10 @@ function searchNameSuggestions(term) {
                 let html = '';
                 res.products.forEach(p => {
                     const stockClass = (p.counter || 0) <= 0 ? 'out-of-stock' : '';
+                    const companyName = p.company_name || p.company || 'بێ کۆمپانیا';
                     html += `<div class="name-result-item" onclick='addProductToCart(${JSON.stringify(p).replace(/'/g, "&#39;")})'>
                         ${p.image_producte_path ? `<img src="${p.image_producte_path}" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23cbd5e1%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20text-anchor%3D%22middle%22%20fill%3D%22%234b5563%22%3E${(p.name?.charAt(0)||'?')}%3C%2Ftext%3E%3C%2Fsvg%3E'">` : `<div class="no-image-fallback"><i class="fas fa-image"></i></div>`}
-                        <div class="name-result-info"><h4>${escapeHtml(p.name)}</h4><p>${p.barcode} | ${escapeHtml(p.company||'بێ کۆمپانیا')} | ${formatNumber(p.selling_price)} دینار</p></div>
+                        <div class="name-result-info"><h4>${escapeHtml(p.name)}</h4><p>${p.barcode} | ${escapeHtml(companyName)} | ${formatNumber(p.selling_price)} دینار</p></div>
                         <div class="barcode-result-badge ${stockClass}">${(p.counter||0)<=0?'لە کۆگا نیە':p.counter+' دانە'}</div>
                     </div>`;
                 });
@@ -1426,9 +1428,10 @@ function searchByExactBarcode(barcode) {
                     let html = '';
                     res.products.forEach(p => {
                         const stockClass = (p.counter || 0) <= 0 ? 'out-of-stock' : '';
+                        const companyName = p.company_name || p.company || 'بێ کۆمپانیا';
                         html += `<div class="barcode-result-item" onclick='addProductToCart(${JSON.stringify(p).replace(/'/g, "&#39;")})'>
                             ${p.image_producte_path ? `<img src="${p.image_producte_path}" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23cbd5e1%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20text-anchor%3D%22middle%22%20fill%3D%22%234b5563%22%3E${(p.name?.charAt(0)||'?')}%3C%2Ftext%3E%3C%2Fsvg%3E'">` : `<div class="no-image-fallback"><i class="fas fa-image"></i></div>`}
-                            <div class="barcode-result-info"><h4>${escapeHtml(p.name)}</h4><p>${p.barcode} | ${escapeHtml(p.company||'بێ کۆمپانیا')} | ${formatNumber(p.selling_price)} دینار</p></div>
+                            <div class="barcode-result-info"><h4>${escapeHtml(p.name)}</h4><p>${p.barcode} | ${escapeHtml(companyName)} | ${formatNumber(p.selling_price)} دینار</p></div>
                             <div class="barcode-result-badge ${stockClass}">${(p.counter||0)<=0?'لە کۆگا نیە':p.counter+' دانە'}</div>
                         </div>`;
                     });
@@ -1580,9 +1583,12 @@ function addProductToCart(product) {
         return; 
     }
 
+    // ⭐ بەکارهێنانی company_name یان company
+    const companyName = product.company_name || product.company || 'بێ کۆمپانیا';
+
     const existing = cart.find(item => 
         item.barcode === product.barcode && 
-        item.company === (product.company || 'بێ کۆمپانیا') &&
+        item.company === companyName &&
         item.name === product.name
     );
     
@@ -1600,7 +1606,7 @@ function addProductToCart(product) {
             id: product.id, 
             barcode: product.barcode, 
             name: product.name,
-            company: product.company || 'بێ کۆمپانیا', 
+            company: companyName,
             price: price, 
             quantity: 1,
             total: price, 
@@ -1608,7 +1614,7 @@ function addProductToCart(product) {
             purchase_price: product.purchase_price || 0,
             image_producte_path: product.image_producte_path || null
         });
-        showAlert('success', `${product.name} (${product.company || 'بێ کۆمپانیا'}) زیادکرا`);
+        showAlert('success', `${product.name} (${companyName}) زیادکرا`);
     }
     
     $('#barcode-search, #name-search').val('');
@@ -1681,7 +1687,7 @@ function calculateCredit() {
     let total = parseFormattedNumber($('#final-total').val());
     let credit = total - advance;
     $('#credit-amount').text(formatNumber(credit >= 0 ? credit : 0));
-    if (credit < 0) showAlert('warning', 'پارەی پێشەکی زۆرترە لە کۆی گشتی');
+;
 }
 
 function formatNumber(n) { return Number(n).toLocaleString(); }

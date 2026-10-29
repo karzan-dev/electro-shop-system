@@ -5,170 +5,147 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class CasherController extends Controller
 {
-
-
-
-
-
     /**
-     * Get cashier details with daily summary
-     */
-    public function getDetails($id)
-    {
-        try {
-            // Get cashier info
-            $cashier = DB::table('users')
-                ->where('id', $id)
-                ->where('role', 'Casher')
-                ->select('id', 'name')
-                ->first();
-
-            if (!$cashier) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Cashier not found'
-                ], 404);
-            }
-
-            // Get today's sales summary
-            $today = now()->format('Y-m-d');
-            
-            $todaySales = DB::table('sales')
-                ->where('user_id', $id)
-                ->whereDate('created_at', $today)
-                ->select(
-                    DB::raw('COUNT(*) as invoice_count'),
-                    DB::raw('COALESCE(SUM(total), 0) as total_sales'),
-                    DB::raw('COALESCE(SUM(discount), 0) as total_discount')
-                )
-                ->first();
-
-            // Get today's returns
-            $todayReturns = DB::table('return_items')
-                ->where('Casher_id', $id)
-                ->whereDate('Return_Date', $today)
-                ->select(
-                    DB::raw('COALESCE(SUM(Return_Total), 0) as total_returns'),
-                    DB::raw('COUNT(*) as return_count')
-                )
-                ->first();
-
-            return response()->json([
-                'success' => true,
-                'name' => $cashier->name,
-                'today_sales' => $todaySales->total_sales ?? 0,
-                'today_discount' => $todaySales->total_discount ?? 0,
-                'invoice_count' => $todaySales->invoice_count ?? 0,
-                'total_returns' => $todayReturns->total_returns ?? 0,
-                'return_count' => $todayReturns->return_count ?? 0,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error loading cashier details: ' . $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * وەرگرتنی هەموو کاشێرەکان
-     */
-    public function index()
-    {
-        $cashers = DB::table('users')
-            ->select('id', 'name', 'email', 'created_at')
-            ->orderBy('name')
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'data' => $cashers
-        ]);
-    }
-
-    /**
-     * وەرگرتنی داتای کاشێر بە ID
-     */
-  public function getData(Request $request)
-{
-    $users = DB::table('users')->get();
-
-    return response()->json([
-        'success' => true,
-        'users' => $users
-    ]);
-}
-
-    /**
-     * نمایش فۆڕمی پێدانی وردە
+     * نمایش فۆڕم + لیستی هەموو وردەکان
      */
     public function create()
     {
-        // هەموو کاشێرەکان وەربگرە بۆ لیستەکە
         $cashers = DB::table('users')
             ->select('id', 'name', 'email')
             ->orderBy('name')
             ->get();
 
-        return view('casher.coin.create', compact('cashers'));
+        $allCoins = DB::table('casher_coin')
+            ->leftJoin('users', 'casher_coin.casher_id', '=', 'users.id')
+            ->select(
+                'casher_coin.id',
+                'casher_coin.casher_id',
+                'casher_coin.amount',
+                'casher_coin.created_at',
+                'users.name as casher_name',
+                'users.email as casher_email'
+            )
+            ->orderBy('casher_coin.created_at', 'desc')
+            ->get();
+
+        $totalAll = DB::table('casher_coin')->sum('amount');
+
+        $casherStats = DB::table('casher_coin')
+            ->join('users', 'casher_coin.casher_id', '=', 'users.id')
+            ->select(
+                'users.id',
+                'users.name',
+                'users.email',
+                DB::raw('COUNT(casher_coin.id) as total_transactions'),
+                DB::raw('SUM(casher_coin.amount) as total_amount'),
+                DB::raw('MAX(casher_coin.created_at) as last_transaction')
+            )
+            ->groupBy('users.id', 'users.name', 'users.email')
+            ->orderBy('total_amount', 'desc')
+            ->get();
+
+        return view('items.casher-coin', compact(
+            'cashers',
+            'allCoins',
+            'totalAll',
+            'casherStats'
+        ));
     }
 
     /**
-     * تۆمارکردنی وردە بۆ کاشێر
+     * گۆڕینی کات بۆ کوردی — "berî 1 saet"
      */
-    public function store(Request $request)
+    private function humanTimeKu($date)
     {
-        // Validation
-        $validator = Validator::make($request->all(), [
-            'casher_id' => 'required|exists:users,id',
-            'amount' => 'required|integer|min:1|max:10000000'
-        ]);
+        if (!$date) return '-';
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
+        $carbon = Carbon::parse($date);
+        $diff   = $carbon->diffInSeconds(now());
+        $isPast = $carbon->lessThan(now());
+
+        if ($diff < 30) {
+            return 'ئێستا';
         }
 
-        try {
-            // تۆمارکردنی وردە لە تەیبڵی casher_coin
-            $coinId = DB::table('casher_coin')->insertGetId([
-                'casher_id' => $request->casher_id,
-                'amount' => $request->amount,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
+        $prefix = $isPast ? 'berî' : 'piştî';
 
-            // وەرگرتنی کۆی گشتی نوێ
-            $totalAmount = DB::table('casher_coin')
-                ->where('casher_id', $request->casher_id)
-                ->sum('amount');
-
-            return response()->json([
-                'success' => true,
-                'message' => 'وردەکە بە سەرکەوتوویی تۆمارکرا',
-                'coin_id' => $coinId,
-                'total_amount' => (float) $totalAmount,
-                'last_amount' => (float) $request->amount,
-                'last_date' => now()
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'هەڵەیەک ڕوویدا لە کاتی تۆمارکردن: ' . $e->getMessage()
-            ], 500);
+        if ($diff < 60) {
+            return $prefix . ' ' . $diff . ' چرکە';
         }
+
+        $minutes = floor($diff / 60);
+        if ($minutes < 60) {
+            return $prefix . ' ' . $minutes . ' خولەک';
+        }
+
+        $hours = floor($diff / 3600);
+        if ($hours < 24) {
+            return $prefix . ' ' . $hours . ' saet';
+        }
+
+        $days = floor($diff / 86400);
+        if ($days < 30) {
+            return $prefix . ' ' . $days . ' ڕۆژ';
+        }
+
+        $months = floor($days / 30);
+        if ($months < 12) {
+            return $prefix . ' ' . $months . ' مانگ';
+        }
+
+        $years = floor($days / 365);
+        return $prefix . ' ' . $years . ' ساڵ';
     }
 
     /**
-     * مێژووی وردەکانی کاشێر
+     * وەرگرتنی داتای کاشێرەکان (AJAX) — dropdown
      */
-    public function history($id)
+    public function getData(Request $request)
+    {
+        $users = DB::table('users')
+            ->select('id', 'name', 'email')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($user) {
+                $totalCoins = DB::table('casher_coin')
+                    ->where('casher_id', $user->id)
+                    ->sum('amount');
+
+                $lastCoin = DB::table('casher_coin')
+                    ->where('casher_id', $user->id)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
+                $count = DB::table('casher_coin')
+                    ->where('casher_id', $user->id)
+                    ->count();
+
+                return [
+                    'id'          => $user->id,
+                    'name'        => $user->name,
+                    'email'       => $user->email,
+                    'total_coins' => number_format((float) ($totalCoins ?? 0)) . ' دینار',
+                    'last_coin'   => $lastCoin
+                        ? $this->humanTimeKu($lastCoin->created_at)
+                        : '-',
+                    'count'       => $count,
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'users'   => $users
+        ]);
+    }
+
+    /**
+     * وەرگرتنی زانیاری کاشێر بە ID (AJAX) — info panel
+     */
+    public function getCasherDetails($id)
     {
         $casher = DB::table('users')->where('id', $id)->first();
 
@@ -179,29 +156,225 @@ class CasherController extends Controller
             ], 404);
         }
 
+        $totalCoins = DB::table('casher_coin')
+            ->where('casher_id', $id)
+            ->sum('amount');
+
+        $lastCoin = DB::table('casher_coin')
+            ->where('casher_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $count = DB::table('casher_coin')
+            ->where('casher_id', $id)
+            ->count();
+
+        return response()->json([
+            'success' => true,
+            'casher'  => [
+                'id'          => $casher->id,
+                'name'        => $casher->name,
+                'email'       => $casher->email,
+                'total_coins' => number_format((float) ($totalCoins ?? 0)) . ' دینار',
+                'last_coin'   => $lastCoin
+                    ? $this->humanTimeKu($lastCoin->created_at)
+                    : '-',
+                'count'       => $count,
+            ]
+        ]);
+    }
+
+    /**
+     * تۆمارکردنی وردە
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'casher_id' => 'required|exists:users,id',
+            'amount'    => 'required|integer|min:1|max:10000000'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $coinId = DB::table('casher_coin')->insertGetId([
+                'casher_id'  => $request->casher_id,
+                'amount'     => $request->amount,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            $totalAmount = DB::table('casher_coin')
+                ->where('casher_id', $request->casher_id)
+                ->sum('amount');
+
+            DB::commit();
+
+            return response()->json([
+                'success'      => true,
+                'message'      => 'وردەکە بە سەرکەوتوویی تۆمارکرا',
+                'coin_id'      => $coinId,
+                'total_amount' => (float) $totalAmount,
+                'last_amount'  => (float) $request->amount,
+                'last_date'    => now()->format('Y-m-d H:i')
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'هەڵەیەک ڕوویدا: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * نوێکردنەوەی وردە (دەستکاریکردن)
+     */
+    public function update(Request $request, $id)
+    {
+        $coin = DB::table('casher_coin')->where('id', $id)->first();
+
+        if (!$coin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'وردە نەدۆزرایەوە'
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|integer|min:1|max:10000000'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            DB::table('casher_coin')->where('id', $id)->update([
+                'amount'     => $request->amount,
+                'updated_at' => now(),
+            ]);
+
+            $totalAmount = DB::table('casher_coin')
+                ->where('casher_id', $coin->casher_id)
+                ->sum('amount');
+
+            DB::commit();
+
+            return response()->json([
+                'success'      => true,
+                'message'      => 'وردەکە بە سەرکەوتوویی نوێکرایەوە',
+                'coin_id'      => (int) $id,
+                'amount'       => (int) $request->amount,
+                'total_amount' => (float) $totalAmount,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'هەڵە: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * هەموو مێژووی وردەکان (AJAX)
+     */
+    public function allHistory(Request $request)
+    {
+        $query = DB::table('casher_coin')
+            ->leftJoin('users', 'casher_coin.casher_id', '=', 'users.id')
+            ->select(
+                'casher_coin.id',
+                'casher_coin.casher_id',
+                'casher_coin.amount',
+                'casher_coin.created_at',
+                'users.name as casher_name',
+                'users.email as casher_email'
+            );
+
+        if ($request->filled('casher_id')) {
+            $query->where('casher_coin.casher_id', $request->casher_id);
+        }
+        if ($request->filled('from_date')) {
+            $query->whereDate('casher_coin.created_at', '>=', $request->from_date);
+        }
+        if ($request->filled('to_date')) {
+            $query->whereDate('casher_coin.created_at', '<=', $request->to_date);
+        }
+
+        $coins = $query->orderBy('casher_coin.created_at', 'desc')->get();
+
+        return response()->json([
+            'success'      => true,
+            'total_amount' => (float) $coins->sum('amount'),
+            'count'        => $coins->count(),
+            'data'         => $coins
+        ]);
+    }
+
+    /**
+     * سڕینەوەی وردە
+     */
+    public function destroy($id)
+    {
+        $coin = DB::table('casher_coin')->where('id', $id)->first();
+
+        if (!$coin) {
+            return response()->json([
+                'success' => false,
+                'message' => 'وردە نەدۆزرایەوە'
+            ], 404);
+        }
+
+        try {
+            DB::table('casher_coin')->where('id', $id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'وردەکە سڕایەوە'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'هەڵە: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * مێژووی وردەکانی کاشێر (AJAX)
+     */
+    public function history($id)
+    {
         $coins = DB::table('casher_coin')
             ->where('casher_id', $id)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $totalAmount = DB::table('casher_coin')
-            ->where('casher_id', $id)
-            ->sum('amount');
-
         return response()->json([
             'success' => true,
-            'casher' => [
-                'id' => $casher->id,
-                'name' => $casher->name,
-                'email' => $casher->email
-            ],
-            'total_amount' => (float) $totalAmount,
-            'coins' => $coins
+            'coins'   => $coins
         ]);
     }
 
     /**
-     * وەرگرتنی کاشێرێک بە ناو
+     * گەڕان بە ناو
      */
     public function searchByName(Request $request)
     {
@@ -212,7 +385,7 @@ class CasherController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors()
+                'errors'  => $validator->errors()
             ], 422);
         }
 
@@ -225,7 +398,7 @@ class CasherController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $cashers
+            'data'    => $cashers
         ]);
     }
 }

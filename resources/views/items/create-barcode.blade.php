@@ -13,23 +13,16 @@
         --danger: #ef4444;
         --info: #3b82f6;
         --return: #8b5cf6;
-        --morning: #f59e0b;
-        --afternoon: #3b82f6;
-        --night: #1e293b;
         --text: #1e293b;
         --border-color: #e2e8f0;
         --bg-light: #f8fafc;
-        --transition-base: all 0.3s ease;
         --accent: var(--primary);
         
-        /* Light mode variables */
         --card-bg: #ffffff;
         --body-bg: #f1f5f9;
-        --header-bg: rgba(255, 255, 255, 0.98);
         --shadow-color: rgba(0, 0, 0, 0.1);
     }
 
-    /* Dark mode class */
     body.dark-mode {
         --primary: #6c8db8;
         --primary-dark: #1a2a3a;
@@ -40,7 +33,6 @@
         --bg-light: #1e293b;
         --card-bg: #1e293b;
         --body-bg: #0f172a;
-        --header-bg: rgba(30, 41, 59, 0.98);
         --shadow-color: rgba(0, 0, 0, 0.3);
     }
     
@@ -51,7 +43,6 @@
         color: var(--text);
     }
 
-    /* Card and container dark mode support */
     .card {
         background-color: var(--card-bg) !important;
         transition: background-color 0.3s ease, color 0.3s ease;
@@ -366,21 +357,32 @@
         border: 1px dashed var(--primary);
     }
 
+    .print-area {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
     .barcode-label {
         display: inline-block;
-        margin: 10px;
         padding: 10px 12px;
         background: var(--card-bg);
         border-radius: 8px;
         box-shadow: 0 2px 8px var(--shadow-color);
         text-align: center;
         min-width: 120px;
+        max-width: 150px;
         vertical-align: top;
-        cursor: default;
         border: 1px solid var(--border-color);
     }
 
-    .barcode-label canvas { display: block; margin: 0 auto; }
+    .barcode-label svg {
+        display: block;
+        margin: 0 auto;
+        max-width: 130px;
+        height: auto;
+    }
 
     .barcode-label .product-name {
         font-size: 11px;
@@ -390,18 +392,22 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 140px;
+        max-width: 130px;
+        direction: rtl;
+        unicode-bidi: embed;
     }
 
     .barcode-label .product-company {
-        font-size: 10px;
+        font-size: 9px;
         margin-top: 2px;
         color: var(--text);
         opacity: 0.7;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 140px;
+        max-width: 130px;
+        direction: rtl;
+        unicode-bidi: embed;
     }
 
     .barcode-label .product-price {
@@ -409,23 +415,16 @@
         margin-top: 4px;
         color: #e53e3e;
         font-weight: bold;
+        direction: rtl;
+        unicode-bidi: embed;
     }
     
     body.dark-mode .barcode-label .product-price {
         color: #f87171;
     }
 
-    .print-area {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    @media print {
-        .no-print { display: none !important; }
-        .print-area { display: flex !important; }
-        .barcode-label { page-break-inside: avoid; break-inside: avoid; }
+    .print-area-container {
+        display: none;
     }
 
     .btn-custom-primary {
@@ -440,12 +439,6 @@
 
     body.dark-mode .btn-custom-primary {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        border: none;
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 2rem;
-        box-shadow: 0 4px 15px var(--shadow-color);
-        transition: all 0.3s ease;
     }
 
     .btn-custom-primary:hover {
@@ -545,9 +538,6 @@
         to   { opacity: 1; }
     }
     
-    /* Dark Mode Toggle Button Styling */
-
-    /* Form controls dark mode */
     .form-control, .form-control-lg {
         background-color: var(--card-bg);
         color: var(--text);
@@ -582,9 +572,6 @@
     </div>
 </div>
 
-<!-- Dark Mode Toggle Button -->
-
-
 <div id="alert-container" style="position:fixed;top:20px;right:20px;z-index:9999;width:350px;"></div>
 
 <div class="container py-5">
@@ -598,7 +585,12 @@
                         <i class="fas fa-print"></i>
                     </div>
                     <h1 class="h2 mb-2">چاپکردنی بارکۆد</h1>
-                    <p class="mb-0 opacity-75">بارکۆدی کاڵا بدۆزەوە و ژمارەی چاپ دیاری بکە</p>
+                    <p class="mb-0 opacity-75">چاپکەری گەرمی Xprinter XP-236B | 48mm | 203DPI</p>
+                    <small class="opacity-50">SIZE: 48×39.38mm | GAP: 2.63mm</small>
+                    <div class="mt-3">
+                        <span class="badge bg-light text-dark">F1 = چاپکردن</span>
+                        <span class="badge bg-light text-dark ms-2">Esc = پاکردنەوە</span>
+                    </div>
                 </div>
 
                 <div class="card-body p-4 p-md-5">
@@ -689,31 +681,37 @@
                         <h3 class="section-title-custom">
                             <i class="fas fa-cog ms-2"></i>ڕێکخستنەکانی چاپ
                         </h3>
-                        <div class="row align-items-end">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-semibold">ژمارەی چاپ (کۆپی)</label>
-                                <input type="number" id="copy-count" class="form-control form-control-lg"
-                                       value="1" min="1" max="100">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <button id="generate-btn" class="btn btn-custom-primary w-100">
-                                    <i class="fas fa-qrcode ms-2"></i>دروستکردنی بارکۆد
-                                </button>
+                        
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">ڕێکخستنەکانی لیبڵ (بەپێی Self-Test)</label>
+                                <div class="row g-2">
+                                    <div class="col-md-3 col-6">
+                                        <small class="text-muted">پانی لیبڵ</small>
+                                        <span class="badge bg-primary d-block">48.00 mm</span>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <small class="text-muted">بەرزی لیبڵ</small>
+                                        <span class="badge bg-success d-block">39.38 mm</span>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <small class="text-muted">GAP</small>
+                                        <span class="badge bg-warning text-dark d-block">2.63 mm</span>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <small class="text-muted">DENSITY / SPEED</small>
+                                        <span class="badge bg-info d-block">7 / 3</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Barcode Preview -->
-                    <div id="barcode-preview-area" class="barcode-preview no-print" style="display:none;">
-                        <h5 class="text-center mb-3">لیستیی بارکۆدەکان</h5>
-                        <div id="barcode-container" class="print-area"></div>
-                        <div class="d-flex justify-content-center mt-4 gap-3">
-                            <button id="print-btn" class="btn btn-custom-primary">
-                                <i class="fas fa-print ms-2"></i>چاپکردن
-                            </button>
-                            <button id="clear-btn" class="btn btn-custom-secondary">
-                                <i class="fas fa-trash-alt ms-2"></i>پاککردنەوە
-                            </button>
+                        <div class="row align-items-end">
+                            <div class="col-md-12 mb-3">
+                                <button id="print-btn" class="btn btn-success w-100" style="background:#10b981;border:none;font-weight:600;padding:0.75rem 2rem;">
+                                    <i class="fas fa-print ms-2"></i>چاپکردن (F1)
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -723,14 +721,18 @@
     </div>
 </div>
 
+<!-- Print Area Container -->
+<div class="print-area-container">
+    <div id="print-area-thermal" class="print-area"></div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
 
-// ==================== DARK MODE IMPLEMENTATION with localStorage ====================
+// ==================== DARK MODE ====================
 (function() {
-    // Check for saved theme preference
     const savedTheme = localStorage.getItem('kurdistan_barcode_theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
@@ -746,32 +748,8 @@
         }
     }
     
-    // Initialize
     applyDarkMode(isDarkMode);
     
-    // Event listener for toggle button (will be bound when DOM ready)
-    $(document).ready(function() {
-        $('#darkModeToggle').on('click', function() {
-            isDarkMode = !isDarkMode;
-            applyDarkMode(isDarkMode);
-            const icon = $('#darkModeToggle i');
-            if (isDarkMode) {
-                icon.removeClass('fa-moon').addClass('fa-sun');
-            } else {
-                icon.removeClass('fa-sun').addClass('fa-moon');
-            }
-        });
-        
-        // Set initial icon
-        const icon = $('#darkModeToggle i');
-        if (isDarkMode) {
-            icon.removeClass('fa-moon').addClass('fa-sun');
-        } else {
-            icon.removeClass('fa-sun').addClass('fa-moon');
-        }
-    });
-    
-    // Listen for system theme changes (only if no saved preference)
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         const saved = localStorage.getItem('kurdistan_barcode_theme');
         if (!saved) {
@@ -781,10 +759,9 @@
     });
 })();
 
-// ==================== SCANNER FUNCTIONS (FIXED) ====================
+// ==================== SCANNER ====================
 let html5QrCode = null;
 let isScannerRunning = false;
-let isScannerInitialized = false;
 
 function onScanSuccess(decodedText) {
     const normalizedBarcode = normalizeToEnglishNumbers(decodedText);
@@ -794,53 +771,35 @@ function onScanSuccess(decodedText) {
 }
 
 function onScanFailure(error) {
-    // Silently handle scan failures - this is normal when no barcode is detected
-    // console.warn(`Scan error: ${error}`);
+    // ignore
 }
 
 async function startScanner() {
     try {
-        // Clean up any existing scanner first
         if (html5QrCode) {
             if (isScannerRunning) {
-                try {
-                    await html5QrCode.stop();
-                } catch (stopError) {
-                    console.log('Error stopping scanner:', stopError);
-                }
+                try { await html5QrCode.stop(); } catch (e) {}
             }
             html5QrCode = null;
             isScannerRunning = false;
-            isScannerInitialized = false;
         }
         
-        // Clear the reader container
         const readerElement = document.getElementById('qr-reader');
-        if (readerElement) {
-            readerElement.innerHTML = '';
-        }
+        if (readerElement) readerElement.innerHTML = '';
         
-        // Create new scanner instance
         html5QrCode = new Html5Qrcode("qr-reader");
-        isScannerInitialized = true;
         
-        // Start scanning
         await html5QrCode.start(
             { facingMode: "environment" },
-            {
-                fps: 10,
-                qrbox: { width: 250, height: 200 },
-                aspectRatio: 1.0
-            },
+            { fps: 10, qrbox: { width: 250, height: 200 }, aspectRatio: 1.0 },
             onScanSuccess,
             onScanFailure
         );
         
         isScannerRunning = true;
-        console.log('Scanner started successfully');
     } catch (err) {
-        console.error('Error starting scanner:', err);
-        showAlert('error', 'هەڵە', 'نەتوانرا کامێرا دەستپێبکرێت. تکایە ڕێگەپێدانی کامێرا پشکنین بکە.');
+        console.error('Scanner error:', err);
+        showAlert('error', 'هەڵە', 'نەتوانرا کامێرا دەستپێبکرێت');
         closeScanner();
     }
 }
@@ -855,25 +814,18 @@ async function closeScanner() {
             html5QrCode.clear();
             html5QrCode = null;
         }
-        isScannerInitialized = false;
     } catch (err) {
         console.error('Error closing scanner:', err);
     } finally {
         $('#scannerModal').hide();
-        // Clear the reader container to prevent issues when reopening
         const readerElement = document.getElementById('qr-reader');
-        if (readerElement) {
-            readerElement.innerHTML = '';
-        }
+        if (readerElement) readerElement.innerHTML = '';
     }
 }
 
 function openScanner() {
     $('#scannerModal').show();
-    // Small delay to ensure modal is visible before starting scanner
-    setTimeout(() => {
-        startScanner();
-    }, 100);
+    setTimeout(() => { startScanner(); }, 100);
 }
 
 $(document).ready(function() {
@@ -982,6 +934,9 @@ $(document).ready(function () {
     function hideNameResults() { $('#name-search-results').hide().empty(); }
     function hideBarcodeResults() { $('#barcode-search-results').hide().empty(); }
 
+    // ═══════════════════════════════════════════════════════════
+    // 🔍 گەڕان بە ناو — ✅ company_name
+    // ═══════════════════════════════════════════════════════════
     function searchByName(term) {
         if (!term || term.length < 2) { hideNameResults(); return; }
         $.ajax({
@@ -995,12 +950,16 @@ $(document).ready(function () {
                         const imgPath = p.image_producte_path || p.image_product_camera;
                         const imgUrl = getImageUrl(imgPath);
                         const imgTag = imgUrl ? `<img src="${imgUrl}" class="product-image-small" onerror="this.style.display='none'">` : `<i class="fas fa-box text-muted me-2" style="font-size:1.4rem;"></i>`;
+                        
+                        // ✅ ناوی کۆمپانیا
+                        const companyName = p.company_name || p.company || 'بێ کۆمپانیا';
+                        
                         html += `<div class="name-search-item" data-product='${JSON.stringify(p).replace(/'/g,"&#39;")}'>
                                     <div class="d-flex align-items-center">
                                         ${imgTag}
                                         <div class="me-2">
                                             <div class="fw-semibold">${escapeHtml(p.name || '')}</div>
-                                            <div class="small text-muted">${escapeHtml(p.company || 'بێ کۆمپانیا')}</div>
+                                            <div class="small text-muted">${escapeHtml(companyName)}</div>
                                             <div class="small">بارکۆد: ${escapeHtml(p.barcode || '')}</div>
                                         </div>
                                     </div>
@@ -1015,6 +974,9 @@ $(document).ready(function () {
         });
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // 🔍 گەڕان بە بارکۆد — ✅ company_name
+    // ═══════════════════════════════════════════════════════════
     function searchByBarcode(term) {
         if (!term || term.length < 1) { hideBarcodeResults(); return; }
         const normalizedTerm = normalizeToEnglishNumbers(term);
@@ -1029,12 +991,16 @@ $(document).ready(function () {
                         const imgPath = p.image_producte_path || p.image_product_camera;
                         const imgUrl = getImageUrl(imgPath);
                         const imgTag = imgUrl ? `<img src="${imgUrl}" class="product-image-small" onerror="this.style.display='none'">` : `<i class="fas fa-box text-muted me-2" style="font-size:1.4rem;"></i>`;
+                        
+                        // ✅ ناوی کۆمپانیا
+                        const companyName = p.company_name || p.company || 'بێ کۆمپانیا';
+                        
                         html += `<div class="barcode-search-item" data-product='${JSON.stringify(p).replace(/'/g,"&#39;")}'>
                                     <div class="d-flex align-items-center">
                                         ${imgTag}
                                         <div class="me-2">
                                             <div class="fw-semibold">${escapeHtml(p.name || '')}</div>
-                                            <div class="small text-muted">${escapeHtml(p.company || 'بێ کۆمپانیا')}</div>
+                                            <div class="small text-muted">${escapeHtml(companyName)}</div>
                                             <div class="small">بارکۆد: ${escapeHtml(p.barcode || '')}</div>
                                         </div>
                                     </div>
@@ -1071,12 +1037,20 @@ $(document).ready(function () {
         });
     };
 
+    // ═══════════════════════════════════════════════════════════
+    // 📋 نیشاندانی زانیاری کاڵا — ✅ company_name
+    // ═══════════════════════════════════════════════════════════
     function displayProductInfo(product) {
         selectedProduct = product;
         $('#disp-name').text(product.name || '---');
-        $('#disp-company').text(product.company || 'بێ کۆمپانیا');
+        
+        // ✅ ناوی کۆمپانیا
+        const companyName = product.company_name || product.company || 'بێ کۆمپانیا';
+        $('#disp-company').text(companyName);
+        
         $('#disp-barcode').text(product.barcode || '---');
         $('#disp-price').text(product.selling_price ? formatPrice(product.selling_price) : '---');
+        
         const imgPath = product.image_producte_path || product.image_product_camera;
         const imgUrl = getImageUrl(imgPath);
         if (imgUrl) {
@@ -1088,72 +1062,251 @@ $(document).ready(function () {
         }
         $('#product-info').show();
         $('#barcode-container').empty();
+        $('#print-area-thermal').empty();
         $('#barcode-preview-area').hide();
     }
 
-    function generateBarcodes() {
-        if (!selectedProduct || !selectedProduct.barcode) {
-            showAlert('warning', 'ئاگاداری', 'تکایە یەکەمجار کاڵایەک هەڵبژێرە');
+    function clearAll() {
+        selectedProduct = null;
+        $('#product-info').hide();
+        $('#disp-name').text('---');
+        $('#disp-company').text('---');
+        $('#disp-barcode').text('---');
+        $('#disp-price').text('---');
+        $('#disp-image').hide();
+        $('#disp-image-placeholder').show();
+        $('#barcode-container').empty();
+        $('#print-area-thermal').empty();
+        $('#barcode-preview-area').hide();
+        $('#name-search').val('');
+        $('#barcode-search').val('');
+        hideNameResults();
+        hideBarcodeResults();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // 🖨️ چاپکردنی بارکۆد — ✅ company_name
+    // ═══════════════════════════════════════════════════════════
+    function printBarcodes() {
+        if (!selectedProduct) { 
+            showAlert('warning','ئاگاداری','کاڵایەک هەڵبژێرە'); 
+            return; 
+        }
+        
+        const printWindow = window.open('', '_blank', 'width=400,height=300');
+        if (!printWindow) {
+            showAlert('error', 'هەڵە', 'تکایە Pop-up چالاک بکە');
             return;
         }
-        const normalizedBarcode = normalizeToEnglishNumbers(selectedProduct.barcode);
-        let copies = parseInt($('#copy-count').val());
-        if (isNaN(copies) || copies < 1) copies = 1;
-        if (copies > 100) copies = 100;
-        const container = $('#barcode-container').empty();
-        for (let i = 0; i < copies; i++) {
-            const div = $('<div>').addClass('barcode-label');
-            if (selectedProduct.name) {
-                $('<div>').addClass('product-name').text(selectedProduct.name).appendTo(div);
-            }
-            if (selectedProduct.company) {
-                $('<div>').addClass('product-company').text('🏢 ' + selectedProduct.company).appendTo(div);
-            }
-            const canvas = $('<canvas>').appendTo(div);
-            if (selectedProduct.selling_price) {
-                $('<div>').addClass('product-price').text('💰 ' + formatPrice(selectedProduct.selling_price)).appendTo(div);
-            }
-            container.append(div);
-            JsBarcode(canvas[0], normalizedBarcode, {
-                format: 'CODE128',
-                width: 1.5,
-                height: 50,
-                displayValue: true,
-                fontSize: 13,
-                margin: 5
-            });
-        }
-        $('#barcode-preview-area').show();
-        showAlert('success', 'ئامادەیە', `${copies} بارکۆد دروستکرا. ئێستا دەتوانیت چاپی بکەیت.`);
-    }
-
-    function printBarcodes() {
-        if (!selectedProduct) { showAlert('warning','ئاگاداری','کاڵایەک هەڵبژێرە'); return; }
-        $('#barcode-container canvas').each(function () {
-            const dataUrl = this.toDataURL('image/png');
-            $(this).replaceWith($('<img>').attr('src', dataUrl).css({ display: 'block', margin: '0 auto' }));
-        });
-        const printContents = $('#barcode-container').html();
+        
         const name = selectedProduct.name || '';
-        const pw = window.open('', '_blank');
-        pw.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>چاپی بارکۆد - ${escapeHtml(name)}</title><style>*{box-sizing:border-box;}body{margin:0;padding:20px;font-family:sans-serif;background:white;}.print-area{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:10px;}.barcode-label{display:inline-block;padding:10px 12px;background:white;border:1px solid #e2e8f0;border-radius:8px;text-align:center;min-width:120px;vertical-align:top;page-break-inside:avoid;break-inside:avoid;}.barcode-label img{display:block;margin:0 auto;}.barcode-label .product-name{font-size:11px;margin-top:5px;font-weight:bold;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}.barcode-label .product-company{font-size:10px;margin-top:2px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}.barcode-label .product-price{font-size:12px;margin-top:4px;color:#e53e3e;font-weight:bold;}</style></head><body><div class="print-area">${printContents}</div><script>window.onload=function(){window.print();window.onafterprint=function(){window.close();};};<\/script></body></html>`);
-        pw.document.close();
-        setTimeout(generateBarcodes, 600);
+        // ✅ ناوی کۆمپانیا
+        const company = selectedProduct.company_name || selectedProduct.company || '';
+        const price = selectedProduct.selling_price ? formatPrice(selectedProduct.selling_price) : '';
+        const normalizedBarcode = normalizeToEnglishNumbers(selectedProduct.barcode);
+        
+        const LABEL_WIDTH = 48;
+        const LABEL_HEIGHT = 39.38;
+        const totalHeight = LABEL_HEIGHT;
+        
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>چاپی بارکۆد - Xprinter XP-236B</title>
+                <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"><\/script>
+                <style>
+                    @page {
+                        size: ${LABEL_WIDTH}mm ${totalHeight}mm !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+                    
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    
+                    html, body {
+                        width: ${LABEL_WIDTH}mm !important;
+                        height: ${totalHeight}mm !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        background: white !important;
+                        overflow: hidden !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    
+                    .print-container {
+                        display: block !important;
+                        width: ${LABEL_WIDTH}mm !important;
+                        height: auto !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        background: white !important;
+                    }
+                    
+                    .barcode-label {
+                        display: block !important;
+                        width: ${LABEL_WIDTH}mm !important;
+                        height: ${LABEL_HEIGHT}mm !important;
+                        min-height: ${LABEL_HEIGHT}mm !important;
+                        padding: 1.2mm 1mm !important;
+                        margin: 0 !important;
+                        background: white !important;
+                        text-align: center !important;
+                        page-break-inside: avoid !important;
+                        overflow: hidden !important;
+                    }
+                    
+                    .barcode-svg-print {
+                        display: block !important;
+                        margin: 0 auto !important;
+                        width: ${LABEL_WIDTH - 8}mm !important;
+                        height: auto !important;
+                        max-height: ${LABEL_HEIGHT - 14}mm !important;
+                    }
+                    
+                    .product-name {
+                        font-size: 9pt !important;
+                        margin: 0 auto 0.5mm auto !important;
+                        font-weight: bold !important;
+                        color: #000 !important;
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        text-overflow: ellipsis !important;
+                        max-width: ${LABEL_WIDTH - 6}mm !important;
+                        text-align: center !important;
+                        line-height: 1.3 !important;
+                        display: block !important;
+                        direction: rtl !important;
+                        font-family: Arial, sans-serif !important;
+                    }
+                    
+                    .product-company {
+                        font-size: 7pt !important;
+                        margin: 0 auto 0.3mm auto !important;
+                        color: #333 !important;
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        text-overflow: ellipsis !important;
+                        max-width: ${LABEL_WIDTH - 6}mm !important;
+                        text-align: center !important;
+                        line-height: 1.3 !important;
+                        display: block !important;
+                        direction: rtl !important;
+                        font-family: Arial, sans-serif !important;
+                    }
+                    
+                    .product-price {
+                        font-size: 9pt !important;
+                        margin: 0.5mm auto 0 auto !important;
+                        color: #000 !important;
+                        font-weight: bold !important;
+                        text-align: center !important;
+                        line-height: 1.3 !important;
+                        display: block !important;
+                        border-top: 0.5px dashed #ccc !important;
+                        padding: 0.3mm 0 0.5mm 0 !important;
+                        direction: rtl !important;
+                        font-family: Arial, sans-serif !important;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="print-container">
+                    <div class="barcode-label">
+                        <div class="product-name">${escapeHtml(name)}</div>
+                        <div class="product-company">${escapeHtml(company)}</div>
+                        <svg id="barcode-print" class="barcode-svg-print"></svg>
+                        <div class="product-price">${escapeHtml(price)}</div>
+                    </div>
+                </div>
+                <script>
+                    function renderBarcode() {
+                        if (typeof JsBarcode === 'undefined') {
+                            setTimeout(renderBarcode, 100);
+                            return;
+                        }
+                        
+                        const svg = document.getElementById('barcode-print');
+                        
+                        try {
+                            JsBarcode(svg, '${normalizedBarcode}', {
+                                format: 'CODE128',
+                                width: 1.8,
+                                height: 45,
+                                displayValue: true,
+                                fontSize: 14,
+                                margin: 2,
+                                textMargin: 3,
+                                textAlign: 'center',
+                                font: 'Arial',
+                                fontOptions: 'bold',
+                                lineColor: '#000000',
+                                background: '#FFFFFF'
+                            });
+                        } catch(e) {
+                            console.error('JsBarcode error:', e);
+                        }
+                        
+                        setTimeout(function() {
+                            window.print();
+                            setTimeout(function() {
+                                window.close();
+                            }, 500);
+                        }, 800);
+                    }
+                    
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', renderBarcode);
+                    } else {
+                        renderBarcode();
+                    }
+                <\/script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
     }
 
+    // ==================== KEYBOARD SHORTCUTS ====================
+    $(document).on('keydown', function(e) {
+        if (e.key === 'F1' || e.keyCode === 112) {
+            e.preventDefault();
+            if (selectedProduct) {
+                printBarcodes();
+            } else {
+                showAlert('warning', 'ئاگاداری', 'تکایە یەکەمجار کاڵایەک هەڵبژێرە');
+            }
+        }
+        
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            e.preventDefault();
+            $('#img-modal').removeClass('active');
+            closeScanner();
+            clearAll();
+            showAlert('info', 'پاککرایەوە', 'هەموو شتێک پاککرایەوە');
+        }
+    });
+
+    // ==================== EVENT BINDINGS ====================
+    
     $('#scan-barcode-btn').on('click', function() { openScanner(); });
+    
     $('#name-search').on('input', function () {
         clearTimeout(nameSearchDebounceTimer);
         const term = $(this).val().trim();
         if (!term) { hideNameResults(); return; }
         nameSearchDebounceTimer = setTimeout(() => searchByName(term), 300);
     });
+    
     $('#barcode-search').on('input', function () {
         clearTimeout(barcodeSearchDebounceTimer);
         const term = $(this).val().trim();
         if (!term) { hideBarcodeResults(); return; }
         barcodeSearchDebounceTimer = setTimeout(() => searchByBarcode(term), 300);
     });
+    
     $('#barcode-search').on('keypress', function(e) {
         if (e.which === 13) {
             e.preventDefault();
@@ -1161,6 +1314,7 @@ $(document).ready(function () {
             if (barcode) searchByExactBarcode(barcode);
         }
     });
+    
     $(document).on('click', '.name-search-item, .barcode-search-item', function () {
         try {
             const raw = $(this).data('product');
@@ -1174,27 +1328,16 @@ $(document).ready(function () {
             }
         } catch (e) { console.error(e); }
     });
+    
     $(document).on('click', function (e) {
         if (!$(e.target).closest('.search-container').length) {
             hideNameResults();
             hideBarcodeResults();
         }
     });
-    $(document).on('keydown', function(e) {
-        if (e.key === 'Escape') {
-            $('#img-modal').removeClass('active');
-            closeScanner();
-        }
-    });
-    $('#generate-btn').click(generateBarcodes);
-    $('#print-btn').click(printBarcodes);
-    $('#clear-btn').click(function () {
-        $('#barcode-container').empty();
-        $('#barcode-preview-area').hide();
-        showAlert('info', 'پاککرایەوە', 'هەموو بارکۆدەکان لابران');
-    });
     
-    // Close scanner when clicking on modal background
+    $('#print-btn').click(printBarcodes);
+    
     $('#scannerModal').on('click', function(e) {
         if (e.target === this) {
             closeScanner();

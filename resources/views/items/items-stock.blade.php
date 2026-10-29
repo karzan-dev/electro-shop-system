@@ -13,13 +13,9 @@
         --danger: #ef4444;
         --info: #3b82f6;
         --return: #8b5cf6;
-        --morning: #f59e0b;
-        --afternoon: #3b82f6;
-        --night: #1e293b;
         --text: #1e293b;
         --border-color: #e2e8f0;
         --bg-light: #f8fafc;
-        --transition-base: all 0.3s ease;
         --card-bg: #ffffff;
     }
 
@@ -40,7 +36,6 @@
         --card-bg: #1e293b;
     }
 
-    /* Layout & Panels */
     .search-table-panel {
         background: white;
         border-radius: 1.25rem;
@@ -49,9 +44,7 @@
         height: fit-content;
     }
     
-    body.dark-mode .search-table-panel {
-        background: var(--card-bg);
-    }
+    body.dark-mode .search-table-panel { background: var(--card-bg); }
     
     .form-sidebar-panel {
         background: white;
@@ -61,8 +54,18 @@
         top: 20px;
     }
     
-    body.dark-mode .form-sidebar-panel {
-        background: var(--card-bg);
+    body.dark-mode .form-sidebar-panel { background: var(--card-bg); }
+
+    @media (max-width: 992px) {
+        .form-sidebar-panel { position: static; }
+    }
+
+    @media (max-width: 768px) {
+        .search-table-panel,
+        .form-sidebar-panel {
+            border-radius: 1rem;
+            padding: 1rem !important;
+        }
     }
 
     .section-title-custom {
@@ -74,13 +77,9 @@
         border-bottom: 2px solid var(--secondary);
     }
 
-    .input-with-icon-custom {
-        position: relative;
-    }
+    .input-with-icon-custom { position: relative; }
     .input-with-icon-custom .form-control,
-    .input-with-icon-custom .form-select {
-        padding-right: 2.8rem;
-    }
+    .input-with-icon-custom .form-select { padding-right: 2.8rem; }
     body.dark-mode .form-select {
         color: rgb(154, 154, 154);
         background-color: #334155;
@@ -120,19 +119,14 @@
         background-color: #fef9e3;
         transform: scale(1.01);
     }
-    body.dark-mode .product-table tbody tr:hover {
-        background-color: #1e293b;
-    }
+    body.dark-mode .product-table tbody tr:hover { background-color: #1e293b; }
     
     .table-selected-row {
         background-color: #e0e7ff !important;
         border-right: 3px solid var(--primary);
     }
-    body.dark-mode .table-selected-row {
-        background-color: #1e3a5f !important;
-    }
-    
-    /* Warning for duplicate barcode */
+    body.dark-mode .table-selected-row { background-color: #1e3a5f !important; }
+
     .duplicate-warning {
         background-color: #fff3cd !important;
         border-left: 3px solid var(--warning);
@@ -174,7 +168,6 @@
         border-color: var(--primary);
     }
 
-    /* Alert styles */
     .custom-alert {
         border-radius: 16px;
         padding: 1rem 1.2rem;
@@ -186,17 +179,25 @@
         align-items: center;
         gap: 12px;
         text-align: right;
+        word-wrap: break-word;
     }
-    .alert-success-custom { background: #dcfce7; border-right-color: var(--success); color: #166534; }
-    .alert-error-custom { background: #fee2e2; border-right-color: var(--danger); color: #991b1b; }
-    .alert-warning-custom { background: #fff3e3; border-right-color: var(--warning); color: #9a3412; }
+    .alert-success-custom { background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-right-color: var(--success); color: #065f46; }
+    .alert-error-custom { background: linear-gradient(135deg, #fee2e2, #fecaca); border-right-color: var(--danger); color: #991b1b; }
+    .alert-warning-custom { background: linear-gradient(135deg, #fff3e3, #fed7aa); border-right-color: var(--warning); color: #9a3412; }
+    body.dark-mode .alert-success-custom { background: linear-gradient(135deg, #064e3b, #065f46); color: #a7f3d0; }
+    body.dark-mode .alert-error-custom { background: linear-gradient(135deg, #7f1d1d, #991b1b); color: #fecaca; }
+    body.dark-mode .alert-warning-custom { background: linear-gradient(135deg, #78350f, #92400e); color: #fde68a; }
+    
     .alert-close {
         background: none;
         border: none;
         font-size: 1.3rem;
         cursor: pointer;
         margin-right: auto;
+        opacity: 0.7;
+        color: inherit;
     }
+    .alert-close:hover { opacity: 1; }
     
     .image-preview {
         max-width: 100%;
@@ -213,40 +214,12 @@
         transform: scale(1.02);
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-    .no-image-message {
-        text-align: center;
-        color: #94a3b8;
-        padding: 1.5rem;
-    }
 
-    /* Big Image Modal */
-    .big-image-modal .modal-dialog {
-        max-width: 90vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 90vh;
-    }
-    .big-image-modal .modal-content {
-        background: rgba(0,0,0,0.92);
-        border: none;
-        border-radius: 24px;
-        backdrop-filter: blur(4px);
-    }
-    .big-image-modal .big-image {
-        max-width: 100%;
-        max-height: 80vh;
-        border-radius: 16px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
-
-    /* Fullscreen Image Modal */
     .fullscreen-image-modal .modal-content {
         background: rgba(0, 0, 0, 0.95);
         border: none;
         border-radius: 0;
     }
-    
     .fullscreen-image-modal .modal-body {
         padding: 0;
         display: flex;
@@ -254,14 +227,12 @@
         align-items: center;
         min-height: 100vh;
     }
-    
     .fullscreen-image-modal img {
         max-width: 100%;
         max-height: 100vh;
         object-fit: contain;
         cursor: pointer;
     }
-    
     .fullscreen-image-modal .btn-close {
         position: absolute;
         top: 20px;
@@ -288,13 +259,10 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Fullscreen Camera Modal */
     .camera-fullscreen {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
         background-color: black;
         z-index: 99999;
         display: none;
@@ -302,22 +270,12 @@
         justify-content: center;
         align-items: center;
     }
-
-    .camera-fullscreen.active {
-        display: flex;
-    }
-
-    .camera-fullscreen video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
+    .camera-fullscreen.active { display: flex; }
+    .camera-fullscreen video { width: 100%; height: 100%; object-fit: cover; }
     .camera-fullscreen .camera-controls-full {
         position: fixed;
         bottom: 30px;
-        left: 0;
-        right: 0;
+        left: 0; right: 0;
         display: flex;
         justify-content: center;
         gap: 20px;
@@ -325,89 +283,54 @@
         background: rgba(0, 0, 0, 0.7);
         z-index: 100000;
     }
-
     .camera-fullscreen .camera-controls-full button {
         padding: 15px 25px;
         font-size: 1.2rem;
         border: none;
         border-radius: 50px;
         cursor: pointer;
-        transition: transform 0.2s;
     }
-
-    .camera-fullscreen .camera-controls-full button:active {
-        transform: scale(0.95);
-    }
-
-    .camera-fullscreen .btn-capture-full {
-        background-color: #10b981;
-        color: white;
-    }
-
-    .camera-fullscreen .btn-switch-full {
-        background-color: #3b82f6;
-        color: white;
-    }
-
+    .camera-fullscreen .btn-capture-full { background-color: #10b981; color: white; }
+    .camera-fullscreen .btn-switch-full { background-color: #3b82f6; color: white; }
     .camera-fullscreen .close-camera {
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 20px; right: 20px;
         background: rgba(0, 0, 0, 0.6);
         color: white;
         border: none;
-        width: 45px;
-        height: 45px;
+        width: 45px; height: 45px;
         border-radius: 50%;
         font-size: 24px;
         cursor: pointer;
         z-index: 100001;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
-    /* Barcode scanner modal */
-    .scanner-modal .modal-content {
-        background: #000;
-        border-radius: 1rem;
-        overflow: hidden;
-    }
+    .scanner-modal .modal-content { background: #000; border-radius: 1rem; overflow: hidden; }
     .scanner-modal .modal-header {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: white;
         border-bottom: none;
     }
-    .scanner-modal .btn-close {
-        filter: invert(1);
-    }
-    #qr-reader {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 0;
-        overflow: hidden;
-    }
-    #qr-reader video {
-        width: 100% !important;
-        min-height: 400px;
-        object-fit: cover;
+    .scanner-modal .btn-close { filter: invert(1); }
+    #qr-reader { width: 100%; max-width: 100%; border-radius: 0; overflow: hidden; }
+    #qr-reader video { width: 100% !important; min-height: 400px; object-fit: cover; }
+
+    @media (max-width: 768px) {
+        #qr-reader video { min-height: 300px; }
+        .scanner-modal .modal-dialog { margin: 0.5rem; }
+        .scanner-modal .modal-body { min-height: 300px !important; }
+        .scanner-modal .modal-footer { flex-wrap: wrap; }
+        .scanner-modal .modal-footer .btn { width: 100%; }
     }
 
-    .search-input-wrapper {
-        position: relative;
-    }
-    .search-input-wrapper .form-control {
-        padding-left: 50px;
-    }
+    .search-input-wrapper { position: relative; }
+    .search-input-wrapper .form-control { padding-left: 50px; }
 
     body.dark-mode .form-control {
         background-color: #334155;
         color: rgb(255, 255, 255);
     }
-
-    body.dark-mode .form-control::placeholder {
-        color: #98b0a9;
-    }
+    body.dark-mode .form-control::placeholder { color: #98b0a9; }
     
     .camera-search-btn {
         position: absolute;
@@ -425,9 +348,15 @@
         align-items: center;
         justify-content: center;
         z-index: 5;
+        transition: all 0.2s;
     }
-    
-    /* Pagination styles */
+    .camera-search-btn:hover { transform: translateY(-50%) scale(1.08); }
+
+    @media (max-width: 576px) {
+        .camera-search-btn { width: 28px; height: 28px; font-size: 0.8rem; left: 8px; }
+        .search-input-wrapper .form-control { padding-left: 44px; }
+    }
+
     .pagination-container {
         margin-top: 1rem;
         display: flex;
@@ -435,10 +364,13 @@
     }
     .pagination {
         gap: 5px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     body.dark-mode .page-link {
         background-color: #334155;
         color: rgb(255, 255, 255);
+        border-color: #475569;
     }
     .page-link {
         border-radius: 8px !important;
@@ -452,7 +384,6 @@
         color: white;
     }
 
-    /* Keyboard shortcut hint */
     .shortcut-hint {
         position: fixed;
         bottom: 20px;
@@ -487,42 +418,29 @@
     }
 
     @media (max-width: 768px) {
-        .container {
-            padding-left: 12px;
-            padding-right: 12px;
-        }
-        .search-table-panel, .form-sidebar-panel {
-            padding: 1rem !important;
-        }
-        .product-table {
-            font-size: 0.85rem;
-        }
-        .product-table th, .product-table td {
-            padding: 0.5rem;
-        }
-        .btn-custom-primary, .btn-custom-secondary {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-        .shortcut-hint {
-            display: none;
-        }
+        .shortcut-hint { display: none; }
+        .container { padding-left: 12px; padding-right: 12px; }
+        .search-table-panel, .form-sidebar-panel { padding: 1rem !important; }
+        .product-table { font-size: 0.85rem; }
+        .product-table th, .product-table td { padding: 0.5rem; }
+        .btn-custom-primary, .btn-custom-secondary { padding: 0.5rem 1rem; font-size: 0.9rem; }
+    }
+
+    @media (max-width: 480px) {
+        .container { padding-left: 8px; padding-right: 8px; }
+        .search-table-panel, .form-sidebar-panel { padding: 0.75rem !important; border-radius: 0.75rem; }
+        .btn-custom-primary, .btn-custom-secondary { padding: 0.55rem 0.85rem; font-size: 0.85rem; }
     }
     
-    .clickable-image {
-        cursor: pointer;
-    }
+    .clickable-image { cursor: pointer; }
     
-    /* Auto-save indicator */
     .autosave-indicator {
         font-size: 0.7rem;
         color: #10b981;
         margin-top: 0.25rem;
         display: none;
     }
-    .autosave-indicator.show {
-        display: block;
-    }
+    .autosave-indicator.show { display: block; }
 
     .form-header-custom {
         background: linear-gradient(135deg, var(--secondary), var(--primary-dark));
@@ -533,6 +451,17 @@
         width: 88%;
         margin-left: 6%;
         margin-right: 6%;
+    }
+
+    @media (max-width: 768px) {
+        .form-header-custom {
+            width: 94%;
+            margin-left: 3%;
+            margin-right: 3%;
+            padding: 16px 12px;
+            border-radius: 18px;
+        }
+        .form-header-custom h1 { font-size: 1.2rem; }
     }
 
     .form-logo-custom {
@@ -553,49 +482,36 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-    
-    body.dark-mode .form-logo-custom {
-        background-color: #334155;
-    }
 
-    /* Dark mode table fixes */
+    @media (max-width: 768px) {
+        .form-logo-custom { width: 60px; height: 60px; border-radius: 16px; margin-bottom: 1rem; }
+        .form-logo-custom i { font-size: 1.8rem; }
+    }
+    
+    body.dark-mode .form-logo-custom { background-color: #334155; }
+
     body.dark-mode .table-responsive {
         background-color: #1e293b !important;
         border-radius: 12px;
         color: #cbd5e1 !important;
     }
     
-    body.dark-mode .table-responsive table {
-        color: #e2e8f0 !important;
-    }
-    
+    body.dark-mode .table-responsive table { color: #e2e8f0 !important; }
     body.dark-mode .table-responsive table th {
         background: #4a6491 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
         color: #cbd5e1 !important;
     }
-    
     body.dark-mode .table-responsive table td {
         border-bottom-color: #334155;
         background-color: #1e293b;
         color: #e2e8f0 !important;
     }
-    
-    body.dark-mode .table-responsive table tr:hover {
-        background-color: #334155 !important;
-    }
-    
+    body.dark-mode .table-responsive table tr:hover { background-color: #334155 !important; }
     body.dark-mode .table-responsive table .table-selected-row {
         background-color: #334155 !important;
         border-left-color: var(--primary);
     }
-    
-    body.dark-mode .table-responsive {
-        color: #cbd5e1;
-    }
-    
-    /* Arrow button style */
+
     .select-arrow {
         cursor: pointer;
         font-size: 1.2rem;
@@ -603,9 +519,237 @@
         transition: transform 0.2s;
         display: inline-block;
     }
-    .select-arrow:hover {
-        transform: translateX(-3px);
-        color: var(--secondary);
+    .select-arrow:hover { transform: translateX(-3px); color: var(--secondary); }
+
+    @media (max-width: 768px) {
+        .table-responsive {
+            max-height: none !important;
+            overflow: visible !important;
+            background: transparent !important;
+            border-radius: 0 !important;
+        }
+
+        .product-table { display: block; width: 100%; }
+        .product-table thead { display: none; }
+        .product-table tbody { display: block; width: 100%; }
+        .product-table tbody tr {
+            display: block;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+        body.dark-mode .product-table tbody tr {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .product-table tbody tr.duplicate-warning {
+            background: #fff3cd !important;
+            border-left: 4px solid var(--warning);
+        }
+        body.dark-mode .product-table tbody tr.duplicate-warning {
+            background: rgba(245, 158, 11, 0.15) !important;
+        }
+        .product-table tbody tr.table-selected-row {
+            background: #e0e7ff !important;
+            border-right: 4px solid var(--primary);
+        }
+        body.dark-mode .product-table tbody tr.table-selected-row {
+            background: #1e3a5f !important;
+        }
+
+        .product-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0 !important;
+            border: none !important;
+            border-bottom: 1px solid var(--border-color) !important;
+            font-size: 0.85rem;
+            text-align: right;
+            gap: 8px;
+            background: transparent !important;
+        }
+        body.dark-mode .product-table tbody td {
+            border-bottom-color: #334155 !important;
+            color: #e2e8f0;
+        }
+
+        .product-table tbody td:last-child {
+            border-bottom: none !important;
+            justify-content: center;
+            padding-top: 10px !important;
+            margin-top: 6px;
+            border-top: 1px solid var(--border-color) !important;
+        }
+        body.dark-mode .product-table tbody td:last-child {
+            border-top-color: #334155 !important;
+        }
+
+        .product-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            flex-shrink: 0;
+            text-align: left;
+        }
+        body.dark-mode .product-table tbody td::before { color: #94a3b8; }
+        .product-table tbody td:last-child::before { display: none; }
+        .product-table tbody td:first-child { display: none; }
+
+        .product-table tbody td img.clickable-image {
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 10px !important;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .product-table tbody td[data-label="ناوی کاڵا"] {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color) !important;
+            padding-bottom: 10px !important;
+            justify-content: center;
+            text-align: center;
+        }
+        body.dark-mode .product-table tbody td[data-label="ناوی کاڵا"] { color: #cbd5e1; }
+        .product-table tbody td[data-label="ناوی کاڵا"]::before { display: none; }
+
+        .select-arrow {
+            font-size: 1.5rem;
+            padding: 8px;
+            background: rgba(74, 100, 145, 0.1);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        body.dark-mode .select-arrow { background: rgba(108, 141, 184, 0.2); }
+    }
+
+    @media (max-width: 480px) {
+        .product-table tbody tr { padding: 10px; margin-bottom: 8px; }
+        .product-table tbody td { font-size: 0.8rem; padding: 5px 0 !important; }
+        .product-table tbody td::before { font-size: 0.65rem; }
+        .product-table tbody td[data-label="ناوی کاڵا"] { font-size: 0.9rem; }
+    }
+
+    .confirm-overlay {
+        display: flex;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    .confirm-overlay.active { opacity: 1; visibility: visible; }
+
+    .confirm-modal {
+        background: white;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: confirmSlideIn 0.3s ease;
+        overflow: hidden;
+    }
+    body.dark-mode .confirm-modal {
+        background: #1e293b;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    @keyframes confirmSlideIn {
+        from { transform: scale(0.9) translateY(-20px); opacity: 0; }
+        to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .confirm-header {
+        color: white;
+        padding: 18px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .confirm-header i { font-size: 1.5rem; }
+    .confirm-header h3 { font-size: 1.1rem; font-weight: 700; margin: 0; }
+
+    .confirm-body {
+        padding: 24px 20px;
+        text-align: center;
+    }
+    .confirm-body p {
+        font-size: 0.95rem;
+        color: var(--text);
+        line-height: 1.6;
+        margin-bottom: 8px;
+    }
+    body.dark-mode .confirm-body p { color: #e2e8f0; }
+
+    .confirm-footer {
+        padding: 16px 20px;
+        display: flex;
+        gap: 10px;
+        background: var(--bg-light);
+        border-top: 1px solid var(--border-color);
+    }
+    body.dark-mode .confirm-footer {
+        background: #0f172a;
+        border-top-color: #334155;
+    }
+
+    .confirm-btn {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.9rem;
+    }
+    .confirm-btn:active { transform: scale(0.97); }
+    .confirm-btn-cancel {
+        background: var(--bg-light);
+        color: var(--text-secondary);
+        border: 2px solid var(--border-color);
+    }
+    body.dark-mode .confirm-btn-cancel {
+        background: #334155;
+        color: #e2e8f0;
+        border-color: #475569;
+    }
+
+    @media (max-width: 576px) {
+        input, select, textarea { font-size: 16px !important; }
+        .form-control, .form-select { font-size: 16px !important; }
+    }
+
+    @media (max-width: 768px) {
+        button, .btn, input, select, a {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
     }
 </style>
 
@@ -617,23 +761,23 @@
 </div>
 
 <!-- Alert Container -->
-<div id="alert-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999; width: 360px;"></div>
+<div id="alert-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999; width: 360px; max-width: calc(100vw - 40px);"></div>
 
-<!-- Big Image Modal for Product Image -->
+<!-- Big Image Modal -->
 <div class="modal fade fullscreen-image-modal" id="fullscreenImageModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header" style="border: none; background: transparent; position: absolute; top: 0; right: 0; z-index: 10;">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-0">
-                <img id="fullscreen-image" src="" alt="وێنەی گەورەی کاڵا" class="big-image">
+                <img id="fullscreen-image" src="" alt="وێنەی گەورەی کاڵا">
             </div>
         </div>
     </div>
 </div>
 
-<!-- Fullscreen Camera Modal for scanning barcode -->
+<!-- Fullscreen Camera for Barcode -->
 <div id="fullscreenBarcodeCamera" class="camera-fullscreen">
     <button class="close-camera" id="closeFullscreenBarcodeCamera">&times;</button>
     <video id="fullscreenBarcodeVideo" autoplay playsinline></video>
@@ -647,13 +791,13 @@
     </div>
 </div>
 
-<!-- Barcode Scanner Modal (html5-qrcode) -->
+<!-- Barcode Scanner Modal -->
 <div class="modal fade scanner-modal" id="barcodeScannerModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="fas fa-camera ms-2"></i>سکانکردنی بارکۆد</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-0" style="min-height: 400px; background: #000;">
                 <div id="qr-reader" style="width: 100%;"></div>
@@ -667,7 +811,7 @@
     </div>
 </div>
 
-<!-- Duplicate Barcode Selection Modal -->
+<!-- Duplicate Barcode Modal -->
 <div class="modal fade" id="duplicateBarcodeModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -689,17 +833,16 @@
 <div class="container py-4">
     <div class="row g-4">
         
-        <!-- LEFT PANEL: TABLE & SEARCH -->
+        <!-- LEFT PANEL -->
         <div class="col-lg-7">
             <div class="search-table-panel p-4">
                 
-                <!-- Search filters row -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
                         <label class="form-label fw-semibold"><i class="fas fa-barcode"></i> بارکۆد</label>
                         <div class="search-input-wrapper">
                             <input type="text" id="filter-barcode" class="form-control" placeholder="بارکۆد...">
-                            <button type="button" class="camera-search-btn" id="filter-camera-btn" title="سکانکردنی بارکۆد بە کامێرا">
+                            <button type="button" class="camera-search-btn" id="filter-camera-btn">
                                 <i class="fas fa-camera"></i>
                             </button>
                         </div>
@@ -714,7 +857,6 @@
                     </div>
                 </div>
 
-                <!-- Products Table -->
                 <div class="table-responsive" style="max-height: 550px; overflow-y: auto;">
                     <table class="table table-hover align-middle product-table w-100">
                         <thead class="sticky-top bg-light">
@@ -737,7 +879,7 @@
             </div>
         </div>
 
-        <!-- RIGHT PANEL: STOCK REGISTRATION FORM -->
+        <!-- RIGHT PANEL -->
         <div class="col-lg-5">
             <div class="form-sidebar-panel p-4">
                 <div class="text-center mb-3">
@@ -784,8 +926,6 @@
                         </div>
                     </div>
 
-             
-
                     <div class="mb-3">
                         <label class="form-label fw-semibold text-danger">بڕی ستۆک *</label>
                         <div class="input-with-icon-custom">
@@ -818,12 +958,12 @@
                         <i class="fas fa-save"></i> پارێزرا
                     </div>
 
-                    <div class="d-flex gap-2 mt-4">
+                    <div class="d-flex gap-2 mt-4 flex-column flex-sm-row">
                         <button type="button" id="reset-form-btn" class="btn btn-custom-secondary flex-fill">
-                            <i class="fas fa-eraser"></i> پاککردنەوە <small class="text-muted">(ESC)</small>
+                            <i class="fas fa-eraser"></i> پاککردنەوە
                         </button>
                         <button type="submit" id="submit-stock-btn" class="btn btn-custom-primary flex-fill">
-                            <i class="fas fa-save"></i> تۆمارکردن <small class="text-muted">(F1)</small>
+                            <i class="fas fa-save"></i> تۆمارکردن
                         </button>
                     </div>
                 </form>
@@ -832,7 +972,7 @@
     </div>
 </div>
 
-<!-- Keyboard Shortcut Hints -->
+<!-- Shortcuts -->
 <div class="shortcut-hint">
     <div class="shortcut-item"><kbd>F1</kbd> <span>تۆمارکردن</span></div>
     <div class="shortcut-item"><kbd>ESC</kbd> <span>پاککردنەوە</span></div>
@@ -846,35 +986,24 @@
 <script>
 $(document).ready(function(){
     // ============================================
-    // !!! چارەسەری کێشەی بارکۆد بە هەر زمانێک !!!
+    // Normalize Numbers
     // ============================================
-    
-    /**
-     * گۆڕینی هەر ژمارەیەکی نا ئینگلیزی (کوردی، فارسی، عەرەبی) بۆ ئینگلیزی
-     * @param {string} str - بارکۆدەکە یان هەر نوسینێک
-     * @returns {string} - نوسینی پاککراوە بە ژمارەی ئینگلیزی
-     */
     function normalizeToEnglishNumbers(str) {
         if (!str) return str;
-        
         const kurdishNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
         const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
         const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        
         let result = str.toString();
-        
         for (let i = 0; i < kurdishNumbers.length; i++) {
             result = result.replace(new RegExp(kurdishNumbers[i], 'g'), englishNumbers[i]);
         }
         for (let i = 0; i < persianNumbers.length; i++) {
             result = result.replace(new RegExp(persianNumbers[i], 'g'), englishNumbers[i]);
         }
-        
         result = result.replace(/[^0-9A-Za-z\-\_]/g, '');
         return result;
     }
     
-    // چالاککردنی نۆرمالایزکردن بۆ فیلدی بارکۆدی فلتر
     $('#filter-barcode').on('input', function() {
         const originalValue = $(this).val();
         const normalizedValue = normalizeToEnglishNumbers(originalValue);
@@ -896,27 +1025,24 @@ $(document).ready(function(){
     let fullscreenImageModal = new bootstrap.Modal(document.getElementById('fullscreenImageModal'));
     let currentPage = 1;
     
-    // Fullscreen Camera Variables for Barcode Scanning
     let fullscreenBarcodeStream = null;
     let barcodeScanningActive = false;
     let currentFacingMode = 'environment';
     let barcodeScanInterval = null;
 
-    // ============================================
-    // LocalStorage Key
-    // ============================================
     const STORAGE_KEY = 'stock_registration_form';
 
-
     // ============================================
-    // Helper Functions
+    // Helpers
     // ============================================
     function escapeHtml(str) {
         if(!str) return '';
-        return String(str).replace(/[&<>]/g, function(m) {
+        return String(str).replace(/[&<>"']/g, function(m) {
             if(m === '&') return '&amp;';
             if(m === '<') return '&lt;';
             if(m === '>') return '&gt;';
+            if(m === '"') return '&quot;';
+            if(m === "'") return '&#39;';
             return m;
         });
     }
@@ -935,11 +1061,71 @@ $(document).ready(function(){
         
         const html = `<div id="${alertId}" class="custom-alert ${alertClass}">
                         <i class="fas ${icon}"></i>
-                        <div><strong>${title}</strong><br><small>${message}</small></div>
+                        <div style="flex:1;min-width:0;"><strong>${escapeHtml(title)}</strong><br><small style="word-break:break-word;">${escapeHtml(message)}</small></div>
                         <button class="alert-close" onclick="$('#${alertId}').remove()">×</button>
                       </div>`;
         $('#alert-container').prepend(html);
         setTimeout(() => $(`#${alertId}`).fadeOut(300, function(){ $(this).remove(); }), duration);
+    }
+
+    // ============================================
+    // Confirm Modal
+    // ============================================
+    function showConfirmAlert(options) {
+        const {
+            title = 'پشتڕاستکردنەوە',
+            message = '',
+            confirmText = 'بەڵێ',
+            cancelText = 'پاشگەزبوونەوە',
+            onConfirm = null,
+            type = 'danger'
+        } = options;
+
+        const id = 'confirm-' + Date.now();
+        const gradient = type === 'danger' 
+            ? 'linear-gradient(135deg, var(--danger), #dc2626)' 
+            : 'linear-gradient(135deg, var(--warning), #d97706)';
+        const iconClass = type === 'danger' ? 'fa-exclamation-triangle' : 'fa-question-circle';
+
+        const html = `
+            <div id="${id}" class="confirm-overlay">
+                <div class="confirm-modal">
+                    <div class="confirm-header" style="background: ${gradient};">
+                        <i class="fas ${iconClass}"></i>
+                        <h3>${escapeHtml(title)}</h3>
+                    </div>
+                    <div class="confirm-body">
+                        <p>${escapeHtml(message)}</p>
+                    </div>
+                    <div class="confirm-footer">
+                        <button class="confirm-btn confirm-btn-cancel" data-action="cancel">
+                            <i class="fas fa-times"></i> ${escapeHtml(cancelText)}
+                        </button>
+                        <button class="confirm-btn confirm-btn-danger" data-action="confirm" style="background: ${gradient};color:white;">
+                            <i class="fas fa-check"></i> ${escapeHtml(confirmText)}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        $('body').append(html);
+
+        setTimeout(() => { $(`#${id}`).addClass('active'); }, 10);
+
+        function close() {
+            $(`#${id}`).removeClass('active');
+            setTimeout(() => $(`#${id}`).remove(), 300);
+        }
+
+        $(`#${id} [data-action="cancel"]`).on('click', close);
+        $(`#${id} [data-action="confirm"]`).on('click', function() {
+            if (typeof onConfirm === 'function') onConfirm();
+            close();
+        });
+        $(`#${id}`).on('click', function(e) {
+            if (e.target === this) close();
+        });
     }
 
     function showAutosaveIndicator() {
@@ -953,7 +1139,7 @@ $(document).ready(function(){
     }
 
     // ============================================
-    // LocalStorage Functions
+    // LocalStorage
     // ============================================
     function saveFormToLocalStorage() {
         try {
@@ -972,20 +1158,14 @@ $(document).ready(function(){
             
             if (formData.selected_product_id && formData.selected_product_id !== '') {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-                console.log('Form saved to localStorage');
                 showAutosaveIndicator();
             }
-        } catch(e) {
-            console.error('Error saving to localStorage:', e);
-        }
+        } catch(e) {}
     }
 
     function restoreFormFromLocalStorage() {
         const savedData = localStorage.getItem(STORAGE_KEY);
-        if (!savedData) {
-            console.log('No saved data found');
-            return false;
-        }
+        if (!savedData) return false;
         
         try {
             const data = JSON.parse(savedData);
@@ -1013,16 +1193,12 @@ $(document).ready(function(){
                 }
                 
                 $('textarea[name="notes"]').val(data.notes || '');
-                
                 hasData = true;
                 showAlert('info', 'زانیاری پێشوو', 'فۆرمەکە بە داتاکانی پێشوو پڕکرایەوە', 3000);
             }
             
             return hasData;
-        } catch(e) {
-            console.error('Error restoring from localStorage:', e);
-            return false;
-        }
+        } catch(e) { return false; }
     }
 
     function highlightSelectedProductInTable(productId) {
@@ -1030,9 +1206,7 @@ $(document).ready(function(){
         $(`.product-table tbody tr[data-id="${productId}"]`).addClass('table-selected-row');
     }
 
-    function clearLocalStorageSave() {
-        localStorage.removeItem(STORAGE_KEY);
-    }
+    function clearLocalStorageSave() { localStorage.removeItem(STORAGE_KEY); }
 
     function startAutosave() {
         if (autosaveTimer) clearInterval(autosaveTimer);
@@ -1040,29 +1214,23 @@ $(document).ready(function(){
     }
 
     // ============================================
-    // Fullscreen Camera Functions for Barcode Scanning
+    // Fullscreen Barcode Camera
     // ============================================
     function startFullscreenBarcodeCamera() {
         if (fullscreenBarcodeStream) stopFullscreenBarcodeCamera();
         
         navigator.mediaDevices.getUserMedia({
-            video: { 
-                facingMode: currentFacingMode, 
-                width: { ideal: 1920 }, 
-                height: { ideal: 1080 } 
-            },
+            video: { facingMode: currentFacingMode, width: { ideal: 1920 }, height: { ideal: 1080 } },
             audio: false
         }).then(function (mediaStream) {
             fullscreenBarcodeStream = mediaStream;
             const videoElement = document.getElementById('fullscreenBarcodeVideo');
             videoElement.srcObject = mediaStream;
             videoElement.play();
-            
             barcodeScanningActive = true;
             startBarcodeScanning();
         }).catch(function (error) {
-            console.error('Camera error:', error);
-            showAlert('error', 'هەڵەی کامێرا', 'ناتواندرێت کامێرا بکرێتەوە. تکایە ڕێگەدانەکەت پشکنین بکە.');
+            showAlert('error', 'هەڵەی کامێرا', 'ناتواندرێت کامێرا بکرێتەوە');
             closeFullscreenBarcodeCamera();
         });
     }
@@ -1079,15 +1247,13 @@ $(document).ready(function(){
     }
 
     function openFullscreenBarcodeCamera() {
-        const fullscreenDiv = document.getElementById('fullscreenBarcodeCamera');
-        fullscreenDiv.classList.add('active');
+        document.getElementById('fullscreenBarcodeCamera').classList.add('active');
         document.body.style.overflow = 'hidden';
         startFullscreenBarcodeCamera();
     }
 
     function closeFullscreenBarcodeCamera() {
-        const fullscreenDiv = document.getElementById('fullscreenBarcodeCamera');
-        fullscreenDiv.classList.remove('active');
+        document.getElementById('fullscreenBarcodeCamera').classList.remove('active');
         document.body.style.overflow = '';
         stopFullscreenBarcodeCamera();
     }
@@ -1099,21 +1265,16 @@ $(document).ready(function(){
 
     function startBarcodeScanning() {
         if (barcodeScanInterval) clearInterval(barcodeScanInterval);
-        
         const video = document.getElementById('fullscreenBarcodeVideo');
         
         barcodeScanInterval = setInterval(function() {
-            if (!barcodeScanningActive || !fullscreenBarcodeStream || !video.videoWidth) {
-                return;
-            }
+            if (!barcodeScanningActive || !fullscreenBarcodeStream || !video.videoWidth) return;
             
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            
             const ctx = canvas.getContext('2d');
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             
             if (typeof jsQR !== 'undefined') {
@@ -1126,7 +1287,6 @@ $(document).ready(function(){
                     barcodeScanningActive = false;
                     stopBarcodeScanning();
                     closeFullscreenBarcodeCamera();
-                    
                     $('#filter-barcode').val(normalizedBarcode);
                     triggerSearch();
                     showAlert('success', 'سەرکەوتوو', 'بارکۆد سکان کرا: ' + normalizedBarcode, 5000);
@@ -1143,34 +1303,22 @@ $(document).ready(function(){
     }
 
     // ============================================
-    // html5-qrcode Scanner Functions
+    // html5-qrcode Scanner
     // ============================================
-    
     async function startBarcodeScanner() {
         await stopBarcodeScanner();
-        
         const qrReader = document.getElementById('qr-reader');
         if (!qrReader) return;
         
         if (html5QrCode) {
             try {
-                if (html5QrCode.isScanning) {
-                    await html5QrCode.stop();
-                }
+                if (html5QrCode.isScanning) await html5QrCode.stop();
                 await html5QrCode.clear();
-            } catch(e) {
-                console.log('Error clearing previous scanner:', e);
-            }
+            } catch(e) {}
         }
         
         html5QrCode = new Html5Qrcode("qr-reader");
-        
-        const config = {
-            fps: 10,
-            qrbox: { width: 250, height: 200 },
-            aspectRatio: 1.0,
-            showTorchButtonIfSupported: true,
-        };
+        const config = { fps: 10, qrbox: { width: 250, height: 200 }, aspectRatio: 1.0 };
         
         try {
             await html5QrCode.start(
@@ -1186,10 +1334,9 @@ $(document).ready(function(){
                         showAlert('success', 'سەرکەوتوو', 'بارکۆد سکان کرا: ' + normalizedBarcode);
                     }
                 },
-                (errorMessage) => {}
+                () => {}
             );
         } catch (err) {
-            console.error('Error starting scanner:', err);
             showAlert('error', 'هەڵەی کامێرا', 'ناتوانرێت کامێرا بۆ سکانکردن بکرێتەوە');
             barcodeScannerModal.hide();
         }
@@ -1200,14 +1347,12 @@ $(document).ready(function(){
             try {
                 await html5QrCode.stop();
                 await html5QrCode.clear();
-            } catch(e) {
-                console.error('Error stopping scanner:', e);
-            }
+            } catch(e) {}
         }
     }
 
     // ============================================
-    // Image Fullscreen Functions
+    // Fullscreen Image
     // ============================================
     function openFullscreenImage(imageSrc) {
         if (imageSrc && imageSrc !== '' && imageSrc !== '#') {
@@ -1216,15 +1361,9 @@ $(document).ready(function(){
         }
     }
     
-    $(document).on('click', '#product-image', function() {
-        const imageSrc = $(this).attr('src');
-        openFullscreenImage(imageSrc);
-    });
-    
     $(document).on('click', '#products-tbody td img', function(e) {
         e.stopPropagation();
-        const imageSrc = $(this).attr('src');
-        openFullscreenImage(imageSrc);
+        openFullscreenImage($(this).attr('src'));
     });
     
     $(document).on('click', '#fullscreen-image', function() {
@@ -1232,7 +1371,7 @@ $(document).ready(function(){
     });
 
     // ============================================
-    // Load Products Function
+    // Load Products
     // ============================================
     function loadAllProducts(barcode, name, company, page = 1) {
         currentPage = page;
@@ -1241,7 +1380,7 @@ $(document).ready(function(){
         const normalizedBarcode = normalizeToEnglishNumbers(barcode);
         
         $.ajax({
-            url: '{{ route("products.list") }}',
+            url: '{{ route("products.listt") }}',
             method: 'GET',
             data: { barcode: normalizedBarcode, name: name, company: company, page: page },
             success: function(response) {
@@ -1272,6 +1411,9 @@ $(document).ready(function(){
         $('#products-tbody').html('<tr><td colspan="6" class="text-center text-muted py-5">هیچ کاڵایەک نەدۆزرایەوە</td></tr>');
     }
     
+    // ═══════════════════════════════════════════════════════════
+    // ✅ renderProductTable — لەگەڵ company_name
+    // ═══════════════════════════════════════════════════════════
     function renderProductTable(products) {
         const tbody = $('#products-tbody');
         if(!products || !products.length) {
@@ -1286,10 +1428,14 @@ $(document).ready(function(){
             let duplicateClass = isDuplicate ? 'duplicate-warning' : '';
             let duplicateBadge = isDuplicate ? '<span class="duplicate-badge"><i class="fas fa-copy"></i> دووبارە</span>' : '';
             
+            // ✅ ناوی کۆمپانیا
+            const companyName = prod.company_name || prod.company || 'بێ کۆمپانیا';
+            
             let thumbnail = '';
+            let thumbUrl = '';
             if (imagePath) {
                 let baseUrl = '{{ url("/") }}';
-                let thumbUrl = imagePath.startsWith('http') ? imagePath : baseUrl + '/' + imagePath.replace(/^public\/|^storage\//, 'storage/');
+                thumbUrl = imagePath.startsWith('http') ? imagePath : baseUrl + '/' + imagePath.replace(/^public\/|^storage\//, 'storage/');
                 thumbnail = `<img src="${thumbUrl}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'" class="clickable-image" title="کلیک بکە بۆ گەورەکردن">`;
             } else {
                 thumbnail = '<i class="fas fa-image text-muted" style="font-size: 24px;"></i>';
@@ -1298,16 +1444,16 @@ $(document).ready(function(){
             html += `<tr class="${duplicateClass}" data-id="${prod.id}" 
                          data-barcode="${escapeHtml(prod.barcode)}" 
                          data-name="${escapeHtml(prod.name)}" 
-                         data-company="${escapeHtml(prod.company)}" 
+                         data-company="${escapeHtml(companyName)}" 
                          data-price="${prod.purchase_price || 0}"
                          data-image="${escapeHtml(imagePath)}"
                          style="cursor:pointer">
-                        <td class="text-muted small">${prod.id}</td>
-                        <td class="fw-bold">${escapeHtml(prod.name)} ${duplicateBadge}</td>
-                        <td>${escapeHtml(prod.company)}</td>
-                        <td>${formatPrice(prod.purchase_price)} IQD</td>
-                        <td class="text-center">${thumbnail}</td>
-                        <td class="text-center"><i class="fas fa-arrow-left select-arrow" style="cursor: pointer; font-size: 1.2rem; color: var(--primary);"></i></td>
+                        <td data-label="#" class="text-muted small">${prod.id}</td>
+                        <td data-label="ناوی کاڵا" class="fw-bold">${escapeHtml(prod.name)} ${duplicateBadge}</td>
+                        <td data-label="کۆمپانیا">${escapeHtml(companyName)}</td>
+                        <td data-label="نرخی کڕین">${formatPrice(prod.purchase_price)} IQD</td>
+                        <td data-label="وێنە" class="text-center">${thumbnail}</td>
+                        <td data-label="هەڵبژاردن" class="text-center"><i class="fas fa-arrow-left select-arrow"></i></td>
                      </tr>`;
         });
         tbody.html(html);
@@ -1367,40 +1513,33 @@ $(document).ready(function(){
         });
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // ✅ fillFormWithProductData — لەگەڵ company_name
+    // ═══════════════════════════════════════════════════════════
     function fillFormWithProductData(product) {
         currentProduct = product;
         currentProductId = product.id;
         $('#selected-product-id').val(product.id);
         $('#selected-barcode').val(product.barcode);
         $('#selected-name').val(product.name || 'بێ ناو');
-        $('#selected-company').val(product.company || 'بێ کۆمپانیا');
+        
+        // ✅ ناوی کۆمپانیا
+        const companyName = product.company_name || product.company || 'بێ کۆمپانیا';
+        $('#selected-company').val(companyName);
+        
         $('#selected-price').val(formatPrice(product.purchase_price || 0));
         $('#stock-amount').val(1);
         
         saveFormToLocalStorage();
         
-        let imagePath = product.image_product_path || product.image_producte_path || product.image;
-        if (imagePath) {
-            let baseUrl = '{{ url("/") }}';
-            let fullImageUrl;
-            if (imagePath.startsWith('public/')) fullImageUrl = baseUrl + '/' + imagePath.replace('public/', '');
-            else if (imagePath.startsWith('storage/')) fullImageUrl = baseUrl + '/storage/' + imagePath.replace('storage/', '');
-            else if (imagePath.startsWith('/')) fullImageUrl = baseUrl + imagePath;
-            else fullImageUrl = baseUrl + '/' + imagePath;
-            $('#product-image').attr('src', fullImageUrl).removeClass('d-none');
-            $('#no-image-message').addClass('d-none');
-        } else {
-            $('#product-image').addClass('d-none');
-            $('#no-image-message').removeClass('d-none');
-        }
-        
         $('.product-table tbody tr').removeClass('table-selected-row');
         $(`.product-table tbody tr[data-id="${product.id}"]`).addClass('table-selected-row');
         
-        // Scroll to form smoothly
-        $('html, body').animate({
-            scrollTop: $('.form-sidebar-panel').offset().top - 20
-        }, 500);
+        if (window.innerWidth <= 992) {
+            $('html, body').animate({
+                scrollTop: $('.form-sidebar-panel').offset().top - 20
+            }, 500);
+        }
     }
 
     function fillFormWithSelected(row) {
@@ -1425,8 +1564,6 @@ $(document).ready(function(){
         $('#stock-reason').val('');
         $('#custom-reason').addClass('d-none').val('');
         $('textarea[name="notes"]').val('');
-        $('#product-image').addClass('d-none');
-        $('#no-image-message').removeClass('d-none');
         $('.product-table tbody tr').removeClass('table-selected-row');
         currentProduct = null;
         currentProductId = null;
@@ -1449,30 +1586,15 @@ $(document).ready(function(){
         }
     });
     
-    // Click on entire row to select product
     $(document).on('click', '#products-tbody tr', function(e) {
-        // Don't trigger if clicking on the arrow specifically (handled separately)
-        if ($(e.target).is('.select-arrow') || $(e.target).closest('.select-arrow').length) {
-            return;
-        }
-        // Don't trigger if clicking on image
-        if ($(e.target).is('img') || $(e.target).closest('img').length) {
-            return;
-        }
+        if ($(e.target).is('.select-arrow') || $(e.target).closest('.select-arrow').length) return;
+        if ($(e.target).is('img') || $(e.target).closest('img').length) return;
         fillFormWithSelected($(this));
     });
     
-    // Click on arrow to select product (with visual feedback)
     $(document).on('click', '.select-arrow', function(e) {
         e.stopPropagation();
-        const $row = $(this).closest('tr');
-        fillFormWithSelected($row);
-        
-        // Add temporary animation to arrow
-        $(this).css('transform', 'translateX(-5px)');
-        setTimeout(() => {
-            $(this).css('transform', '');
-        }, 200);
+        fillFormWithSelected($(this).closest('tr'));
     });
     
     $('#filter-barcode, #filter-name, #filter-company').on('input', function() {
@@ -1480,17 +1602,10 @@ $(document).ready(function(){
         searchTimeout = setTimeout(triggerSearch, 400);
     });
     
-    $('#filter-camera-btn').on('click', function() { 
-        barcodeScannerModal.show();
-    });
+    $('#filter-camera-btn').on('click', function() { barcodeScannerModal.show(); });
     
-    $('#barcodeScannerModal').on('shown.bs.modal', function() {
-        startBarcodeScanner();
-    });
-    
-    $('#barcodeScannerModal').on('hidden.bs.modal', function() {
-        stopBarcodeScanner();
-    });
+    $('#barcodeScannerModal').on('shown.bs.modal', function() { startBarcodeScanner(); });
+    $('#barcodeScannerModal').on('hidden.bs.modal', function() { stopBarcodeScanner(); });
     
     $('#closeScannerBtn').on('click', function() {
         barcodeScannerModal.hide();
@@ -1500,7 +1615,6 @@ $(document).ready(function(){
     $('#closeFullscreenBarcodeCamera').click(closeFullscreenBarcodeCamera);
     $('#switchBarcodeCameraFull').click(switchBarcodeCamera);
     $('#captureBarcodeFull').click(function() {
-        // Manual capture functionality can be added here
         showAlert('info', 'ڕێنمایی', 'کامێرا بە شێوەی خۆکار بارکۆد دەدۆزێتەوە', 2000);
     });
     
@@ -1570,9 +1684,14 @@ $(document).ready(function(){
     });
     
     $('#reset-form-btn').click(function() { 
-        if(confirm('دڵنیایت پاککردنەوەی هەموو زانیارییەکان؟')) {
-            clearFormSelection();
-        }
+        showConfirmAlert({
+            title: 'پاککردنەوەی فۆرم',
+            message: 'دڵنیایت کە دەتەوێت هەموو زانیارییەکان پاک بکەیتەوە؟',
+            confirmText: 'بەڵێ، پاکی بکەرەوە',
+            cancelText: 'پاشگەزبوونەوە',
+            type: 'warning',
+            onConfirm: function() { clearFormSelection(); }
+        });
     });
     
     restoreFormFromLocalStorage();

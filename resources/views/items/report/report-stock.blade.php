@@ -214,6 +214,9 @@
         transform: translateY(-5px);
         box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
+    body.dark-mode .stat-card:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
     .stat-icon {
         width: 40px;
         height: 40px;
@@ -254,7 +257,7 @@
         align-items: end;
     }
 
-    /* Table Styles - Full Responsive */
+    /* Table Styles */
     .table-container {
         background: var(--card-bg);
         border-radius: 0.75rem;
@@ -306,6 +309,132 @@
     }
     body.dark-mode .stock-table tbody tr:hover {
         background-color: #334155 !important;
+    }
+
+    /* ============================================
+       TABLE → CARDS - MOBILE (باکگراوندی یەکسان)
+       ============================================ */
+    @media (max-width: 767px) {
+        .table-container {
+            overflow-x: visible !important;
+            border: none !important;
+            border-radius: 0;
+            background: transparent !important;
+        }
+
+        .stock-table {
+            display: block;
+            min-width: 0 !important;
+        }
+
+        .stock-table thead {
+            display: none;
+        }
+
+        .stock-table tbody {
+            display: block;
+        }
+
+        /* کارتەکان - باکگراوندی یەکسان */
+        .stock-table tbody tr {
+            display: block;
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .stock-table tbody tr {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .stock-table tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stock-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0 !important;
+            border: none !important;
+            border-bottom: 1px solid var(--border-color) !important;
+            text-align: right;
+            gap: 10px;
+            font-size: 0.8rem;
+            background: transparent !important;
+            color: var(--text);
+            white-space: normal;
+        }
+
+        .stock-table tbody td:last-child {
+            border-bottom: none !important;
+        }
+
+        .stock-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            text-align: left;
+            color: var(--primary);
+        }
+
+        body.dark-mode .stock-table tbody td::before {
+            color: #94a3b8;
+        }
+
+        /* شاردنەوەی # لە مۆبایل */
+        .stock-table tbody td[data-label="ژمارە"] {
+            display: none;
+        }
+
+        /* ناوی کاڵا لە سەرەوەی کارت */
+        .stock-table tbody td[data-label="ناوی کاڵا"] {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color) !important;
+            padding-bottom: 10px !important;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        body.dark-mode .stock-table tbody td[data-label="ناوی کاڵا"] {
+            color: #93c5fd;
+        }
+
+        .stock-table tbody td[data-label="ناوی کاڵا"]::before {
+            display: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stock-table tbody tr {
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .stock-table tbody td {
+            font-size: 0.75rem;
+            padding: 5px 0 !important;
+        }
+
+        .stock-table tbody td::before {
+            font-size: 0.65rem;
+        }
+
+        .stock-table tbody td[data-label="ناوی کاڵا"] {
+            font-size: 0.9rem;
+        }
     }
 
     /* Reason Badges */
@@ -360,7 +489,9 @@
         background: linear-gradient(135deg, #6c8db8, #5d7ab0);
     }
 
-    /* Alert */
+    /* ============================================
+       ALERT - RESPONSIVE + DARK MODE
+       ============================================ */
     .alert-container {
         position: fixed;
         top: 10px;
@@ -368,6 +499,7 @@
         z-index: 9999;
         width: auto;
         max-width: 350px;
+        pointer-events: none;
     }
     .custom-alert {
         border-radius: 12px;
@@ -381,14 +513,62 @@
         gap: 10px;
         text-align: right;
         font-size: 0.85rem;
+        pointer-events: auto;
+        word-wrap: break-word;
     }
     @keyframes slideInRight {
         from { opacity: 0; transform: translateX(30px);}
         to { opacity: 1; transform: translateX(0);}
     }
-    .alert-success-custom { background: #dcfce7; border-right-color: var(--success); color: #166534; }
-    .alert-error-custom { background: #fee2e2; border-right-color: var(--danger); color: #991b1b; }
-    .alert-warning-custom { background: #fff3e3; border-right-color: var(--warning); color: #9a3412; }
+    .alert-success-custom { 
+        background: linear-gradient(135deg, #d1fae5, #a7f3d0); 
+        border-right-color: #10b981; 
+        color: #065f46; 
+    }
+    .alert-error-custom { 
+        background: linear-gradient(135deg, #fee2e2, #fecaca); 
+        border-right-color: #ef4444; 
+        color: #991b1b; 
+    }
+    .alert-warning-custom { 
+        background: linear-gradient(135deg, #fff3e3, #fed7aa); 
+        border-right-color: #f59e0b; 
+        color: #9a3412; 
+    }
+    
+    body.dark-mode .custom-alert {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+    
+    body.dark-mode .alert-success-custom { 
+        background: linear-gradient(135deg, #064e3b, #065f46); 
+        color: #a7f3d0; 
+    }
+    body.dark-mode .alert-error-custom { 
+        background: linear-gradient(135deg, #7f1d1d, #991b1b); 
+        color: #fecaca; 
+    }
+    body.dark-mode .alert-warning-custom { 
+        background: linear-gradient(135deg, #78350f, #92400e); 
+        color: #fde68a; 
+    }
+    
+    body.dark-mode .custom-alert .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    @media (max-width: 576px) {
+        .alert-container {
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            max-width: none;
+        }
+        .custom-alert {
+            font-size: 0.75rem;
+            padding: 0.6rem 0.75rem;
+        }
+    }
 
     /* Barcode Scanner */
     .search-input-wrapper {
@@ -445,6 +625,42 @@
         object-fit: cover;
     }
 
+    @media (max-width: 767px) {
+        #qr-reader video {
+            min-height: 200px;
+        }
+        .scanner-modal .modal-dialog {
+            margin: 0.5rem;
+        }
+        .scanner-modal .modal-footer {
+            flex-wrap: wrap;
+        }
+        .scanner-modal .modal-footer .btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        #qr-reader video {
+            min-height: 180px;
+        }
+        .scanner-modal .modal-header {
+            padding: 0.5rem 0.75rem;
+        }
+        .scanner-modal .modal-title {
+            font-size: 0.9rem;
+        }
+        .camera-search-btn {
+            width: 24px;
+            height: 24px;
+            font-size: 0.65rem;
+            left: 6px;
+        }
+        .search-input-wrapper .form-control {
+            padding-left: 36px;
+        }
+    }
+
     /* Print */
     @media print {
         .no-print { display: none !important; }
@@ -460,33 +676,9 @@
         .statistics-row { grid-template-columns: repeat(4, 1fr); }
     }
 
-    /* ==================== RESPONSIVE BREAKPOINTS ==================== */
-
-    /* XX-Large (2xl - 1400px+) */
-    @media (min-width: 1400px) {
-        .container {
-            max-width: 1320px;
-        }
-        .stock-table {
-            min-width: 100%;
-        }
-        .stock-table thead th {
-            font-size: 0.85rem;
-            padding: 0.75rem 0.75rem;
-        }
-        .stock-table tbody td {
-            font-size: 0.85rem;
-            padding: 0.625rem 0.75rem;
-        }
-        .stat-value {
-            font-size: 1.75rem;
-        }
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            font-size: 1.3rem;
-        }
-    }
+    /* ============================================
+       RESPONSIVE BREAKPOINTS
+       ============================================ */
 
     /* Large (lg - 992px to 1199px) */
     @media (max-width: 1199px) {
@@ -590,17 +782,6 @@
         .section-title-custom {
             font-size: 0.9rem;
         }
-        .stock-table {
-            min-width: 600px;
-        }
-        .stock-table thead th {
-            font-size: 0.65rem;
-            padding: 0.4rem 0.3rem;
-        }
-        .stock-table tbody td {
-            font-size: 0.65rem;
-            padding: 0.35rem 0.3rem;
-        }
         .stat-card {
             padding: 0.75rem 0.5rem;
         }
@@ -626,24 +807,12 @@
             font-size: 13px;
             padding: 0.45rem 0.65rem;
         }
-        .alert-container {
-            left: 8px;
-            right: 8px;
-            max-width: 100%;
-        }
-        .custom-alert {
-            font-size: 0.75rem;
-            padding: 0.6rem 0.75rem;
-        }
         .pagination {
             gap: 2px;
         }
         .page-link {
             padding: 0.3rem 0.5rem;
             font-size: 0.7rem;
-        }
-        #qr-reader video {
-            min-height: 200px;
         }
     }
 
@@ -687,17 +856,6 @@
             font-size: 0.85rem;
             margin-bottom: 0.6rem;
         }
-        .stock-table {
-            min-width: 550px;
-        }
-        .stock-table thead th {
-            font-size: 0.6rem;
-            padding: 0.3rem 0.25rem;
-        }
-        .stock-table tbody td {
-            font-size: 0.6rem;
-            padding: 0.3rem 0.25rem;
-        }
         .stat-card {
             padding: 0.6rem 0.4rem;
             border-radius: 0.5rem;
@@ -734,25 +892,6 @@
             font-size: 0.6rem;
             padding: 0.1rem 0.4rem;
         }
-        .camera-search-btn {
-            width: 24px;
-            height: 24px;
-            font-size: 0.65rem;
-            left: 6px;
-        }
-        .search-input-wrapper .form-control {
-            padding-left: 36px;
-        }
-        .alert-container {
-            top: 5px;
-            left: 4px;
-            right: 4px;
-        }
-        .custom-alert {
-            font-size: 0.7rem;
-            padding: 0.5rem 0.6rem;
-            border-radius: 8px;
-        }
         .pagination-container {
             margin-top: 0.5rem;
         }
@@ -761,15 +900,6 @@
             font-size: 0.65rem;
             border-radius: 4px !important;
         }
-        #qr-reader video {
-            min-height: 180px;
-        }
-        .scanner-modal .modal-header {
-            padding: 0.5rem 0.75rem;
-        }
-        .scanner-modal .modal-title {
-            font-size: 0.9rem;
-        }
         .d-flex.justify-content-between.align-items-center {
             flex-direction: column;
             align-items: flex-start !important;
@@ -777,6 +907,27 @@
         }
         #result-count {
             align-self: flex-end;
+        }
+    }
+
+    /* iOS Zoom Prevention */
+    @media (max-width: 576px) {
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+        .form-control, .form-select {
+            font-size: 16px !important;
+        }
+    }
+
+    /* Touch Optimizations */
+    @media (max-width: 768px) {
+        button, .btn, input, select, a {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .btn:active, button:active {
+            transform: scale(0.98);
         }
     }
 </style>
@@ -917,7 +1068,6 @@ $(document).ready(function(){
     let html5QrCode = null;
     let barcodeScannerModal = null;
     
-    // Initialize modal
     barcodeScannerModal = new bootstrap.Modal(document.getElementById('barcodeScannerModal'));
     
     // ==================== NUMBER NORMALIZATION ====================
@@ -950,10 +1100,12 @@ $(document).ready(function(){
     // ==================== HELPER FUNCTIONS ====================
     function escapeHtml(str) {
         if(!str) return '';
-        return String(str).replace(/[&<>]/g, function(m) {
+        return String(str).replace(/[&<>"']/g, function(m) {
             if(m === '&') return '&amp;';
             if(m === '<') return '&lt;';
             if(m === '>') return '&gt;';
+            if(m === '"') return '&quot;';
+            if(m === "'") return '&#39;';
             return m;
         });
     }
@@ -972,7 +1124,7 @@ $(document).ready(function(){
         
         const html = `<div id="${alertId}" class="custom-alert ${alertClass}">
                         <i class="fas ${icon} fa-lg"></i>
-                        <div class="flex-grow-1"><strong>${title}</strong><br><small>${message}</small></div>
+                        <div class="flex-grow-1" style="min-width:0;"><strong>${escapeHtml(title)}</strong><br><small style="word-break:break-word;">${escapeHtml(message)}</small></div>
                         <button class="btn-close btn-close-sm ms-2" onclick="$('#${alertId}').remove()" style="font-size:0.6rem;"></button>
                       </div>`;
         $('#alert-container').prepend(html);
@@ -1027,9 +1179,7 @@ $(document).ready(function(){
                         loadStockReport();
                     }
                 },
-                (errorMessage) => {
-                    // Silently handle scanning errors
-                }
+                (errorMessage) => {}
             );
         } catch (err) {
             console.error('Scanner error:', err);
@@ -1138,16 +1288,16 @@ $(document).ready(function(){
             const reasonClass = getReasonBadgeClass(reason);
             
             html += `<tr>
-                <td>${rowNumber}</td>
-                <td class="fw-bold">${escapeHtml(productName)}</td>
-                <td><small>${escapeHtml(barcode)}</small></td>
-                <td><strong>${quantity}</strong></td>
-                <td>${formatPrice(purchasePrice)} IQD</td>
-                <td><strong class="text-danger">${formatPrice(totalCost)} IQD</strong></td>
-                <td><span class="reason-badge ${reasonClass}">${escapeHtml(reason)}</span></td>
-                <td><small>${escapeHtml(notes)}</small></td>
-                <td><small><i class="fas fa-user me-1"></i>${escapeHtml(userName)}</small></td>
-                <td><small>${date}</small></td>
+                <td data-label="ژمارە">${rowNumber}</td>
+                <td data-label="ناوی کاڵا" class="fw-bold">${escapeHtml(productName)}</td>
+                <td data-label="بارکۆد"><small>${escapeHtml(barcode)}</small></td>
+                <td data-label="عدد"><strong>${quantity}</strong></td>
+                <td data-label="نرخی کڕین (تاک)">${formatPrice(purchasePrice)} IQD</td>
+                <td data-label="کۆی کڕین"><strong class="text-danger">${formatPrice(totalCost)} IQD</strong></td>
+                <td data-label="هۆکاری ستۆكبوون"><span class="reason-badge ${reasonClass}">${escapeHtml(reason)}</span></td>
+                <td data-label="تێبینی"><small>${escapeHtml(notes)}</small></td>
+                <td data-label="بەکارهێنەر"><small><i class="fas fa-user me-1"></i>${escapeHtml(userName)}</small></td>
+                <td data-label="بەروار"><small>${date}</small></td>
             </tr>`;
         });
         tbody.html(html);
@@ -1251,7 +1401,6 @@ $(document).ready(function(){
         stopBarcodeScanner();
     });
     
-    // Handle window resize for scanner
     $(window).on('resize', function() {
         if ($('#barcodeScannerModal').hasClass('show') && html5QrCode && html5QrCode.isScanning) {
             startBarcodeScanner();

@@ -6,28 +6,42 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class StockProductController extends Controller
 {
     public function reportStock(Request $request)
     {
         try {
+            // Check if users_id column exists in stock_item table
+            $hasUserId = Schema::hasColumn('stock_item', 'users_id');
+            
             $query = DB::table('stock_item')
-                ->join('products', 'stock_item.products_id', '=', 'products.id')
-                ->leftJoin('users', 'stock_item.user_id', '=', 'users.id')
-                ->select(
-                    'stock_item.id',
-                    'stock_item.Amount as amount',
-                    'stock_item.Stock_Couse as stock_reason',
-                    'stock_item.Note as notes',
-                    'stock_item.Entry_Date as entry_date',
-                    'stock_item.user_id',
-                    'users.name as user_name',
-                    'products.id as product_id',
-                    'products.name as product_name',
-                    'products.barcode',
-                    'products.purchase_price',
-                );
+                ->join('products', 'stock_item.products_id', '=', 'products.id');
+            
+            // Only join users if users_id column exists
+            if ($hasUserId) {
+                $query->leftJoin('users', 'stock_item.users_id', '=', 'users.id');
+            }
+            
+            $selectColumns = [
+                'stock_item.id',
+                'stock_item.Amount as amount',
+                'stock_item.Stock_Couse as stock_reason',
+                'stock_item.Note as notes',
+                'stock_item.Entry_Date as entry_date',
+                'products.id as product_id',
+                'products.name as product_name',
+                'products.barcode',
+                'products.purchase_price',
+            ];
+            
+            if ($hasUserId) {
+                $selectColumns[] = 'stock_item.users_id';
+                $selectColumns[] = 'users.name as user_name';
+            }
+            
+            $query->select($selectColumns);
 
             // Date filters
             if ($request->filled('date_from')) {

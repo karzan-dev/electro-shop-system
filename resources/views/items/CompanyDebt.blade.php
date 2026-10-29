@@ -35,6 +35,9 @@
         color: #e2e8f0;
     }
 
+    /* ============================================
+       ALERT CONTAINER - RESPONSIVE + DARK MODE
+       ============================================ */
     #alert-container {
         position: fixed;
         top: 20px;
@@ -42,6 +45,7 @@
         z-index: 9999;
         width: 350px;
         max-width: calc(100vw - 40px);
+        pointer-events: none;
     }
 
     .alert-custom {
@@ -54,19 +58,52 @@
         animation: slideDown 0.3s ease-out;
         background: white;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        pointer-events: auto;
+        word-wrap: break-word;
     }
 
     body.dark-mode .alert-custom {
         background: #1e293b;
         color: #e2e8f0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
 
-    .alert-success-custom { border-right: 4px solid var(--success); }
-    .alert-error-custom { border-right: 4px solid var(--danger); }
+    .alert-success-custom { 
+        border-right: 4px solid var(--success);
+        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+        color: #065f46;
+    }
+    .alert-error-custom { 
+        border-right: 4px solid var(--danger);
+        background: linear-gradient(135deg, #fee2e2, #fecaca);
+        color: #991b1b;
+    }
+
+    body.dark-mode .alert-success-custom {
+        background: linear-gradient(135deg, #064e3b, #065f46);
+        color: #a7f3d0;
+    }
+    body.dark-mode .alert-error-custom {
+        background: linear-gradient(135deg, #7f1d1d, #991b1b);
+        color: #fecaca;
+    }
 
     @keyframes slideDown {
         from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+        #alert-container {
+            width: calc(100vw - 20px);
+            top: 10px;
+            right: 10px;
+        }
+        
+        .alert-custom {
+            padding: 0.7rem 0.85rem;
+            font-size: 0.8rem;
+        }
     }
 
     .card {
@@ -107,7 +144,21 @@
         -webkit-text-fill-color: transparent;
     }
 
-    /* Stats Grid - Compact */
+    @media (max-width: 576px) {
+        .form-logo-custom {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+        }
+        .form-logo-custom i {
+            font-size: 1.4rem;
+        }
+    }
+
+    /* ============================================
+       STATS GRID - RESPONSIVE
+       ============================================ */
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -151,6 +202,15 @@
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
 
+    @media (max-width: 768px) {
+        .stat-card {
+            padding: 0.9rem;
+        }
+        .stat-card:hover {
+            transform: none;
+        }
+    }
+
     .stat-card::after {
         content: '';
         position: absolute;
@@ -162,12 +222,6 @@
         opacity: 0.05;
         border-radius: 50%;
         transform: translate(20px, -20px);
-    }
-
-    @media (max-width: 768px) {
-        .stat-card {
-            padding: 1rem;
-        }
     }
 
     .stat-icon {
@@ -213,12 +267,14 @@
     }
 
     @media (max-width: 768px) {
-        .stat-value { font-size: 1.1rem; }
+        .stat-value { font-size: 1.05rem; }
     }
 
     body.dark-mode .stat-value { color: #e2e8f0; }
 
-    /* Content Grid */
+    /* ============================================
+       CONTENT GRID
+       ============================================ */
     .content-grid {
         display: grid;
         grid-template-columns: 340px 1fr;
@@ -233,7 +289,9 @@
         .form-column { order: -1; }
     }
 
-    /* Form Card */
+    /* ============================================
+       FORM CARD
+       ============================================ */
     .form-card {
         background: white;
         border-radius: 0.75rem;
@@ -318,7 +376,7 @@
 
     @media (max-width: 576px) {
         .form-control-custom {
-            padding: 0.55rem 0.7rem;
+            padding: 0.6rem 0.7rem;
             font-size: 16px;
         }
     }
@@ -455,7 +513,9 @@
 
     .btn-secondary-custom:hover { background: var(--border-color); }
 
-    /* Table Card - Compact */
+    /* ============================================
+       TABLE CARD
+       ============================================ */
     .table-card {
         background: white;
         border-radius: 0.75rem;
@@ -538,6 +598,13 @@
         font-family: inherit;
     }
 
+    @media (max-width: 576px) {
+        .search-input-custom {
+            font-size: 16px;
+            padding: 0.55rem 0.75rem 0.55rem 2rem;
+        }
+    }
+
     .search-input-custom::placeholder { color: rgba(255, 255, 255, 0.5); }
 
     .search-input-custom:focus {
@@ -568,13 +635,6 @@
         .debt-table { font-size: 0.7rem; }
     }
 
-    @media (max-width: 480px) {
-        .debt-table {
-            min-width: 100%;
-            font-size: 0.65rem;
-        }
-    }
-
     .debt-table thead th {
         background: var(--bg-light);
         padding: 0.5rem 0.4rem;
@@ -595,20 +655,6 @@
         }
     }
 
-    @media (max-width: 480px) {
-        .debt-table thead th {
-            padding: 0.35rem 0.25rem;
-            font-size: 0.58rem;
-        }
-        
-        .debt-table thead th:nth-child(6),
-        .debt-table tbody td:nth-child(6),
-        .debt-table thead th:nth-child(7),
-        .debt-table tbody td:nth-child(7) {
-            display: none;
-        }
-    }
-
     body.dark-mode .debt-table thead th {
         background: #0f172a;
         color: #94a3b8;
@@ -626,13 +672,6 @@
         .debt-table tbody td { 
             padding: 0.4rem 0.3rem;
             font-size: 0.7rem;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .debt-table tbody td {
-            padding: 0.35rem 0.25rem;
-            font-size: 0.65rem;
         }
     }
 
@@ -668,23 +707,9 @@
 
     @media (max-width: 768px) {
         .btn-table-action {
-            width: 24px;
-            height: 24px;
-            font-size: 0.7rem;
-            min-width: 26px;
-            min-height: 26px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .btn-table-action {
-            width: 22px;
-            height: 22px;
-            font-size: 0.65rem;
-            min-width: 24px;
-            min-height: 24px;
-            margin: 0 0.04rem;
-            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            font-size: 0.75rem;
         }
     }
 
@@ -710,13 +735,6 @@
         .badge-custom {
             padding: 0.12rem 0.35rem;
             font-size: 0.6rem;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .badge-custom {
-            padding: 0.1rem 0.3rem;
-            font-size: 0.55rem;
         }
     }
 
@@ -746,7 +764,155 @@
 
     .empty-state p { font-size: 0.9rem; font-weight: 500; }
 
-    /* Modal */
+    /* ============================================
+       TABLE → CARDS - MOBILE
+       ============================================ */
+    @media (max-width: 768px) {
+        .table-wrapper {
+            padding: 0.75rem;
+            overflow-x: visible;
+        }
+
+        .debt-table {
+            display: block;
+            min-width: 0 !important;
+            font-size: 0.85rem;
+        }
+
+        .debt-table thead {
+            display: none;
+        }
+
+        .debt-table tbody {
+            display: block;
+        }
+
+        .debt-table tbody tr {
+            display: block;
+            background: var(--bg-light);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .debt-table tbody tr {
+            background: #0f172a;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .debt-table tbody tr:hover {
+            background: var(--bg-light);
+        }
+
+        body.dark-mode .debt-table tbody tr:hover {
+            background: #0f172a;
+        }
+
+        .debt-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            text-align: right;
+            gap: 8px;
+        }
+
+        body.dark-mode .debt-table tbody td {
+            border-bottom-color: #334155;
+        }
+
+        .debt-table tbody td:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-top: 6px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            justify-content: center;
+        }
+
+        body.dark-mode .debt-table tbody td:last-child {
+            border-top-color: #334155;
+        }
+
+        .debt-table tbody td:first-child {
+            display: none;
+        }
+
+        .debt-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        body.dark-mode .debt-table tbody td::before {
+            color: #94a3b8;
+        }
+
+        .debt-table tbody td:last-child::before {
+            display: none;
+        }
+
+        .debt-table tbody td[data-label="ناوی کۆمپانیا"] {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .debt-table tbody td[data-label="ناوی کۆمپانیا"]::before {
+            display: none;
+        }
+
+        .btn-table-action {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+            margin: 0 4px;
+            border-radius: 10px;
+        }
+
+        .badge-custom {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .debt-table tbody tr {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .debt-table tbody td {
+            font-size: 0.75rem;
+            padding: 5px 0;
+        }
+
+        .debt-table tbody td::before {
+            font-size: 0.65rem;
+        }
+
+        .btn-table-action {
+            width: 36px;
+            height: 36px;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* ============================================
+       MODAL - RESPONSIVE + DARK MODE
+       ============================================ */
     .modal-overlay {
         position: fixed;
         top: 0;
@@ -1012,6 +1178,174 @@
 
     .dir-ltr { direction: ltr; text-align: left; }
 
+    /* ============================================
+       CONFIRM MODAL - بۆ سڕینەوە
+       ============================================ */
+    .confirm-overlay {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .confirm-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .confirm-modal {
+        background: white;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: confirmSlideIn 0.3s ease;
+        overflow: hidden;
+    }
+
+    body.dark-mode .confirm-modal {
+        background: #1e293b;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    @keyframes confirmSlideIn {
+        from { transform: scale(0.9) translateY(-20px); opacity: 0; }
+        to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .confirm-header {
+        background: linear-gradient(135deg, var(--danger), #dc2626);
+        color: white;
+        padding: 18px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .confirm-header i {
+        font-size: 1.5rem;
+    }
+
+    .confirm-header h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    @media (max-width: 480px) {
+        .confirm-header {
+            padding: 14px 16px;
+        }
+        .confirm-header i { font-size: 1.2rem; }
+        .confirm-header h3 { font-size: 0.95rem; }
+    }
+
+    .confirm-body {
+        padding: 24px 20px;
+        text-align: center;
+    }
+
+    @media (max-width: 480px) {
+        .confirm-body { padding: 20px 16px; }
+    }
+
+    .confirm-body p {
+        font-size: 0.95rem;
+        color: var(--text);
+        line-height: 1.6;
+        margin-bottom: 8px;
+    }
+
+    body.dark-mode .confirm-body p { color: #e2e8f0; }
+
+    @media (max-width: 480px) {
+        .confirm-body p { font-size: 0.85rem; }
+    }
+
+    .confirm-warning {
+        color: var(--danger) !important;
+        font-weight: 600;
+        font-size: 0.85rem !important;
+    }
+
+    .confirm-footer {
+        padding: 16px 20px;
+        display: flex;
+        gap: 10px;
+        background: var(--bg-light);
+        border-top: 1px solid var(--border-color);
+    }
+
+    body.dark-mode .confirm-footer {
+        background: #0f172a;
+        border-top-color: #334155;
+    }
+
+    @media (max-width: 480px) {
+        .confirm-footer {
+            padding: 12px 16px;
+            flex-direction: column;
+            gap: 8px;
+        }
+    }
+
+    .confirm-btn {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.9rem;
+    }
+
+    .confirm-btn:active {
+        transform: scale(0.97);
+    }
+
+    .confirm-btn-cancel {
+        background: var(--bg-light);
+        color: var(--text-secondary);
+        border: 2px solid var(--border-color);
+    }
+
+    body.dark-mode .confirm-btn-cancel {
+        background: #334155;
+        color: #e2e8f0;
+        border-color: #475569;
+    }
+
+    .confirm-btn-cancel:hover {
+        background: var(--border-color);
+        color: var(--text);
+    }
+
+    .confirm-btn-danger {
+        background: linear-gradient(135deg, var(--danger), #dc2626);
+        color: white;
+    }
+
+    .confirm-btn-danger:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
     /* Container */
     .container {
         padding-left: 1rem;
@@ -1037,24 +1371,7 @@
         input, select, textarea, button {
             font-size: 16px !important;
         }
-    }
-
-    /* Fix for alert container on mobile */
-    @media (max-width: 480px) {
-        #alert-container {
-            width: calc(100vw - 20px);
-            top: 10px;
-            right: 10px;
-        }
-        
-        .alert-custom {
-            padding: 0.6rem;
-            font-size: 0.8rem;
-        }
-        
-        .alert-custom i {
-            font-size: 0.9rem !important;
-        }
+        .form-control-custom { font-size: 16px !important; }
     }
 </style>
 
@@ -1232,6 +1549,7 @@ function formatNumber(v) { return (!v && v !== 0) ? '' : v.toString().replace(/\
 function unformatNumber(v) { return v ? v.toString().replace(/,/g, '') : '0'; }
 function formatCurrency(a) { const n = parseFloat(a); return isNaN(n) ? '0 د.ع' : Math.round(n).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}) + ' د.ع'; }
 
+// ==================== SHOW ALERT - RESPONSIVE + DARK MODE ====================
 function showAlert(type, msg) {
     const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
     const cls = type === 'success' ? 'alert-success-custom' : 'alert-error-custom';
@@ -1240,6 +1558,71 @@ function showAlert(type, msg) {
     setTimeout(() => { $(`#${id}`).fadeOut(300, function(){ $(this).remove(); }); }, 4000);
 }
 
+// ==================== CONFIRM MODAL بۆ سڕینەوە ====================
+function showConfirmAlert(options) {
+    const {
+        title = 'پشتڕاستکردنەوە',
+        message = '',
+        confirmText = 'بەڵێ، بیسڕەوە',
+        cancelText = 'پاشگەزبوونەوە',
+        onConfirm = null
+    } = options;
+
+    const id = 'confirm-' + Date.now();
+
+    const html = `
+        <div id="${id}" class="confirm-overlay">
+            <div class="confirm-modal">
+                <div class="confirm-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>${escapeHtml(title)}</h3>
+                </div>
+                <div class="confirm-body">
+                    <p>${escapeHtml(message)}</p>
+                    <p class="confirm-warning">ئەم کارە ناگەڕێتەوە!</p>
+                </div>
+                <div class="confirm-footer">
+                    <button class="confirm-btn confirm-btn-cancel" data-action="cancel">
+                        <i class="fas fa-times"></i> ${escapeHtml(cancelText)}
+                    </button>
+                    <button class="confirm-btn confirm-btn-danger" data-action="confirm">
+                        <i class="fas fa-trash-alt"></i> ${escapeHtml(confirmText)}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    $('body').append(html);
+
+    setTimeout(() => {
+        $(`#${id}`).addClass('active');
+    }, 10);
+
+    function close() {
+        $(`#${id}`).removeClass('active');
+        setTimeout(() => $(`#${id}`).remove(), 300);
+    }
+
+    $(`#${id} [data-action="cancel"]`).on('click', function() { close(); });
+    $(`#${id} [data-action="confirm"]`).on('click', function() {
+        if (typeof onConfirm === 'function') onConfirm();
+        close();
+    });
+    $(`#${id}`).on('click', function(e) {
+        if (e.target === this) close();
+    });
+
+    const escHandler = function(e) {
+        if (e.key === 'Escape') {
+            close();
+            $(document).off('keydown', escHandler);
+        }
+    };
+    $(document).on('keydown', escHandler);
+}
+
+// ==================== INITIAL DATES ====================
 $('#debt_date').val(new Date().toISOString().split('T')[0]);
 $('#payment_date').val(new Date().toISOString().split('T')[0]);
 
@@ -1249,6 +1632,7 @@ $('#debt_amount, #payment_amount').on('input', function() {
     $(this).val(formatNumber(n.slice(0, 15)));
 });
 
+// ==================== LOAD DATA ====================
 function loadData() {
     $.ajax({
         url: '{{ route("company.debts.list") }}',
@@ -1282,15 +1666,15 @@ function renderTable(data) {
         else if (tp > 0) { sb = 'بەشێک دراوە'; sc = 'badge-custom badge-warning'; }
         else { sb = 'نەدراوە'; sc = 'badge-custom badge-danger'; }
         h += `<tr>
-            <td style="color:#64748b;font-size:11px;width:25px;">${i+1}</td>
-            <td style="font-weight:600;color:var(--primary);font-size:0.8rem;">${escapeHtml(item.company_name)}</td>
-            <td style="font-weight:700;color:#ef4444;font-size:0.8rem;" class="dir-ltr">${formatCurrency(da)}</td>
-            <td style="font-weight:700;color:#10b981;font-size:0.8rem;" class="dir-ltr">${formatCurrency(tp)}</td>
-            <td style="font-weight:700;color:#f59e0b;font-size:0.8rem;" class="dir-ltr">${formatCurrency(rm)}</td>
-            <td style="color:#64748b;font-size:11px;">${escapeHtml(item.debt_date||'-')}</td>
-            <td style="color:#64748b;font-size:11px;">${escapeHtml(item.due_date||'-')}</td>
-            <td><span class="${sc}">${sb}</span></td>
-            <td style="text-align:center;white-space:nowrap;">${rm>0?`<button class="btn-table-action btn-payment" title="پارەدان" data-id="${item.id}" data-name="${escapeHtml(item.company_name)}" data-remaining="${rm}"><i class="fas fa-money-bill-wave"></i></button>`:''}<button class="btn-table-action btn-edit" title="دەستکاری" data-id="${item.id}" data-name="${escapeHtml(item.company_name)}" data-amount="${da}" data-debt-date="${escapeHtml(item.debt_date||'')}" data-due-date="${escapeHtml(item.due_date||'')}" data-note="${escapeHtml(item.note||'')}"><i class="fas fa-edit"></i></button><button class="btn-table-action btn-delete" title="سڕینەوە" data-id="${item.id}"><i class="fas fa-trash"></i></button></td></tr>`;
+            <td style="color:#64748b;font-size:11px;width:25px;" data-label="#">${i+1}</td>
+            <td style="font-weight:600;color:var(--primary);font-size:0.8rem;" data-label="ناوی کۆمپانیا">${escapeHtml(item.company_name)}</td>
+            <td style="font-weight:700;color:#ef4444;font-size:0.8rem;" class="dir-ltr" data-label="بڕی قەرز">${formatCurrency(da)}</td>
+            <td style="font-weight:700;color:#10b981;font-size:0.8rem;" class="dir-ltr" data-label="پارەی دراو">${formatCurrency(tp)}</td>
+            <td style="font-weight:700;color:#f59e0b;font-size:0.8rem;" class="dir-ltr" data-label="قەرزی ماوە">${formatCurrency(rm)}</td>
+            <td style="color:#64748b;font-size:11px;" data-label="بەرواری قەرز">${escapeHtml(item.debt_date||'-')}</td>
+            <td style="color:#64748b;font-size:11px;" data-label="بەرواری کۆتایی">${escapeHtml(item.due_date||'-')}</td>
+            <td data-label="دۆخ"><span class="${sc}">${sb}</span></td>
+            <td style="text-align:center;white-space:nowrap;" data-label="کردارەکان">${rm>0?`<button class="btn-table-action btn-payment" title="پارەدان" data-id="${item.id}" data-name="${escapeHtml(item.company_name)}" data-remaining="${rm}"><i class="fas fa-money-bill-wave"></i></button>`:''}<button class="btn-table-action btn-edit" title="دەستکاری" data-id="${item.id}" data-name="${escapeHtml(item.company_name)}" data-amount="${da}" data-debt-date="${escapeHtml(item.debt_date||'')}" data-due-date="${escapeHtml(item.due_date||'')}" data-note="${escapeHtml(item.note||'')}"><i class="fas fa-edit"></i></button><button class="btn-table-action btn-delete" title="سڕینەوە" data-id="${item.id}"><i class="fas fa-trash"></i></button></td></tr>`;
     });
     h += '</tbody></table>';
     $('#table-body').html(h);
@@ -1298,7 +1682,16 @@ function renderTable(data) {
 
 $('#table-body').on('click', '.btn-payment', function() { openPaymentModal($(this).data('id'), $(this).data('name'), parseFloat($(this).data('remaining'))||0); });
 $('#table-body').on('click', '.btn-edit', function() { editDebt($(this).data('id'), $(this).data('name'), parseFloat($(this).data('amount'))||0, String($(this).data('debt-date')||''), String($(this).data('due-date')||''), String($(this).data('note')||'')); });
-$('#table-body').on('click', '.btn-delete', function() { deleteDebt($(this).data('id')); });
+$('#table-body').on('click', '.btn-delete', function() { 
+    const id = $(this).data('id');
+    showConfirmAlert({
+        title: 'سڕینەوەی قەرز',
+        message: 'ئایا دڵنیایت کە دەتەوێت ئەم قەرزە بسڕیتەوە؟',
+        confirmText: 'بەڵێ، بیسڕەوە',
+        cancelText: 'پاشگەزبوونەوە',
+        onConfirm: function() { deleteDebt(id); }
+    });
+});
 
 function handleDebtFormSubmit(e) {
     e.preventDefault();
@@ -1342,7 +1735,6 @@ function resetForm() {
     $('#formTitle').text('تۆمارکردنی قەرزی نوێ'); $('#submit-btn').html('<i class="fas fa-save"></i> تۆمارکردنی قەرز'); $('#cancel-btn').hide();
 }
 function deleteDebt(id) {
-    if (!confirm('ئایا دڵنیایت؟')) return;
     $.ajax({
         url: `/company-debts/${id}`, type: 'DELETE',
         success: function(r) { if (r.success) { showAlert('success','سڕایەوە'); if (isEditMode && $('#edit_id').val() == id) resetForm(); loadData(); } else showAlert('error', r.message||'هەڵە'); },

@@ -60,7 +60,9 @@
         padding-right: 12px;
     }
 
-    /* Card Styles */
+    /* ============================================
+       CARD STYLES
+       ============================================ */
     .form-card {
         background: var(--card-bg);
         border-radius: 1rem;
@@ -114,7 +116,9 @@
         -webkit-text-fill-color: transparent;
     }
 
-    /* Section Title */
+    /* ============================================
+       SECTION TITLE
+       ============================================ */
     .section-title {
         font-size: 1rem;
         font-weight: 600;
@@ -141,7 +145,9 @@
         flex-shrink: 0;
     }
 
-    /* Form Styles */
+    /* ============================================
+       FORM STYLES
+       ============================================ */
     .form-label {
         font-weight: 600;
         color: var(--text);
@@ -196,7 +202,9 @@
         cursor: pointer;
     }
 
-    /* Buttons */
+    /* ============================================
+       BUTTONS
+       ============================================ */
     .btn-primary-custom {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: white;
@@ -243,7 +251,9 @@
         color: white;
     }
 
-    /* Table Styles */
+    /* ============================================
+       TABLE STYLES
+       ============================================ */
     .table-container {
         overflow-x: auto;
         border-radius: 0.75rem;
@@ -320,7 +330,150 @@
         text-align: center;
     }
 
-    /* Badges */
+    /* ============================================
+       TABLE → CARDS - MOBILE (باکگراوندی یەکسان)
+       ============================================ */
+    @media (max-width: 767px) {
+        .table-container {
+            overflow-x: visible !important;
+            border: none !important;
+            border-radius: 0;
+            background: transparent !important;
+            max-height: none;
+        }
+
+        .returns-table {
+            display: block;
+            white-space: normal;
+            min-width: 0 !important;
+        }
+
+        .returns-table thead {
+            display: none;
+        }
+
+        .returns-table tbody {
+            display: block;
+        }
+
+        /* کارتەکان - باکگراوندی یەکسان */
+        .returns-table tbody tr {
+            display: block;
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .returns-table tbody tr {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .returns-table tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .returns-table tbody tr:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* خانەکان */
+        .returns-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0 !important;
+            border: none !important;
+            border-bottom: 1px solid var(--border-color) !important;
+            text-align: right;
+            gap: 10px;
+            font-size: 0.8rem;
+            background: transparent !important;
+            color: var(--text);
+            white-space: normal;
+        }
+
+        .returns-table tbody td:last-child {
+            border-bottom: none !important;
+        }
+
+        .returns-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            text-align: left;
+            color: var(--primary);
+        }
+
+        body.dark-mode .returns-table tbody td::before {
+            color: #94a3b8;
+        }
+
+        /* شاردنەوەی # لە مۆبایل */
+        .returns-table tbody td[data-label="#"] {
+            display: none;
+        }
+
+        /* ناوی کاڵا لە سەرەوەی کارت */
+        .returns-table tbody td[data-label="ناوی کاڵا"] {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color) !important;
+            padding-bottom: 10px !important;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        body.dark-mode .returns-table tbody td[data-label="ناوی کاڵا"] {
+            color: #93c5fd;
+        }
+
+        .returns-table tbody td[data-label="ناوی کاڵا"]::before {
+            display: none;
+        }
+
+        .empty-row td {
+            background: var(--card-bg) !important;
+            border-radius: 12px;
+            padding: 30px 15px;
+            display: block;
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .returns-table tbody tr {
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .returns-table tbody td {
+            font-size: 0.75rem;
+            padding: 5px 0 !important;
+        }
+
+        .returns-table tbody td::before {
+            font-size: 0.65rem;
+        }
+
+        .returns-table tbody td[data-label="ناوی کاڵا"] {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* ============================================
+       BADGES
+       ============================================ */
     .badge {
         display: inline-block;
         padding: 0.15rem 0.5rem;
@@ -340,7 +493,9 @@
     body.dark-mode .badge-exchange { background: #1e3a5f; color: #bfdbfe; }
     body.dark-mode .badge-other { background: #312e81; color: #c7d2fe; }
 
-    /* Info Card */
+    /* ============================================
+       INFO CARD
+       ============================================ */
     .info-card {
         background: linear-gradient(135deg, rgba(74, 100, 145, 0.05), rgba(93, 122, 176, 0.05));
         border-radius: 12px;
@@ -359,7 +514,22 @@
         color: var(--primary);
     }
 
-    /* Loading Spinner */
+    body.dark-mode .info-display {
+        color: #94a3b8;
+    }
+
+    @media (max-width: 767px) {
+        .info-card {
+            padding: 1rem;
+        }
+        .info-display {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* ============================================
+       LOADING SPINNER
+       ============================================ */
     .loading-spinner {
         display: inline-block;
         width: 20px;
@@ -374,7 +544,9 @@
         to { transform: rotate(360deg); }
     }
 
-    /* Totals Cards */
+    /* ============================================
+       TOTALS CARDS
+       ============================================ */
     .totals-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -397,6 +569,10 @@
     .total-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    body.dark-mode .total-card:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
 
     .total-card-icon {
@@ -436,7 +612,47 @@
         color: var(--text-secondary);
     }
 
-    /* Pagination */
+    @media (max-width: 767px) {
+        .totals-grid {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .total-card {
+            padding: 0.85rem 0.75rem;
+        }
+        .total-card-value {
+            font-size: 1.2rem;
+        }
+        .total-card-icon {
+            width: 38px;
+            height: 38px;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .total-card:hover {
+            transform: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .total-card {
+            padding: 0.75rem 0.6rem;
+        }
+        .total-card-value {
+            font-size: 1.05rem;
+        }
+        .total-card-label {
+            font-size: 0.68rem;
+        }
+        .total-card-subtitle {
+            font-size: 0.65rem;
+        }
+    }
+
+    /* ============================================
+       PAGINATION
+       ============================================ */
     .pagination-container {
         display: flex;
         justify-content: space-between;
@@ -524,7 +740,42 @@
         border-color: #475569;
     }
 
-    /* Alert / Toast */
+    @media (max-width: 767px) {
+        .pagination-container {
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pagination-btn {
+            padding: 0.35rem 0.55rem;
+            font-size: 0.75rem;
+        }
+        .page-info {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .pagination-controls {
+            flex-wrap: wrap;
+        }
+        .pagination-btn {
+            padding: 0.3rem 0.5rem;
+            font-size: 0.7rem;
+        }
+        .page-info {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            flex: 1 1 100%;
+            text-align: center;
+            order: -1;
+        }
+    }
+
+    /* ============================================
+       TOAST - RESPONSIVE + DARK MODE
+       ============================================ */
     .toast-custom {
         position: fixed;
         bottom: 30px;
@@ -541,12 +792,68 @@
         transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         pointer-events: none;
         white-space: nowrap;
+        max-width: calc(100vw - 40px);
     }
     .toast-custom.show { transform: translateX(-50%) translateY(0); }
-    .toast-custom.success { background: #10b981; }
-    .toast-custom.error { background: #ef4444; }
+    .toast-custom.success { 
+        background: linear-gradient(135deg, #10b981, #059669); 
+        color: white;
+    }
+    .toast-custom.error { 
+        background: linear-gradient(135deg, #ef4444, #dc2626); 
+        color: white;
+    }
 
-    /* Print */
+    body.dark-mode .toast-custom {
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    @media (max-width: 576px) {
+        .toast-custom {
+            bottom: 15px;
+            padding: 11px 20px;
+            font-size: 0.8rem;
+            white-space: normal;
+            text-align: center;
+            border-radius: 24px;
+            left: 15px;
+            right: 15px;
+            transform: translateX(0) translateY(100px);
+            max-width: none;
+        }
+        .toast-custom.show {
+            transform: translateX(0) translateY(0);
+        }
+    }
+
+    /* ============================================
+       iOS ZOOM PREVENTION
+       ============================================ */
+    @media (max-width: 576px) {
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+        .form-control, .form-select {
+            font-size: 16px !important;
+        }
+    }
+
+    /* ============================================
+       TOUCH OPTIMIZATIONS
+       ============================================ */
+    @media (max-width: 768px) {
+        button, .btn, input, select, a {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .btn:active, button:active {
+            transform: scale(0.98);
+        }
+    }
+
+    /* ============================================
+       PRINT
+       ============================================ */
     @media print {
         .no-print { display: none !important; }
         .returns-table th {
@@ -558,280 +865,6 @@
         .returns-table td { color: black !important; }
         .table-container { overflow-x: visible; }
         .returns-table { min-width: 100%; }
-    }
-
-    /* ==================== RESPONSIVE BREAKPOINTS ==================== */
-
-    /* XX-Large (2xl - 1400px+) */
-    @media (min-width: 1400px) {
-        .container {
-            max-width: 1320px;
-        }
-        .returns-table {
-            min-width: 100%;
-        }
-        .returns-table th {
-            font-size: 0.85rem;
-            padding: 0.875rem 0.75rem;
-        }
-        .returns-table td {
-            font-size: 0.85rem;
-            padding: 0.75rem 0.75rem;
-        }
-        .total-card-value {
-            font-size: 1.75rem;
-        }
-        .total-card-icon {
-            width: 48px;
-            height: 48px;
-            font-size: 1.3rem;
-        }
-    }
-
-    /* Large (lg - 992px to 1199px) */
-    @media (max-width: 1199px) {
-        .container {
-            max-width: 960px;
-        }
-        .returns-table {
-            min-width: 750px;
-        }
-    }
-
-    /* Medium (md - 768px to 991px) */
-    @media (max-width: 991px) {
-        .container {
-            max-width: 720px;
-            padding-left: 8px;
-            padding-right: 8px;
-        }
-        .form-header {
-            padding: 16px 12px;
-        }
-        .form-header h1 {
-            font-size: 1.3rem;
-        }
-        .form-header p {
-            font-size: 0.85rem;
-        }
-        .form-card {
-            padding: 1rem;
-        }
-        .returns-table {
-            min-width: 650px;
-        }
-        .returns-table th {
-            font-size: 0.7rem;
-            padding: 0.5rem 0.4rem;
-        }
-        .returns-table td {
-            font-size: 0.7rem;
-            padding: 0.4rem 0.4rem;
-        }
-        .totals-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.75rem;
-        }
-        .total-card {
-            padding: 1rem 0.75rem;
-        }
-        .total-card-value {
-            font-size: 1.3rem;
-        }
-        .btn-outline-custom {
-            font-size: 0.8rem;
-            padding: 0.5rem 0.75rem;
-        }
-    }
-
-    /* Small (sm - 576px to 767px) */
-    @media (max-width: 767px) {
-        .container {
-            max-width: 100%;
-            padding-left: 6px;
-            padding-right: 6px;
-        }
-        .form-header {
-            padding: 14px 10px;
-            border-radius: 12px;
-        }
-        .form-header h1 {
-            font-size: 1.1rem;
-        }
-        .form-header p {
-            font-size: 0.75rem;
-        }
-        .form-logo {
-            width: 50px;
-            height: 50px;
-        }
-        .form-logo i {
-            font-size: 1.5rem;
-        }
-        .form-card {
-            padding: 12px;
-            border-radius: 0.75rem;
-        }
-        .section-title {
-            font-size: 0.9rem;
-        }
-        .returns-table {
-            min-width: 600px;
-        }
-        .returns-table th {
-            font-size: 0.65rem;
-            padding: 0.4rem 0.3rem;
-        }
-        .returns-table td {
-            font-size: 0.65rem;
-            padding: 0.35rem 0.3rem;
-        }
-        .totals-grid {
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-        }
-        .total-card {
-            padding: 0.75rem 0.5rem;
-        }
-        .total-card-value {
-            font-size: 1.2rem;
-        }
-        .total-card-icon {
-            width: 35px;
-            height: 35px;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        .form-control, .form-select {
-            font-size: 13px;
-            padding: 0.45rem 0.65rem;
-        }
-        .pagination-container {
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .pagination-btn {
-            padding: 0.3rem 0.5rem;
-            font-size: 0.7rem;
-        }
-        .page-info {
-            font-size: 0.7rem;
-        }
-        .info-display {
-            font-size: 0.9rem;
-        }
-        .toast-custom {
-            bottom: 20px;
-            padding: 10px 20px;
-            font-size: 0.8rem;
-            white-space: normal;
-            max-width: 90%;
-            text-align: center;
-        }
-    }
-
-    /* Extra Small (xs - under 576px) */
-    @media (max-width: 575px) {
-        .container {
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-        .form-header {
-            padding: 12px 8px;
-            border-radius: 10px;
-        }
-        .form-header h1 {
-            font-size: 1rem;
-        }
-        .form-header p {
-            font-size: 0.7rem;
-        }
-        .form-logo {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-        }
-        .form-logo i {
-            font-size: 1.3rem;
-        }
-        .form-card {
-            padding: 8px;
-            border-radius: 0.6rem;
-        }
-        .section-title {
-            font-size: 0.85rem;
-            margin-bottom: 0.6rem;
-        }
-        .returns-table {
-            min-width: 550px;
-        }
-        .returns-table th {
-            font-size: 0.6rem;
-            padding: 0.3rem 0.25rem;
-        }
-        .returns-table td {
-            font-size: 0.6rem;
-            padding: 0.3rem 0.25rem;
-        }
-        .totals-grid {
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
-        }
-        .total-card {
-            padding: 0.6rem 0.4rem;
-            border-radius: 0.5rem;
-        }
-        .total-card-value {
-            font-size: 1.1rem;
-        }
-        .total-card-label {
-            font-size: 0.65rem;
-        }
-        .total-card-icon {
-            width: 28px;
-            height: 28px;
-            font-size: 0.75rem;
-            margin-bottom: 0.3rem;
-        }
-        .form-control, .form-select {
-            font-size: 12px;
-            padding: 0.4rem 0.6rem;
-            border-radius: 0.4rem;
-        }
-        .form-label {
-            font-size: 0.75rem;
-            margin-bottom: 0.25rem;
-        }
-        .btn-outline-custom {
-            font-size: 0.75rem;
-            padding: 0.45rem;
-            border-radius: 25px;
-        }
-        .badge {
-            font-size: 0.6rem;
-            padding: 0.1rem 0.4rem;
-        }
-        .pagination-btn {
-            padding: 0.25rem 0.4rem;
-            font-size: 0.65rem;
-            border-radius: 4px;
-        }
-        .page-info {
-            font-size: 0.65rem;
-            padding: 3px 8px;
-        }
-        .info-card {
-            padding: 0.75rem;
-        }
-        .info-display {
-            font-size: 0.8rem;
-        }
-        .d-flex.justify-content-between.align-items-center.flex-wrap {
-            flex-direction: column;
-            align-items: flex-start !important;
-            gap: 0.5rem;
-        }
     }
 </style>
 
@@ -1022,6 +1055,11 @@ $(document).ready(function() {
         return n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
     }
 
+    function escapeHtml(text) {
+        if (!text) return '';
+        return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+    }
+
     function showToast(msg, type = '') {
         const toast = $('#toast');
         clearTimeout(window.toastTimer);
@@ -1044,7 +1082,7 @@ $(document).ready(function() {
             'exchange': '🔄',
             'other': '📝'
         };
-        return `<span class="badge ${classes[code] || 'badge-other'}">${icons[code] || ''} ${reason || 'هۆکاری تر'}</span>`;
+        return `<span class="badge ${classes[code] || 'badge-other'}">${icons[code] || ''} ${escapeHtml(reason || 'هۆکاری تر')}</span>`;
     }
 
     // ============================================
@@ -1135,11 +1173,11 @@ $(document).ready(function() {
                 
                 if (response && response.users && response.users.length > 0) {
                     response.users.forEach(function(user) {
-                        select.append(`<option value="${user.id}">${user.name}</option>`);
+                        select.append(`<option value="${user.id}">${escapeHtml(user.name)}</option>`);
                     });
                 } else if (response && Array.isArray(response)) {
                     response.forEach(function(user) {
-                        select.append(`<option value="${user.id}">${user.name}</option>`);
+                        select.append(`<option value="${user.id}">${escapeHtml(user.name)}</option>`);
                     });
                 }
             },
@@ -1275,23 +1313,23 @@ $(document).ready(function() {
         let html = `
             <div class="info-card">
                 <div class="row g-3">
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-6">
                         <small class="text-muted d-block">بەرواری دەستپێک</small>
                         <span class="info-display">
                             <i class="fas fa-calendar-alt me-1"></i> ${startDateVal}
                         </span>
                     </div>
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-6">
                         <small class="text-muted d-block">بەرواری کۆتایی</small>
                         <span class="info-display">
                             <i class="fas fa-calendar-alt me-1"></i> ${endDateVal}
                         </span>
                     </div>
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-6">
                         <small class="text-muted d-block">کۆی گەڕاوە</small>
                         <span class="info-display">${formatNum(totalAmount)} د.ع</span>
                     </div>
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-3 col-6">
                         <small class="text-muted d-block">ژمارەی گەڕاوەکان</small>
                         <span class="info-display">${totalCount} کاڵا</span>
                     </div>
@@ -1328,15 +1366,15 @@ $(document).ready(function() {
             
             const row = `
                 <tr>
-                    <td>${globalIndex}</td>
-                    <td><strong>#${rec.invoice_number || rec.invoice_id || '---'}</strong></td>
-                    <td>${rec.product_name || rec.Item_Code || '---'}</td>
-                    <td>${formatNum(rec.Amount || rec.amount || 0)}</td>
-                    <td>${formatNum(rec.Sale_Price || rec.sale_price || 0)} د.ع</td>
-                    <td><strong style="color: var(--danger);">${formatNum(rec.Return_Total || rec.return_total || 0)} د.ع</strong></td>
-                    <td>${reasonBadge}</td>
-                    <td>${rec.cashier_name || rec.Casher_id || '---'}</td>
-                    <td>${formattedDate}</td>
+                    <td data-label="#">${globalIndex}</td>
+                    <td data-label="ژمارەی پسوڵە"><strong>#${escapeHtml(rec.invoice_number || rec.invoice_id || '---')}</strong></td>
+                    <td data-label="ناوی کاڵا">${escapeHtml(rec.product_name || rec.Item_Code || '---')}</td>
+                    <td data-label="بڕی گەڕاوە">${formatNum(rec.Amount || rec.amount || 0)}</td>
+                    <td data-label="نرخی فرۆشتن">${formatNum(rec.Sale_Price || rec.sale_price || 0)} د.ع</td>
+                    <td data-label="کۆی گەڕانەوە"><strong style="color: var(--danger);">${formatNum(rec.Return_Total || rec.return_total || 0)} د.ع</strong></td>
+                    <td data-label="هۆکار">${reasonBadge}</td>
+                    <td data-label="کاشێر">${escapeHtml(rec.cashier_name || rec.Casher_id || '---')}</td>
+                    <td data-label="بەرواری گەڕانەوە">${formattedDate}</td>
                 </tr>
             `;
             tbody.append(row);

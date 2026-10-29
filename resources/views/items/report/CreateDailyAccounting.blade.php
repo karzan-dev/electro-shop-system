@@ -41,9 +41,21 @@
 
     .container {
         max-width: 1400px;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
-    /* Card Styles */
+    @media (max-width: 768px) {
+        .container {
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 0.75rem !important;
+        }
+    }
+
+    /* ============================================
+       CARD STYLES
+       ============================================ */
     .form-card {
         background: white;
         border-radius: 1rem;
@@ -69,6 +81,27 @@
     body.dark-mode .table-card {
         background: #1e293b;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+        .form-card {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .table-card {
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .form-card,
+        .table-card {
+            padding: 0.75rem;
+            border-radius: 0.65rem;
+        }
     }
 
     .form-header {
@@ -99,7 +132,30 @@
         -webkit-text-fill-color: transparent;
     }
 
-    /* Section Title */
+    @media (max-width: 768px) {
+        .form-logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            margin-bottom: 0.75rem;
+        }
+
+        .form-logo i {
+            font-size: 1.5rem;
+        }
+
+        .form-header h1 {
+            font-size: 1.15rem;
+        }
+
+        .form-header p {
+            font-size: 0.8rem;
+        }
+    }
+
+    /* ============================================
+       SECTION TITLE
+       ============================================ */
     .section-title {
         font-size: 0.95rem;
         font-weight: 700;
@@ -117,6 +173,14 @@
         border-bottom-color: #334155;
     }
 
+    @media (max-width: 768px) {
+        .section-title {
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+        }
+    }
+
     .section-title .dot {
         width: 8px;
         height: 8px;
@@ -126,7 +190,9 @@
         flex-shrink: 0;
     }
 
-    /* Form Styles */
+    /* ============================================
+       FORM STYLES
+       ============================================ */
     .form-label {
         font-weight: 600;
         color: var(--secondary);
@@ -136,6 +202,13 @@
 
     body.dark-mode .form-label {
         color: #94a3b8;
+    }
+
+    @media (max-width: 768px) {
+        .form-label {
+            font-size: 0.78rem;
+            margin-bottom: 0.3rem;
+        }
     }
 
     .required-star {
@@ -177,6 +250,13 @@
         box-shadow: 0 0 0 3px rgba(74,100,145,0.3);
     }
 
+    @media (max-width: 576px) {
+        .form-control, .form-select {
+            font-size: 16px;
+            padding: 0.6rem 0.8rem;
+        }
+    }
+
     .form-select {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
         background-repeat: no-repeat;
@@ -199,7 +279,9 @@
         border-color: #334155 !important;
     }
 
-    /* Buttons */
+    /* ============================================
+       BUTTONS
+       ============================================ */
     .btn-sm-custom {
         padding: 0.4rem 0.8rem;
         border-radius: 8px;
@@ -222,6 +304,13 @@
         transform: scale(1.05);
         box-shadow: 0 2px 8px rgba(59,130,246,0.4);
         color: white;
+    }
+
+    @media (max-width: 768px) {
+        .btn-sm-custom {
+            padding: 0.5rem 0.9rem;
+            font-size: 0.85rem;
+        }
     }
 
     .btn-outline-sm {
@@ -251,7 +340,19 @@
         background: #334155;
     }
 
-    /* Alert / Toast */
+    /* ============================================
+       ALERT / TOAST - RESPONSIVE + DARK MODE
+       ============================================ */
+    #alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        width: 350px;
+        max-width: calc(100vw - 40px);
+        pointer-events: none;
+    }
+
     .alert-custom {
         border-radius: 12px;
         padding: 1rem 1.2rem;
@@ -260,29 +361,30 @@
         align-items: center;
         gap: 0.8rem;
         animation: slideDown 0.3s ease-out;
+        word-wrap: break-word;
+        pointer-events: auto;
     }
 
     .alert-success-custom {
-        background: #d1fae5;
+        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
         color: #065f46;
         border-right: 4px solid var(--success);
     }
 
     body.dark-mode .alert-success-custom {
-        background: #064e3b;
+        background: linear-gradient(135deg, #064e3b, #065f46);
         color: #d1fae5;
     }
 
     .alert-error-custom {
-        background: #fee2e2;
+        background: linear-gradient(135deg, #fee2e2, #fecaca);
         color: #991b1b;
         border-right: 4px solid var(--danger);
     }
 
     body.dark-mode .alert-error-custom {
-        background: #7f1d1d;
+        background: linear-gradient(135deg, #7f1d1d, #991b1b);
         color: #fee2e2;
-        border-right-color: #ef4444;
     }
 
     @keyframes slideDown {
@@ -290,7 +392,17 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Toast */
+    @media (max-width: 480px) {
+        #alert-container {
+            width: calc(100vw - 20px);
+            top: 10px;
+            right: 10px;
+        }
+    }
+
+    /* ============================================
+       TOAST
+       ============================================ */
     .toast {
         position: fixed;
         bottom: 30px;
@@ -307,12 +419,31 @@
         transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         pointer-events: none;
         white-space: nowrap;
+        max-width: calc(100vw - 40px);
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
     .toast.success { background: #0d9488; }
     .toast.error { background: #ef4444; }
 
-    /* Table Styles */
+    @media (max-width: 576px) {
+        .toast {
+            padding: 12px 20px;
+            font-size: 0.82rem;
+            white-space: normal;
+            text-align: center;
+            border-radius: 24px;
+            left: 20px;
+            right: 20px;
+            transform: translateX(0) translateY(100px);
+        }
+        .toast.show {
+            transform: translateX(0) translateY(0);
+        }
+    }
+
+    /* ============================================
+       TABLE STYLES
+       ============================================ */
     .table-container {
         overflow-x: auto;
         border-radius: 0.75rem;
@@ -323,6 +454,15 @@
 
     body.dark-mode .table-container {
         border-color: #334155;
+    }
+
+    @media (max-width: 768px) {
+        .table-container {
+            overflow-x: visible;
+            max-height: none;
+            border: none;
+            border-radius: 0;
+        }
     }
 
     .summaries-table {
@@ -382,7 +522,148 @@
         color: #64748b;
     }
 
-    /* Invoice number styling */
+    /* ============================================
+       TABLE → CARDS - MOBILE
+       ============================================ */
+    @media (max-width: 768px) {
+        .summaries-table {
+            display: block;
+            white-space: normal;
+        }
+
+        .summaries-table thead {
+            display: none;
+        }
+
+        .summaries-table tbody {
+            display: block;
+        }
+
+        .summaries-table tbody tr {
+            display: block;
+            background: var(--bg-light);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .summaries-table tbody tr {
+            background: #0f172a;
+            border-color: #334155;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .summaries-table tbody tr:hover {
+            background: var(--bg-light);
+        }
+
+        body.dark-mode .summaries-table tbody tr:hover {
+            background: #0f172a;
+        }
+
+        .summaries-table tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            text-align: right;
+            gap: 8px;
+            font-size: 0.82rem;
+        }
+
+        body.dark-mode .summaries-table tbody td {
+            border-bottom-color: #334155;
+        }
+
+        .summaries-table tbody td:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-top: 6px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            justify-content: center;
+        }
+
+        body.dark-mode .summaries-table tbody td:last-child {
+            border-top-color: #334155;
+        }
+
+        .summaries-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.72rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            flex-shrink: 0;
+            text-align: left;
+        }
+
+        body.dark-mode .summaries-table tbody td::before {
+            color: #94a3b8;
+        }
+
+        .summaries-table tbody td:last-child::before {
+            display: none;
+        }
+
+        .summaries-table tbody td[data-label="ناوی کاشێر"] {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            justify-content: center;
+            text-align: center;
+        }
+
+        body.dark-mode .summaries-table tbody td[data-label="ناوی کاشێر"] {
+            color: #93c5fd;
+        }
+
+        .summaries-table tbody td[data-label="ناوی کاشێر"]::before {
+            display: none;
+        }
+
+        .summaries-table tbody td[data-label="#"] {
+            display: none;
+        }
+
+        .btn-view {
+            width: 100%;
+            padding: 10px;
+            font-size: 0.9rem;
+            justify-content: center;
+        }
+
+        .btn-sm-custom {
+            padding: 0.5rem 0.9rem;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .summaries-table tbody tr {
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .summaries-table tbody td {
+            font-size: 0.78rem;
+            padding: 5px 0;
+        }
+
+        .summaries-table tbody td::before {
+            font-size: 0.68rem;
+        }
+    }
+
+    /* ============================================
+       INVOICE NUMBER STYLING
+       ============================================ */
     .invoice-number {
         font-weight: 600;
         color: var(--primary);
@@ -409,7 +690,9 @@
         background: rgba(167, 139, 250, 0.1);
     }
 
-    /* Badges */
+    /* ============================================
+       BADGES
+       ============================================ */
     .badge {
         display: inline-block;
         padding: 4px 12px;
@@ -433,7 +716,16 @@
     body.dark-mode .badge-return { background: #7f1d1d; color: #fee2e2; }
     body.dark-mode .badge-sale { background: #064e3b; color: #d1fae5; }
 
-    /* Info Card */
+    @media (max-width: 768px) {
+        .badge {
+            font-size: 0.68rem;
+            padding: 3px 10px;
+        }
+    }
+
+    /* ============================================
+       INFO CARD
+       ============================================ */
     .info-card {
         background: linear-gradient(135deg, rgba(74, 100, 145, 0.05), rgba(93, 122, 176, 0.05));
         border-radius: 12px;
@@ -446,6 +738,13 @@
         background: linear-gradient(135deg, rgba(74, 100, 145, 0.1), rgba(93, 122, 176, 0.1));
     }
 
+    @media (max-width: 768px) {
+        .info-card {
+            padding: 1rem;
+            border-radius: 10px;
+        }
+    }
+
     .info-display {
         font-size: 1.1rem;
         font-weight: 700;
@@ -456,7 +755,15 @@
         color: #94a3b8;
     }
 
-    /* Loading Spinner */
+    @media (max-width: 768px) {
+        .info-display {
+            font-size: 0.92rem;
+        }
+    }
+
+    /* ============================================
+       LOADING SPINNER
+       ============================================ */
     .loading-spinner {
         display: inline-block;
         width: 20px;
@@ -471,7 +778,9 @@
         to { transform: rotate(360deg); }
     }
 
-    /* Invoice Modal */
+    /* ============================================
+       INVOICE MODAL
+       ============================================ */
     .invoice-modal .modal-content {
         border-radius: 1rem;
         overflow: hidden;
@@ -491,12 +800,64 @@
         color: #e2e8f0;
     }
 
-    /* Totals Cards Styles */
+    @media (max-width: 576px) {
+        .invoice-modal .modal-dialog {
+            margin: 0.5rem;
+        }
+
+        .invoice-modal .modal-header {
+            padding: 0.85rem 1rem;
+        }
+
+        .invoice-modal .modal-title {
+            font-size: 0.95rem;
+        }
+
+        .invoice-modal .modal-body {
+            padding: 0.85rem;
+        }
+
+        .invoice-modal .modal-footer {
+            padding: 0.75rem;
+        }
+
+        .invoice-modal .modal-footer .btn {
+            width: 100%;
+        }
+
+        .invoice-modal .table-responsive {
+            font-size: 0.75rem;
+        }
+
+        .invoice-modal .table th,
+        .invoice-modal .table td {
+            padding: 6px 4px;
+            font-size: 0.72rem;
+        }
+    }
+
+    /* ============================================
+       TOTALS CARDS
+       ============================================ */
     .totals-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 1rem;
         margin-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .totals-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .totals-grid {
+            gap: 0.5rem;
+        }
     }
 
     .total-card {
@@ -513,6 +874,23 @@
     body.dark-mode .total-card {
         background: linear-gradient(135deg, #1e293b, #334155);
         border-color: #475569;
+    }
+
+    @media (max-width: 768px) {
+        .total-card {
+            padding: 0.85rem 0.6rem;
+            border-radius: 10px;
+        }
+
+        .total-card:hover {
+            transform: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .total-card {
+            padding: 0.7rem 0.5rem;
+        }
     }
 
     .total-card::before {
@@ -554,6 +932,24 @@
         color: white;
     }
 
+    @media (max-width: 768px) {
+        .total-card-icon {
+            width: 38px;
+            height: 38px;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .total-card-icon {
+            width: 34px;
+            height: 34px;
+            font-size: 0.9rem;
+        }
+    }
+
     .total-card.sales .total-card-icon { background: linear-gradient(135deg, #3b82f6, #2563eb); }
     .total-card.returns .total-card-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
     .total-card.discount .total-card-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
@@ -576,15 +972,42 @@
         color: #94a3b8;
     }
 
+    @media (max-width: 768px) {
+        .total-card-label {
+            font-size: 0.68rem;
+            margin-bottom: 0.25rem;
+            letter-spacing: 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .total-card-label {
+            font-size: 0.62rem;
+        }
+    }
+
     .total-card-value {
         font-size: 1.3rem;
         font-weight: 700;
         color: #1e293b;
         margin-bottom: 0.2rem;
+        word-break: break-word;
     }
 
     body.dark-mode .total-card-value {
         color: #f1f5f9;
+    }
+
+    @media (max-width: 768px) {
+        .total-card-value {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .total-card-value {
+            font-size: 0.85rem;
+        }
     }
 
     .total-card-subtitle {
@@ -596,7 +1019,15 @@
         color: #64748b;
     }
 
-    /* Pagination Styles */
+    @media (max-width: 768px) {
+        .total-card-subtitle {
+            font-size: 0.62rem;
+        }
+    }
+
+    /* ============================================
+       PAGINATION
+       ============================================ */
     .pagination-container {
         display: flex;
         justify-content: space-between;
@@ -684,34 +1115,82 @@
         border-color: #475569;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
-        .summaries-table {
-            font-size: 0.75rem;
-        }
-        
-        .totals-grid {
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 0.75rem;
-        }
-        
-        .total-card {
-            padding: 1rem 0.75rem;
-        }
-        
-        .total-card-value {
-            font-size: 1.1rem;
-        }
-
         .pagination-container {
             flex-direction: column;
-            align-items: center;
+            align-items: stretch;
+            padding: 0.75rem 0;
+            gap: 0.75rem;
+        }
+
+        .rows-per-page {
+            justify-content: center;
+        }
+
+        .pagination-controls {
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .pagination-btn {
+            padding: 6px 10px;
+            font-size: 0.75rem;
+        }
+
+        .page-info {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .pagination-controls {
+            flex-wrap: wrap;
+        }
+
+        .pagination-btn {
+            padding: 5px 8px;
+            font-size: 0.7rem;
+            flex: 0 0 auto;
+            min-width: 34px;
+            text-align: center;
+        }
+
+        .pagination-btn span {
+            display: none;
+        }
+
+        .page-info {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            flex: 1 1 100%;
+            text-align: center;
+            order: -1;
+        }
+    }
+
+    /* iOS Zoom Prevention */
+    @media (max-width: 576px) {
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+    }
+
+    /* Touch optimizations */
+    @media (max-width: 768px) {
+        button, .btn, input, select, a {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:active, button:active {
+            transform: scale(0.98);
         }
     }
 </style>
 
 <!-- Alert Container -->
-<div id="alert-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999; width: 350px;"></div>
+<div id="alert-container"></div>
 
 <div class="container py-4">
     <!-- Page Header -->
@@ -729,15 +1208,15 @@
     <div class="form-card mb-4">
         <div class="section-title"><span class="dot"></span> هەڵبژاردنی بەروار و کاشێر</div>
         <div class="row g-3 align-items-end">
-            <div class="col-md-3">
+            <div class="col-12 col-md-3">
                 <label class="form-label" for="filterStartDate">بەرواری دەستپێک <span class="required-star">*</span></label>
                 <input type="date" id="filterStartDate" class="form-control">
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-3">
                 <label class="form-label" for="filterEndDate">بەرواری کۆتایی <span class="required-star">*</span></label>
                 <input type="date" id="filterEndDate" class="form-control">
             </div>
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <label class="form-label" for="cashierSelect">ناوی کاشێر</label>
                 <select class="form-select" id="cashierSelect">
                     <option value="">هەموو کاشێرەکان</option>
@@ -821,17 +1300,17 @@
             </div>
             <div class="pagination-controls">
                 <button class="pagination-btn" id="firstPageBtn" disabled>
-                    <i class="fas fa-angle-double-right"></i> یەکەم
+                    <i class="fas fa-angle-double-right"></i> <span>یەکەم</span>
                 </button>
                 <button class="pagination-btn" id="prevPageBtn" disabled>
-                    <i class="fas fa-angle-right"></i> پێشوو
+                    <i class="fas fa-angle-right"></i> <span>پێشوو</span>
                 </button>
                 <span class="page-info" id="pageInfo">لاپەڕە 1 لە 1</span>
                 <button class="pagination-btn" id="nextPageBtn" disabled>
-                    داهاتوو <i class="fas fa-angle-left"></i>
+                    <span>داهاتوو</span> <i class="fas fa-angle-left"></i>
                 </button>
                 <button class="pagination-btn" id="lastPageBtn" disabled>
-                    کۆتایی <i class="fas fa-angle-double-left"></i>
+                    <span>کۆتایی</span> <i class="fas fa-angle-double-left"></i>
                 </button>
             </div>
         </div>
@@ -889,15 +1368,6 @@
                     <div class="total-card-subtitle">دیناری عێراقی</div>
                 </div>
                 
-                <div class="total-card net">
-                    <div class="total-card-icon">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <div class="total-card-label">پوختە ی ڕۆژانە</div>
-                    <div class="total-card-value" id="cardTotalNet">٠</div>
-                    <div class="total-card-subtitle">دیناری عێراقی</div>
-                </div>
-                
                 <div class="total-card profit">
                     <div class="total-card-icon">
                         <i class="fas fa-chart-line"></i>
@@ -928,7 +1398,7 @@
                 <h5 class="modal-title">
                     <i class="fas fa-file-invoice me-2"></i> وردەکاری پسوڵە
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            
             </div>
             <div class="modal-body" id="invoiceDetailBody">
                 <div class="text-center py-4">
@@ -963,7 +1433,6 @@ $(document).ready(function() {
     let isLoading = false;
     let invoiceModal = new bootstrap.Modal(document.getElementById('invoiceDetailModal'));
     
-    // CSRF Token setup
     $.ajaxSetup({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
@@ -971,6 +1440,18 @@ $(document).ready(function() {
     // ============================================
     // Helper Functions
     // ============================================
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>"']/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            if (m === '"') return '&quot;';
+            if (m === "'") return '&#39;';
+            return m;
+        });
+    }
     
     function formatNum(val) {
         const n = parseFloat(val);
@@ -997,11 +1478,11 @@ $(document).ready(function() {
         const alertHtml = `
             <div id="${alertId}" class="alert-custom ${alertClass}" style="background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
                 <i class="${icon}" style="font-size: 1.3rem;"></i>
-                <div style="flex: 1;">
-                    <strong>${title}</strong><br>
-                    <small>${message}</small>
+                <div style="flex: 1; min-width: 0;">
+                    <strong>${escapeHtml(title)}</strong><br>
+                    <small style="word-break: break-word;">${escapeHtml(message)}</small>
                 </div>
-                <button class="btn-close" style="font-size: 0.7rem;" onclick="$('#${alertId}').fadeOut(300,function(){$(this).remove();})"></button>
+                <button class="btn-close" style="font-size: 0.7rem; flex-shrink: 0;" onclick="$('#${alertId}').fadeOut(300,function(){$(this).remove();})"></button>
             </div>
         `;
         $('#alert-container').prepend(alertHtml);
@@ -1031,13 +1512,14 @@ $(document).ready(function() {
         
         records.forEach(function(rec) {
             const isReturn = rec.isReturn || rec.sourceType === 'return';
+            const profit = parseFloat(rec.todayProfit || rec.profit || 0);
+            const discount = parseFloat(rec.totalDiscount || rec.total_discount || 0);
             
-            // فرۆشتنی ئاسایی
             totals.totalSales += parseFloat(rec.totalSales || rec.total_sales || 0);
             totals.totalReturns += isReturn ? parseFloat(rec.totalSales || rec.total_sales || 0) : 0;
             
-            totals.totalDiscount += parseFloat(rec.totalDiscount || rec.total_discount || 0);
-            totals.totalProfit += parseFloat(rec.todayProfit || rec.profit || 0);
+            totals.totalDiscount += discount;
+            totals.totalProfit += (profit - discount);
             totals.totalDetails = parseFloat(rec.casherCoinAmount || rec.casherCoin || rec.details || 0);
             totals.totalLoans += parseFloat(rec.totalLoans || 0);
         });
@@ -1058,12 +1540,12 @@ $(document).ready(function() {
             return;
         }
         
-        $('#cardTotalSales').text(formatNum(totals.totalSales));
+        $('#cardTotalSales').text(formatNum(totals.totalSales + totals.totalDiscount));
         $('#cardTotalReturns').text(formatNum(totals.totalReturns));
         $('#cardTotalDiscount').text(formatNum(totals.totalDiscount));
-        $('#cardSalesNet').text(formatNum(totals.salesNet));
+        $('#cardSalesNet').text(formatNum(totals.totalSales- totals.totalReturns));
         $('#cardTotalDetails').text(formatNum(totals.totalDetails));
-        $('#cardTotalNet').text(formatNum(totals.totalNet));
+        $('#cardTotalNet').text(formatNum(totals.totalNet - totals.totalReturns));
         $('#cardTotalProfit').text(formatNum(totals.totalProfit));
         $('#cardLoansNet').text(formatNum(totals.loansNet));
         
@@ -1129,11 +1611,11 @@ $(document).ready(function() {
                 
                 if (response && response.users && response.users.length > 0) {
                     response.users.forEach(function(user) {
-                        select.append(`<option value="${user.id}">${user.name}</option>`);
+                        select.append(`<option value="${user.id}">${escapeHtml(user.name)}</option>`);
                     });
                 } else if (response && Array.isArray(response)) {
                     response.forEach(function(user) {
-                        select.append(`<option value="${user.id}">${user.name}</option>`);
+                        select.append(`<option value="${user.id}">${escapeHtml(user.name)}</option>`);
                     });
                 }
             },
@@ -1189,7 +1671,7 @@ $(document).ready(function() {
             type: 'GET',
             data: requestData,
             success: function(response) {
-                console.log('Invoices response 1 :', response);
+                console.log('Invoices response:', response);
                 isLoading = false;
                 $('#loadingIndicator').hide();
                 
@@ -1230,8 +1712,8 @@ $(document).ready(function() {
             let html = `
                 <div class="info-card">
                     <div class="row g-3">
-                        <div class="col-md-6"><small class="text-muted d-block">مەودای بەروار</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${startDateVal} <span class="mx-1">تا</span> <i class="fas fa-calendar-alt me-1"></i> ${endDateVal}</span></div>
-                        <div class="col-md-6"><small class="text-muted d-block">کۆی فرۆش</small><span class="info-display">٠ د.ع | ٠ پسوڵە</span></div>
+                        <div class="col-12 col-md-6"><small class="text-muted d-block">مەودای بەروار</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${startDateVal} <span class="mx-1">تا</span> <i class="fas fa-calendar-alt me-1"></i> ${endDateVal}</span></div>
+                        <div class="col-12 col-md-6"><small class="text-muted d-block">کۆی فرۆش</small><span class="info-display">٠ د.ع | ٠ پسوڵە</span></div>
                     </div>
                 </div>`;
             $('#infoContainer').html(html).slideDown(300);
@@ -1246,10 +1728,10 @@ $(document).ready(function() {
         let html = `
             <div class="info-card">
                 <div class="row g-3">
-                    <div class="col-md-3"><small class="text-muted d-block">بەرواری دەستپێک</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${startDateVal}</span></div>
-                    <div class="col-md-3"><small class="text-muted d-block">بەرواری کۆتایی</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${endDateVal}</span></div>
-                    <div class="col-md-3"><small class="text-muted d-block">کاشێر</small><span class="info-display">${cashierText}</span></div>
-                    <div class="col-md-3"><small class="text-muted d-block">کۆی فرۆش</small><span class="info-display">${formatNum(totalSales)} د.ع | ${totalInvoices} پسوڵە</span></div>
+                    <div class="col-6 col-md-3"><small class="text-muted d-block">بەرواری دەستپێک</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${startDateVal}</span></div>
+                    <div class="col-6 col-md-3"><small class="text-muted d-block">بەرواری کۆتایی</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${endDateVal}</span></div>
+                    <div class="col-6 col-md-3"><small class="text-muted d-block">کاشێر</small><span class="info-display">${escapeHtml(cashierText)}</span></div>
+                    <div class="col-6 col-md-3"><small class="text-muted d-block">کۆی فرۆش</small><span class="info-display">${formatNum(totalSales)} د.ع | ${totalInvoices} پسوڵە</span></div>
                 </div>
             </div>`;
         $('#infoContainer').html(html).slideDown(300);
@@ -1298,19 +1780,24 @@ $(document).ready(function() {
             const invoiceNumberClass = rec.isReturn ? 'invoice-number return-invoice' : 'invoice-number';
             const invoiceNumberDisplay = rec.invoice_number || rec.invoice_Number || '---';
             
+            // قازانج = قازانج - داشکاندن
+            const profit = parseFloat(rec.todayProfit || rec.profit || 0);
+            const discount = parseFloat(rec.totalDiscount || rec.total_discount || 0);
+            const netProfit = profit - discount;
+            
             const row = `
                 <tr>
-                    <td>${globalIndex}</td>
-                    <td><strong>${rec.cashierName || '---'}</strong></td>
-                    <td><span class="${invoiceNumberClass}">${invoiceNumberDisplay}</span></td>
-                    <td><span class="badge ${actionTypeBadge}">${actionTypeIcon} ${actionType}</span></td>
-                    <td><span class="badge ${saleTypeBadge}">${saleTypeIcon} ${saleType}</span></td>
-                    <td>${formatNum(rec.subtotal || '---')}</td>
-                    <td>${formatNum(rec.totalDiscount || rec.total_discount || 0)}</td>
-                    <td>${formatNum(rec.totalSales || rec.total_sales || 0)}</td>
-                    <td>${loansInfo}</td>
-                    <td><strong>${formatNum(rec.todayProfit || rec.profit || 0)}</strong></td>
-                    <td><button class="btn-sm-custom btn-view view-invoice-btn" data-invoice-id="${rec.id || rec.invoice_id}" title="بینینی پسوڵە"><i class="fas fa-eye"></i></button></td>
+                    <td data-label="#">${globalIndex}</td>
+                    <td data-label="ناوی کاشێر"><strong>${escapeHtml(rec.cashierName || '---')}</strong></td>
+                    <td data-label="پسوڵە"><span class="${invoiceNumberClass}">${escapeHtml(invoiceNumberDisplay)}</span></td>
+                    <td data-label="جۆری کردار"><span class="badge ${actionTypeBadge}">${actionTypeIcon} ${escapeHtml(actionType)}</span></td>
+                    <td data-label="جۆری فرۆشتن"><span class="badge ${saleTypeBadge}">${saleTypeIcon} ${escapeHtml(saleType)}</span></td>
+                    <td data-label="فرۆش پێش داشکان">${formatNum(rec.subtotal || '---')}</td>
+                    <td data-label="داشکاندن">${formatNum(discount)}</td>
+                    <td data-label="کۆی فرۆش">${formatNum(rec.totalSales || rec.total_sales || 0)}</td>
+                    <td data-label="قەرزەکان">${loansInfo}</td>
+                    <td data-label="قازانج"><strong>${formatNum(netProfit)}</strong></td>
+                    <td data-label="کردار"><button class="btn-sm-custom btn-view view-invoice-btn" data-invoice-id="${rec.id || rec.invoice_id}" title="بینینی پسوڵە"><i class="fas fa-eye"></i> بینین</button></td>
                 </tr>`;
             tbody.append(row);
         });
@@ -1324,8 +1811,7 @@ $(document).ready(function() {
     }
 
     // ============================================
-    // Display Return Detail (FROM LOCAL DATA)
-    // ✅ FIXED: ناوی کاڵا + کۆی گەڕاوە دروست
+    // Display Return Detail
     // ============================================
     
     function displayReturnDetail(record) {
@@ -1339,37 +1825,36 @@ $(document).ready(function() {
         let loansSection = '';
         if (record.loans && record.loans.length > 0) {
             loansSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-hand-holding-usd me-2 text-warning"></i>قەرزەکانی ئەم پسوڵەیە (${record.loans.length} قەرز)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>کۆ</th><th>پارەی دراو</th><th>پارەی ماوە</th><th>کاتی گەڕانەوە</th></tr></thead><tbody>
-        ${record.loans.map(loan => `<tr><td><strong>${formatNum(loan.total || 0)}</strong></td><td>${loan.currency || '---'}</td><td>${loan.period || '---'}</td><td>${loan.time_to_return || '---'}</td></tr>`).join('')}
+        ${record.loans.map(loan => `<tr><td><strong>${formatNum(loan.total || 0)}</strong></td><td>${escapeHtml(loan.currency || '---')}</td><td>${escapeHtml(loan.period || '---')}</td><td>${escapeHtml(loan.time_to_return || '---')}</td></tr>`).join('')}
         </tbody></table></div></div>`;
         }
         
         let returnItemsSection = '';
-        console.log('Return Details:', record);
         if (record.returnDetails && record.returnDetails.length > 0) {
-            returnItemsSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-undo-alt me-2 text-danger"></i>کاڵا گەڕێندراوەکان (${record.returnDetails.length} کاڵا)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>بڕ</th><th>نرخی فرۆشتن</th><th>کۆی گەڕاوە</th><th>هۆکار</th><th>بەروار</th></tr></thead><tbody>
+            returnItemsSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-undo-alt me-2 text-danger"></i>کاڵا گەڕێندراوەکان (${record.returnDetails.length} کاڵا)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>کۆمپانیا</th><th>بڕ</th><th>نرخی فرۆشتن</th><th>کۆی گەڕاوە</th><th>هۆکار</th><th>بەروار</th></tr></thead><tbody>
         ${record.returnDetails.map(item => {
-            // ✅ حسابکردنی کۆی گەڕاوە: Amount * Sale_Price
             const returnTotal = (parseFloat(item.Amount) || 0) * (parseFloat(item.Sale_Price) || 0);
             return `<tr>
-                <td><strong>${item.name || item.Item_Name || item.product_name || '---'}</strong></td>
+                <td><strong>${escapeHtml(item.name || item.Item_Name || item.product_name || '---')}</strong></td>
+                <td>${escapeHtml(item.company || item.Item_Company || 'بێ کۆمپانیا')}</td>
                 <td>${item.Amount || 0}</td>
                 <td>${formatNum(item.Sale_Price || 0)}</td>
                 <td><strong class="text-danger">${formatNum(returnTotal)}</strong></td>
-                <td>${item.Return_Cause || '---'}</td>
-                <td>${item.Return_Date || '---'}</td>
+                <td>${escapeHtml(item.Return_Cause || '---')}</td>
+                <td>${escapeHtml(item.Return_Date || '---')}</td>
             </tr>`;
         }).join('')}
         </tbody></table></div></div>`;
         }
         
         $('#invoiceDetailBody').html(`
-            <div class="row g-3">
-                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>ژمارەی پسوڵە:</strong> #${record.invoice_number || record.invoice_Number || '---'}</div></div>
-                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>بەروار:</strong> ${record.date || record.accountingDate || '---'}</div></div>
-                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کاشێر:</strong> ${record.cashierName || record.cashier_name || '---'}</div></div>
-                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>جۆری کردار:</strong> <span class="badge ${modalActionTypeBadge}">${modalActionTypeIcon} ${modalActionType}</span></div></div>
-                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>جۆری فرۆشتن:</strong> <span class="badge ${saleTypeBadge}">${saleType}</span></div></div>
-                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کۆی گەڕاوە:</strong> ${formatNum(record.totalSales || record.total_sales || 0)} د.ع</div></div>
+            <div class="row g-2 g-md-3">
+                <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>ژمارەی پسوڵە:</strong> #${escapeHtml(record.invoice_number || record.invoice_Number || '---')}</div></div>
+                <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>بەروار:</strong> ${escapeHtml(record.date || record.accountingDate || '---')}</div></div>
+                <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>کاشێر:</strong> ${escapeHtml(record.cashierName || record.cashier_name || '---')}</div></div>
+                <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>جۆری کردار:</strong> <span class="badge ${modalActionTypeBadge}">${modalActionTypeIcon} ${modalActionType}</span></div></div>
+                <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>جۆری فرۆشتن:</strong> <span class="badge ${saleTypeBadge}">${saleType}</span></div></div>
+                <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>کۆی گەڕاوە:</strong> ${formatNum(record.totalSales || record.total_sales || 0)} د.ع</div></div>
                 ${returnItemsSection}
                 ${loansSection}
             </div>`);
@@ -1398,7 +1883,6 @@ $(document).ready(function() {
             url: '/invoice/Details/' + invoiceId,
             type: 'GET',
             success: function(response) {
-               
                 const inv = response.invoice || response;
                 const saleType = record?.saleType || (record?.isCreditSale ? 'فرۆشتنی قەرزە' : 'فرۆشتنی ئاسایی');
                 const saleTypeBadge = record?.isCreditSale ? 'badge-credit' : 'badge-normal';
@@ -1406,44 +1890,48 @@ $(document).ready(function() {
                 let loansSection = '';
                 if (record?.loans?.length > 0) {
                     loansSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-hand-holding-usd me-2 text-warning"></i>قەرزەکانی ئەم پسوڵەیە (${record.loans.length} قەرز)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>کۆ</th><th>پارەی دراو</th><th>پارەی ماوە</th><th>کاتی گەڕانەوە</th></tr></thead><tbody>
-                    ${record.loans.map(loan => `<tr><td><strong>${formatNum(loan.total || 0)}</strong></td><td>${loan.currency || '---'}</td><td>${loan.period || '---'}</td><td>${loan.time_to_return || '---'}</td></tr>`).join('')}
+                    ${record.loans.map(loan => `<tr><td><strong>${formatNum(loan.total || 0)}</strong></td><td>${escapeHtml(loan.currency || '---')}</td><td>${escapeHtml(loan.period || '---')}</td><td>${escapeHtml(loan.time_to_return || '---')}</td></tr>`).join('')}
                     </tbody></table></div></div>`;
                 }
-                console.log('Invoice Details:', inv);
                 
                 let returnSection = '';
                 if (inv.returns?.length > 0) {
-                    returnSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-undo-alt me-2 text-danger"></i>گەڕاوەکانی ئەم پسوڵەیە (${inv.returns.length} گەڕاوە)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>بڕ</th><th>مەتر</th><th>نرخی فرۆشتن</th><th>کۆی گەڕاوە</th><th>هۆکار</th><th>بەروار</th></tr></thead><tbody>
+                    returnSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-undo-alt me-2 text-danger"></i>گەڕاوەکانی ئەم پسوڵەیە (${inv.returns.length} گەڕاوە)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>کۆمپانیا</th><th>بڕ</th><th>مەتر</th><th>نرخی فرۆشتن</th><th>کۆی گەڕاوە</th><th>هۆکار</th><th>بەروار</th></tr></thead><tbody>
                     ${inv.returns.map(item => {
-                        // ✅ حسابکردنی کۆی گەڕاوە: Amount * Sale_Price
                         const returnTotal = (parseFloat(item.Amount) || 0) * (parseFloat(item.Sale_Price) || 0);
                         return `<tr>
-                            <td><strong>${item.Item_Name || item.name || item.product_name || item.Item_Code || '---'}</strong></td>
+                            <td><strong>${escapeHtml(item.Item_Name || item.name || item.product_name || item.Item_Code || '---')}</strong></td>
+                            <td>${escapeHtml(item.Item_Company || item.company || 'بێ کۆمپانیا')}</td>
                             <td>${item.Amount || 0}</td>
                             <td>${item.Metar || '---'}</td>
                             <td>${formatNum(item.Sale_Price || 0)}</td>
                             <td><strong class="text-danger">${formatNum(returnTotal)}</strong></td>
-                            <td>${item.Return_Cause || '---'}</td>
-                            <td>${item.Return_Date || '---'}</td>
+                            <td>${escapeHtml(item.Return_Cause || '---')}</td>
+                            <td>${escapeHtml(item.Return_Date || '---')}</td>
                         </tr>`;
                     }).join('')}
                     </tbody></table></div></div>`;
                 }
                 
+                // قازانج = قازانج - داشکاندن لە مۆداڵیشدا
+                const modalProfit = parseFloat(inv.profit || 0);
+                const modalDiscount = parseFloat(inv.total_discount || 0);
+                const modalNetProfit = modalProfit - modalDiscount;
+                
                 $('#invoiceDetailBody').html(`
-                    <div class="row g-3">
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>ژمارەی پسوڵە:</strong> #${inv.invoice_number || '---'}</div></div>
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>بەروار:</strong> ${inv.date || inv.accountingDate || '---'}</div></div>
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کاشێر:</strong> ${inv.cashier_name || record?.cashierName || '---'}</div></div>
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>جۆری کردار:</strong> <span class="badge badge-sale">💰 فرۆشتن</span></div></div>
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>جۆری فرۆشتن:</strong> <span class="badge ${saleTypeBadge}">${saleType}</span></div></div>
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کۆی فرۆش:</strong> ${formatNum(inv.total_sales || 0)} د.ع</div></div>
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>گەڕاوە:</strong> ${formatNum(inv.total_returns || 0)} د.ع</div></div>
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>داشکاندن:</strong> ${formatNum(inv.total_discount || 0)} د.ع</div></div>
-                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>قازانج:</strong> ${formatNum(inv.profit || 0)} د.ع</div></div>
-                        ${record?.totalLoans > 0 ? `<div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کۆی قەرزەکان:</strong> <span class="text-danger">${formatNum(record.totalLoans)} د.ع</span></div></div>` : ''}
-                        ${inv.items?.length > 0 ? `<div class="col-12"><h6 class="mt-3 mb-2">کاڵاکانی پسوڵە:</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>بڕ</th><th>نرخ</th><th>کۆ</th></tr></thead><tbody>
-                        ${inv.items.map(item => `<tr><td>${item.name || '---'}</td><td>${item.quantity || 0}</td><td>${formatNum(item.price || 0)}</td><td>${formatNum((item.quantity || 0) * (item.price || 0))}</td></tr>`).join('')}
+                    <div class="row g-2 g-md-3">
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>ژمارەی پسوڵە:</strong> #${escapeHtml(inv.invoice_number || '---')}</div></div>
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>بەروار:</strong> ${escapeHtml(inv.date || inv.accountingDate || '---')}</div></div>
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>کاشێر:</strong> ${escapeHtml(inv.cashier_name || record?.cashierName || '---')}</div></div>
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>جۆری کردار:</strong> <span class="badge badge-sale">💰 فرۆشتن</span></div></div>
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>جۆری فرۆشتن:</strong> <span class="badge ${saleTypeBadge}">${saleType}</span></div></div>
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>کۆی فرۆش:</strong> ${formatNum(inv.total_sales || 0)} د.ع</div></div>
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>گەڕاوە:</strong> ${formatNum(inv.total_returns || 0)} د.ع</div></div>
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>داشکاندن:</strong> ${formatNum(modalDiscount)} د.ع</div></div>
+                        <div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>قازانج:</strong> ${formatNum(modalNetProfit)} د.ع</div></div>
+                        ${record?.totalLoans > 0 ? `<div class="col-6 col-md-6"><div class="p-2 p-md-3 rounded-3 bg-light"><strong>کۆی قەرزەکان:</strong> <span class="text-danger">${formatNum(record.totalLoans)} د.ع</span></div></div>` : ''}
+                        ${inv.items?.length > 0 ? `<div class="col-12"><h6 class="mt-3 mb-2">کاڵاکانی پسوڵە:</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>کۆمپانیا</th><th>بڕ</th><th>نرخ</th><th>کۆ</th></tr></thead><tbody>
+                        ${inv.items.map(item => `<tr><td>${escapeHtml(item.name || '---')}</td><td>${escapeHtml(item.company || 'بێ کۆمپانیا')}</td><td>${item.quantity || 0}</td><td>${formatNum(item.price || 0)}</td><td>${formatNum((item.quantity || 0) * (item.price || 0))}</td></tr>`).join('')}
                         </tbody></table></div></div>` : ''}
                         ${returnSection}
                         ${loansSection}
@@ -1466,7 +1954,6 @@ $(document).ready(function() {
         
         let filtered = [...allRecords];
         
-        // فلەتەری سەرەکی: ڕیکۆردی totalSales=0 نیشان مەدە
         filtered = filtered.filter(r => {
             const totalSales = parseFloat(r.totalSales || r.total_sales || 0);
             return totalSales > 0;

@@ -23,13 +23,16 @@ class ProfitReportController extends Controller
 
             // ============================================
             // 1. GET SALE ITEMS GROUPED BY PRODUCT
+            // ✅ چاککراوە: بەستن بە product_id و companies
             // ============================================
             $itemsQuery = DB::table('sale_items')
                 ->join('sales', 'sale_items.sale_id', '=', 'sales.id')
-                ->leftJoin('products', 'sale_items.product_name', '=', 'products.name')
+                ->leftJoin('products', 'sale_items.product_id', '=', 'products.id')
+                ->leftJoin('companies', 'companies.id', '=', 'products.company_id')
                 ->select(
                     'sale_items.product_name',
-                    'products.company as company',
+                    'sale_items.product_id',
+                    DB::raw('COALESCE(companies.company_name, products.company, "---") as company'),
                     'sale_items.purchase_price',
                     'sale_items.selling_price',
                     DB::raw('SUM(sale_items.quantity) as total_quantity'),
@@ -38,7 +41,14 @@ class ProfitReportController extends Controller
                     DB::raw('SUM((sale_items.selling_price - sale_items.purchase_price) * sale_items.quantity) as profit'),
                     DB::raw('SUM(sales.discount) as total_discount')
                 )
-                ->groupBy('sale_items.product_name', 'products.company', 'sale_items.purchase_price', 'sale_items.selling_price');
+                ->groupBy(
+                    'sale_items.product_name',
+                    'sale_items.product_id',
+                    'companies.company_name',
+                    'products.company',
+                    'sale_items.purchase_price',
+                    'sale_items.selling_price'
+                );
 
             if ($startDate && $endDate) {
                 $itemsQuery->whereBetween(DB::raw('DATE(sales.created_at)'), [$startDate, $endDate]);
@@ -52,7 +62,10 @@ class ProfitReportController extends Controller
             }
 
             if ($company) {
-                $itemsQuery->where('products.company', 'LIKE', '%' . $company . '%');
+                $itemsQuery->where(function($q) use ($company) {
+                    $q->where('companies.company_name', 'LIKE', '%' . $company . '%');
+                    $q->orWhere('products.company', 'LIKE', '%' . $company . '%');
+                });
             }
 
             $items = $itemsQuery->orderBy('total_sale', 'desc')->get();
@@ -65,7 +78,8 @@ class ProfitReportController extends Controller
                     $subQuery->select('sales.invoice_number')
                         ->from('sales')
                         ->join('sale_items', 'sales.id', '=', 'sale_items.sale_id')
-                        ->leftJoin('products', 'sale_items.product_name', '=', 'products.name');
+                        ->leftJoin('products', 'sale_items.product_id', '=', 'products.id')
+                        ->leftJoin('companies', 'companies.id', '=', 'products.company_id');
                     
                     if ($startDate && $endDate) {
                         $subQuery->whereBetween(DB::raw('DATE(sales.created_at)'), [$startDate, $endDate]);
@@ -79,7 +93,10 @@ class ProfitReportController extends Controller
                     }
                     
                     if ($company) {
-                        $subQuery->where('products.company', 'LIKE', '%' . $company . '%');
+                        $subQuery->where(function($q) use ($company) {
+                            $q->where('companies.company_name', 'LIKE', '%' . $company . '%');
+                            $q->orWhere('products.company', 'LIKE', '%' . $company . '%');
+                        });
                     }
                 });
 

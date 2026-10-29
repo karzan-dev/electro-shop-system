@@ -4,7 +4,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <style>
-   :root {
+    :root {
         --primary: #4a6491;
         --primary-dark: #2c3e50;
         --secondary: #5d7ab0;
@@ -13,46 +13,102 @@
         --danger: #ef4444;
         --info: #3b82f6;
         --return: #8b5cf6;
-        --morning: #f59e0b;
-        --afternoon: #3b82f6;
-        --night: #1e293b;
         --text: #1e293b;
+        --text-muted: #64748b;
         --border-color: #e2e8f0;
         --bg-light: #f8fafc;
-        --transition-base: all 0.3s ease;
+        --bg-card: #ffffff;
+        --bg-body: #f1f5f9;
+        --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
     }
 
-    /* Dark mode overrides for this page */
     body.dark-mode {
         --text: #e2e8f0;
+        --text-muted: #94a3b8;
         --border-color: #334155;
         --bg-light: #1e293b;
+        --bg-card: #1e293b;
+        --bg-body: #0f172a;
+        --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     body {
-        background: #f1f5f9;
+        background: var(--bg-body);
         font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         transition: background-color 0.3s ease, color 0.3s ease;
+        color: var(--text);
     }
 
-    body.dark-mode {
-        background: #0f172a;
-        color: #e2e8f0;
+    /* ============================================ */
+    /* COMPANY BADGE                                 */
+    /* ============================================ */
+    .company-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 12px;
+        background: linear-gradient(135deg, rgba(74, 100, 145, 0.15), rgba(93, 122, 176, 0.15));
+        color: var(--primary);
+        border: 1px solid rgba(74, 100, 145, 0.3);
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: all 0.2s;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    /* Table Styles */
+    .company-badge:hover {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(74, 100, 145, 0.4);
+    }
+
+    body.dark-mode .company-badge {
+        background: rgba(93, 122, 176, 0.2);
+        color: #c084fc;
+        border-color: rgba(93, 122, 176, 0.4);
+    }
+
+    body.dark-mode .company-badge:hover {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+    }
+
+    .company-badge.no-company {
+        background: rgba(148, 163, 184, 0.15);
+        color: #64748b;
+        border-color: rgba(148, 163, 184, 0.3);
+        font-style: italic;
+    }
+
+    body.dark-mode .company-badge.no-company {
+        background: rgba(100, 116, 139, 0.2);
+        color: #94a3b8;
+    }
+
+    /* ============================================ */
+    /* PRODUCTS TABLE CONTAINER                      */
+    /* ============================================ */
     .products-table-container {
-        background: white;
+        background: var(--bg-card);
         border-radius: 1rem;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow);
         overflow-x: auto;
         margin-bottom: 2rem;
         transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        -webkit-overflow-scrolling: touch;
     }
 
     body.dark-mode .products-table-container {
-        background: #1e293b;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        background: var(--bg-card);
+        box-shadow: var(--shadow);
     }
 
     .products-table {
@@ -70,19 +126,21 @@
         padding: 1rem;
         text-align: center;
         font-weight: 600;
+        white-space: nowrap;
     }
 
     .products-table td {
         padding: 0.75rem 1rem;
-        border-bottom: 1px solid #e5e7eb;
+        border-bottom: 1px solid var(--border-color);
         vertical-align: middle;
         text-align: center;
         transition: border-color 0.3s ease;
+        color: var(--text);
     }
 
     body.dark-mode .products-table td {
-        border-bottom: 1px solid #334155;
-        color: #e2e8f0;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text);
     }
 
     .product-image-thumb {
@@ -103,6 +161,7 @@
         display: flex;
         gap: 0.5rem;
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .btn-edit-table {
@@ -113,6 +172,7 @@
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.2s;
+        white-space: nowrap;
     }
 
     .btn-edit-table:hover {
@@ -128,6 +188,7 @@
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.2s;
+        white-space: nowrap;
     }
 
     .btn-delete-table:hover {
@@ -135,22 +196,24 @@
         box-shadow: 0 2px 8px rgba(239,68,68,0.4);
     }
 
-    /* Search Section */
+    /* ============================================ */
+    /* SEARCH SECTION                                */
+    /* ============================================ */
     .search-section {
         margin-bottom: 2rem;
     }
 
     .search-card {
-        background: white;
+        background: var(--bg-card);
         border-radius: 1rem;
         padding: 1.5rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        box-shadow: var(--shadow-sm);
         transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     body.dark-mode .search-card {
-        background: #1e293b;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        background: var(--bg-card);
+        box-shadow: var(--shadow-sm);
     }
 
     .search-input-group {
@@ -169,32 +232,28 @@
     .search-input-wrapper .form-control {
         width: 100%;
         padding: 0.75rem 1rem;
-        border: 2px solid #e5e7eb;
+        border: 2px solid var(--border-color);
         border-radius: 12px;
         transition: all 0.3s;
         padding-right: 40px;
-        background-color: white;
-        color: #1e293b;
+        background-color: var(--bg-card);
+        color: var(--text);
     }
 
     body.dark-mode .search-input-wrapper .form-control {
-        background-color: #0f172a;
-        border-color: #334155;
-        color: #e2e8f0;
+        background-color: var(--bg-body);
+        border-color: var(--border-color);
+        color: var(--text);
     }
 
     body.dark-mode .search-input-wrapper .form-control::placeholder {
-        color: #64748b;
+        color: var(--text-muted);
     }
 
     .search-input-wrapper .form-control:focus {
         border-color: var(--primary);
         outline: none;
         box-shadow: 0 0 0 3px rgba(74,100,145,0.2);
-    }
-
-    body.dark-mode .search-input-wrapper .form-control:focus {
-        box-shadow: 0 0 0 3px rgba(74,100,145,0.3);
     }
 
     .search-input-wrapper .camera-search-btn {
@@ -215,10 +274,6 @@
         transition: all 0.2s;
     }
 
-    .search-input-wrapper .camera-search-btn:hover {
-        transform: translateY(-50%) scale(1.05);
-    }
-
     .search-loading-indicator {
         position: absolute;
         right: 50px;
@@ -236,41 +291,41 @@
         border-radius: 12px;
         cursor: pointer;
         transition: all 0.3s;
+        white-space: nowrap;
     }
 
     .reset-filters:hover {
         background: #4b5563;
     }
 
-    /* Card Styles - Dark Mode */
-    .card {
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
+    /* ============================================ */
+    /* CARD STYLES                                   */
+    /* ============================================ */
     body.dark-mode .card {
-        background-color: #1e293b !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+        background-color: var(--bg-card) !important;
+        box-shadow: var(--shadow-sm) !important;
+        color: var(--text);
     }
 
     body.dark-mode .card-header {
         background: linear-gradient(135deg, #4a6491, #2c3e50) !important;
+        color: white;
     }
 
-    body.dark-mode .card-body {
-        color: #e2e8f0;
-    }
-
-    /* Edit Form Modal */
+    /* ============================================ */
+    /* EDIT FORM MODAL                               */
+    /* ============================================ */
     .edit-modal .modal-content {
         border-radius: 1.5rem;
         overflow: hidden;
         max-height: 90vh;
-        transition: background-color 0.3s ease;
+        background: var(--bg-card);
+        color: var(--text);
     }
 
     body.dark-mode .edit-modal .modal-content {
-        background-color: #1e293b;
-        color: #e2e8f0;
+        background-color: var(--bg-card);
+        color: var(--text);
     }
 
     .edit-modal .modal-header {
@@ -283,6 +338,7 @@
         max-height: 70vh;
         overflow-y: auto;
         padding: 1.5rem;
+        -webkit-overflow-scrolling: touch;
     }
 
     .edit-modal .form-label {
@@ -292,26 +348,26 @@
     }
 
     body.dark-mode .edit-modal .form-label {
-        color: #94a3b8;
+        color: var(--text-muted);
     }
 
     .edit-modal .form-control {
-        border: 2px solid #e5e7eb;
+        border: 2px solid var(--border-color);
         border-radius: 10px;
         padding: 0.7rem 1rem;
         transition: all 0.3s;
-        background-color: white;
-        color: #1e293b;
+        background-color: var(--bg-card);
+        color: var(--text);
     }
 
     body.dark-mode .edit-modal .form-control {
-        background-color: #0f172a;
-        border-color: #334155;
-        color: #e2e8f0;
+        background-color: var(--bg-body);
+        border-color: var(--border-color);
+        color: var(--text);
     }
 
     body.dark-mode .edit-modal .form-control::placeholder {
-        color: #64748b;
+        color: var(--text-muted);
     }
 
     .edit-modal .form-control:focus {
@@ -319,17 +375,118 @@
         box-shadow: 0 0 0 3px rgba(74,100,145,0.2);
     }
 
-    .edit-modal .image-preview-edit {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 12px;
-        border: 2px solid var(--primary);
-        margin-top: 0.5rem;
-        cursor: pointer;
+    .edit-modal .form-control.is-valid {
+        border-color: var(--success) !important;
+        background-image: none !important;
     }
 
-    /* Fullscreen Image Modal */
+    .edit-modal .form-control.is-invalid {
+        border-color: var(--danger) !important;
+        background-image: none !important;
+    }
+
+    body.dark-mode .edit-modal .form-control.is-valid,
+    body.dark-mode .edit-modal .form-control.is-invalid {
+        background-color: var(--bg-body);
+    }
+
+    /* ============================================ */
+    /* SELLER & COMPANY AUTOCOMPLETE                 */
+    /* ============================================ */
+    #voucher-suggestions,
+    #company-suggestions {
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        border: 1px solid var(--border-color);
+        background: var(--bg-card);
+        overflow: hidden;
+    }
+
+    body.dark-mode #voucher-suggestions,
+    body.dark-mode #company-suggestions {
+        background: var(--bg-card);
+        border-color: var(--border-color);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+
+    #voucher-suggestions .voucher-suggestion-item,
+    #company-suggestions .company-suggestion-item {
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 0.65rem 1rem;
+        font-size: 0.9rem;
+        text-align: right;
+        cursor: pointer;
+        transition: background 0.15s;
+        background: var(--bg-card);
+        color: var(--text);
+        width: 100%;
+        display: block;
+    }
+
+    body.dark-mode #voucher-suggestions .voucher-suggestion-item,
+    body.dark-mode #company-suggestions .company-suggestion-item {
+        background: var(--bg-card);
+        color: var(--text);
+        border-bottom-color: var(--border-color);
+    }
+
+    #voucher-suggestions .voucher-suggestion-item:hover,
+    #voucher-suggestions .voucher-suggestion-item.active,
+    #company-suggestions .company-suggestion-item:hover,
+    #company-suggestions .company-suggestion-item.active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+    }
+
+    #voucher-suggestions .voucher-suggestion-item i,
+    #company-suggestions .company-suggestion-item i {
+        color: var(--primary);
+    }
+
+    #voucher-suggestions .voucher-suggestion-item:hover i,
+    #voucher-suggestions .voucher-suggestion-item.active i,
+    #company-suggestions .company-suggestion-item:hover i,
+    #company-suggestions .company-suggestion-item.active i {
+        color: white;
+    }
+
+    /* ✅ SUGGESTIONS MESSAGE ITEMS - دارک مۆد */
+    #voucher-suggestions .suggestion-message,
+    #company-suggestions .suggestion-message {
+        background: var(--bg-card);
+        color: var(--text-muted);
+        padding: 0.75rem 1rem;
+        text-align: center;
+        cursor: default;
+        font-size: 0.9rem;
+        border: none;
+    }
+
+    body.dark-mode #voucher-suggestions .suggestion-message,
+    body.dark-mode #company-suggestions .suggestion-message {
+        background: var(--bg-card) !important;
+        color: var(--text-muted) !important;
+    }
+
+    #voucher-suggestions .suggestion-message.text-danger,
+    #company-suggestions .suggestion-message.text-danger {
+        color: #ef4444 !important;
+    }
+
+    body.dark-mode #voucher-suggestions .suggestion-message.text-danger,
+    body.dark-mode #company-suggestions .suggestion-message.text-danger {
+        color: #f87171 !important;
+    }
+
+    #voucher-suggestions .suggestion-message i,
+    #company-suggestions .suggestion-message i {
+        color: inherit;
+    }
+
+    /* ============================================ */
+    /* FULLSCREEN IMAGE MODAL                        */
+    /* ============================================ */
     .fullscreen-image-modal .modal-content {
         background: rgba(0, 0, 0, 0.95);
         border: none;
@@ -350,57 +507,95 @@
         object-fit: contain;
     }
 
-    /* Alert Styles */
+    /* ============================================ */
+    /* ALERTS                                        */
+    /* ============================================ */
+    #alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        width: 350px;
+        max-width: calc(100vw - 40px);
+    }
+
     .alert-custom {
         border-radius: 12px;
         padding: 1rem 1.2rem;
         margin-bottom: 1rem;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 0.8rem;
         animation: slideDown 0.3s ease-out;
+        position: relative;
+        overflow: hidden;
+        word-wrap: break-word;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-.alert-success-custom { background-color: rgba(12, 239, 4, 0.982); color: #065f46; border-left: 5px solid var(--success); }
-    .alert-success-custom::before { background: var(--success); }
+    .alert-custom .btn-close {
+        flex-shrink: 0;
+        margin-left: auto;
+        align-self: flex-start;
+        opacity: 0.7;
+    }
 
-
+    .alert-success-custom {
+        background-color: rgba(12, 239, 4, 0.982);
+        color: #065f46;
+        border-left: 5px solid var(--success);
+    }
 
     .alert-error-custom {
         background: #fee2e2;
         color: #991b1b;
-        border-right: 4px solid var(--danger);
-    }
-
-    body.dark-mode .alert-error-custom {
-        background: #7f1d1d;
-        color: #fee2e2;
-        border-right-color: #ef4444;
+        border-left: 5px solid var(--danger);
     }
 
     .alert-warning-custom {
         background: #fed7aa;
         color: #92400e;
-        border-right: 4px solid var(--warning);
+        border-left: 5px solid var(--warning);
+    }
+
+    .alert-info-custom {
+        background: #dbeafe;
+        color: #1e3a8a;
+        border-left: 5px solid var(--info);
+    }
+
+    body.dark-mode .alert-success-custom {
+        background: linear-gradient(135deg, #064e3b, #065f46);
+        color: #a7f3d0;
+    }
+
+    body.dark-mode .alert-error-custom {
+        background: linear-gradient(135deg, #7f1d1d, #991b1b);
+        color: #fecaca;
     }
 
     body.dark-mode .alert-warning-custom {
-        background: #78350f;
-        color: #fed7aa;
-        border-right-color: #f59e0b;
+        background: linear-gradient(135deg, #78350f, #92400e);
+        color: #fde68a;
+    }
+
+    body.dark-mode .alert-info-custom {
+        background: linear-gradient(135deg, #1e3a8a, #1e40af);
+        color: #bfdbfe;
+    }
+
+    body.dark-mode .alert-custom .btn-close {
+        filter: invert(1);
     }
 
     @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ============================================ */
+    /* LOADING SPINNER                               */
+    /* ============================================ */
     .loading-spinner {
         display: inline-block;
         width: 20px;
@@ -415,29 +610,37 @@
         to { transform: rotate(360deg); }
     }
 
+    /* ============================================ */
+    /* PAGINATION                                    */
+    /* ============================================ */
     .pagination {
         display: flex;
         justify-content: center;
         gap: 0.5rem;
         margin-top: 1.5rem;
         flex-wrap: wrap;
+        padding: 0;
+        list-style: none;
     }
 
     .pagination a, .pagination span {
         padding: 0.5rem 1rem;
         border-radius: 8px;
-        background: white;
+        background: var(--bg-card);
         color: var(--primary);
         text-decoration: none;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border-color);
         transition: all 0.2s;
+        font-weight: 600;
+        min-width: 40px;
+        text-align: center;
     }
 
     body.dark-mode .pagination a,
     body.dark-mode .pagination span {
-        background: #1e293b;
-        color: #e2e8f0;
-        border-color: #334155;
+        background: var(--bg-card);
+        color: var(--text);
+        border-color: var(--border-color);
     }
 
     .pagination a:hover {
@@ -451,11 +654,15 @@
         border-color: var(--primary);
     }
 
+    /* ============================================ */
+    /* STOCK BADGES                                  */
+    /* ============================================ */
     .badge-stock {
         padding: 0.25rem 0.75rem;
         border-radius: 20px;
         font-size: 0.75rem;
         font-weight: 600;
+        display: inline-block;
     }
 
     .badge-stock-high {
@@ -478,7 +685,9 @@
         color: #fed7aa;
     }
 
-    /* Modal Image Upload Styles */
+    /* ============================================ */
+    /* MODAL IMAGE UPLOAD                            */
+    /* ============================================ */
     .modal-image-upload-container {
         border: 2px dashed var(--primary);
         border-radius: 12px;
@@ -490,11 +699,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
     }
 
     body.dark-mode .modal-image-upload-container {
         background: rgba(74, 100, 145, 0.1);
-        border-color: #5d7ab0;
     }
 
     .modal-image-preview {
@@ -510,6 +719,7 @@
         gap: 0.5rem;
         justify-content: center;
         margin-top: 0.5rem;
+        flex-wrap: wrap;
     }
 
     .modal-camera-btn, .modal-upload-btn, .modal-remove-btn {
@@ -519,37 +729,20 @@
         color: white;
         cursor: pointer;
         font-size: 0.8rem;
+        white-space: nowrap;
     }
 
-    .modal-camera-btn {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-    }
+    .modal-camera-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+    .modal-upload-btn { background: linear-gradient(135deg, var(--success), #059669); }
+    .modal-remove-btn { background: linear-gradient(135deg, var(--danger), #dc2626); }
 
-    .modal-upload-btn {
-        background: linear-gradient(135deg, var(--success), #059669);
-    }
-
-    .modal-remove-btn {
-        background: linear-gradient(135deg, var(--danger), #dc2626);
-    }
-
-    /* Modal Footer */
-    .modal-footer {
-        transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-
-    body.dark-mode .modal-footer {
-        background-color: #1e293b;
-        border-top-color: #334155;
-    }
-
-    /* Fullscreen Camera */
+    /* ============================================ */
+    /* FULLSCREEN CAMERA                             */
+    /* ============================================ */
     .camera-fullscreen {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
         background-color: black;
         z-index: 99999;
         display: none;
@@ -558,66 +751,50 @@
         align-items: center;
     }
 
-    .camera-fullscreen.active {
-        display: flex;
-    }
-
-    .camera-fullscreen video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+    .camera-fullscreen.active { display: flex; }
+    .camera-fullscreen video { width: 100%; height: 100%; object-fit: cover; }
 
     .camera-fullscreen .camera-controls-full {
         position: fixed;
         bottom: 30px;
-        left: 0;
-        right: 0;
+        left: 0; right: 0;
         display: flex;
         justify-content: center;
         gap: 20px;
         padding: 20px;
         background: rgba(0, 0, 0, 0.7);
         z-index: 100000;
+        flex-wrap: wrap;
     }
 
     .camera-fullscreen .camera-controls-full button {
         padding: 15px 25px;
-        font-size: 1.2rem;
+        font-size: 1rem;
         border: none;
         border-radius: 50px;
         cursor: pointer;
-        transition: transform 0.2s;
+        white-space: nowrap;
     }
 
-    .camera-fullscreen .btn-capture-full {
-        background-color: #10b981;
-        color: white;
-    }
-
-    .camera-fullscreen .btn-switch-full {
-        background-color: #3b82f6;
-        color: white;
-    }
+    .camera-fullscreen .btn-capture-full { background-color: #10b981; color: white; }
+    .camera-fullscreen .btn-switch-full { background-color: #3b82f6; color: white; }
 
     .camera-fullscreen .close-camera {
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 20px; right: 20px;
         background: rgba(0, 0, 0, 0.6);
         color: white;
         border: none;
-        width: 45px;
-        height: 45px;
+        width: 45px; height: 45px;
         border-radius: 50%;
         font-size: 24px;
         cursor: pointer;
         z-index: 100001;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
+    /* ============================================ */
+    /* SECTION TITLE                                 */
+    /* ============================================ */
     .section-title-custom {
         font-size: 1rem;
         font-weight: 600;
@@ -628,16 +805,16 @@
     }
 
     body.dark-mode .section-title-custom {
-        color: #94a3b8;
-        border-bottom-color: #334155;
+        color: var(--text-muted);
+        border-bottom-color: var(--border-color);
     }
-    
-    .input-with-icon-custom {
-        position: relative;
-    }
-    
+
+    /* ============================================ */
+    /* INPUT WITH ICON                               */
+    /* ============================================ */
+    .input-with-icon-custom { position: relative; }
+
     .barcode-generate-btn {
-        transition: all 0.2s ease;
         position: absolute;
         left: 0.6rem;
         top: 50%;
@@ -652,12 +829,13 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        transition: all 0.2s;
     }
-    
+
     .barcode-generate-btn:hover {
         transform: translateY(-50%) scale(1.1);
     }
-    
+
     .btn-custom-primary {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         border: none;
@@ -665,73 +843,43 @@
         font-weight: 600;
         padding: 0.5rem 1.2rem;
         border-radius: 30px;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-custom-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(74, 100, 145, 0.4);
-        color: white;
     }
 
     .is-invalid {
         border-color: var(--danger) !important;
     }
 
-    /* Barcode Scanner Modal */
+    /* ============================================ */
+    /* BARCODE SCANNER MODAL                         */
+    /* ============================================ */
     .scanner-modal .modal-content {
         background: #000;
         border-radius: 1rem;
         overflow: hidden;
     }
+
     .scanner-modal .modal-header {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: white;
-        border-bottom: none;
     }
-    .scanner-modal .btn-close {
-        filter: invert(1);
-    }
+
+    .scanner-modal .btn-close { filter: invert(1); }
+
     #qr-reader {
         width: 100%;
-        max-width: 100%;
-        border-radius: 0;
         overflow: hidden;
     }
+
     #qr-reader video {
         width: 100% !important;
-        min-height: 400px;
+        min-height: 300px;
         object-fit: cover;
     }
-    .scanner-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        pointer-events: none;
-    }
-    .scan-region {
-        width: 80%;
-        height: 120px;
-        border: 2px solid var(--secondary);
-        border-radius: 12px;
-        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
-        animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-        0% { border-color: var(--secondary); }
-        50% { border-color: var(--primary); }
-        100% { border-color: var(--secondary); }
-    }
+
     .scan-instruction {
         position: absolute;
         bottom: 20px;
-        left: 0;
-        right: 0;
+        left: 0; right: 0;
         text-align: center;
         color: white;
         background: rgba(0,0,0,0.7);
@@ -739,6 +887,9 @@
         font-size: 0.9rem;
     }
 
+    /* ============================================ */
+    /* FORM HEADER                                   */
+    /* ============================================ */
     .form-header-custom {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         border-radius: 0.75rem 0.75rem 0 0 !important;
@@ -754,7 +905,6 @@
         justify-content: center;
         margin: 0 auto 1.5rem;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        transition: background-color 0.3s ease;
     }
 
     body.dark-mode .form-logo-custom {
@@ -763,59 +913,415 @@
 
     .form-logo-custom i {
         font-size: 2.5rem;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
 
-    #edit-barcode{
-        padding-right: 60px;
-    }
-    #edit-scan-barcode-btn{
-        margin-right: 10px;
-    }
-
-    .input-barcode::placeholder{
-       padding-right: 10px;
+    /* ============================================ */
+    /* MODAL FOOTER / BUTTONS                        */
+    /* ============================================ */
+    .edit-modal .modal-footer {
+        background: var(--bg-card);
+        border-top: 1px solid var(--border-color);
     }
 
-    /* Delete Modal Dark Mode */
-    body.dark-mode #deleteConfirmModal .modal-content {
-        background-color: #1e293b;
+    body.dark-mode .edit-modal .modal-footer {
+        background: var(--bg-card);
+        border-top-color: var(--border-color);
+    }
+
+    body.dark-mode .btn-secondary {
+        background: #475569;
+        border-color: #475569;
         color: #e2e8f0;
     }
 
-    body.dark-mode #deleteConfirmModal .modal-header {
-        background: linear-gradient(135deg, #991b1b, #7f1d1d) !important;
-    }
-
-    body.dark-mode #deleteConfirmModal .text-muted {
-        color: #94a3b8 !important;
-    }
-
-    body.dark-mode #deleteConfirmModal .text-danger {
-        color: #f87171 !important;
-    }
-
-    /* Button styles in dark mode */
-    body.dark-mode .btn-secondary {
-        background-color: #475569;
-        border-color: #475569;
-        color: white;
-    }
-
     body.dark-mode .btn-secondary:hover {
-        background-color: #334155;
+        background: #64748b;
+        border-color: #64748b;
     }
 
-    /* Text muted in dark mode */
-    body.dark-mode .text-muted {
-        color: #94a3b8 !important;
+    /* ============================================ */
+    /* RESPONSIVE BREAKPOINTS                        */
+    /* ============================================ */
+
+    /* Tablet */
+    @media (max-width: 992px) {
+        .edit-modal .modal-dialog {
+            max-width: 95%;
+            margin: 1rem auto;
+        }
+
+        .products-table {
+            font-size: 0.85rem;
+        }
+
+        .products-table th,
+        .products-table td {
+            padding: 0.6rem 0.5rem;
+        }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        #alert-container {
+            top: 10px;
+            right: 10px;
+            left: 10px;
+            width: auto;
+            max-width: none;
+        }
+
+        .container {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .search-card {
+            padding: 1rem;
+        }
+
+        .search-input-group {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .search-input-wrapper {
+            min-width: 100%;
+            width: 100%;
+        }
+
+        .reset-filters {
+            width: 100%;
+        }
+
+        /* Table to cards */
+        .products-table-container {
+            background: transparent !important;
+            box-shadow: none !important;
+            overflow: visible;
+        }
+
+        .products-table {
+            display: block;
+        }
+
+        .products-table thead { display: none; }
+
+        .products-table tbody {
+            display: block;
+            width: 100%;
+        }
+
+        .products-table tr {
+            display: block;
+            background: var(--bg-card);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 12px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .products-table tr {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+        }
+
+        .products-table td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none !important;
+            padding: 8px 0 !important;
+            text-align: right;
+            font-size: 0.85rem;
+            gap: 10px;
+        }
+
+        .products-table td:before {
+            content: attr(data-label);
+            font-weight: 700;
+            color: var(--primary);
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            text-align: left;
+        }
+
+        body.dark-mode .products-table td:before {
+            color: var(--text-muted);
+        }
+
+        .products-table td:first-child {
+            justify-content: center;
+            padding-bottom: 12px !important;
+            border-bottom: 1px solid var(--border-color) !important;
+            margin-bottom: 8px;
+        }
+
+        .products-table td:first-child:before { display: none; }
+
+        .products-table .action-buttons {
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .products-table .action-buttons button {
+            width: 100%;
+            padding: 0.5rem;
+        }
+
+        /* Modal */
+        .edit-modal .modal-dialog {
+            margin: 0.5rem;
+            max-width: calc(100% - 1rem);
+        }
+
+        .edit-modal .modal-body {
+            padding: 1rem;
+            max-height: 65vh;
+        }
+
+        .edit-modal .modal-header,
+        .edit-modal .modal-footer {
+            padding: 0.8rem 1rem;
+        }
+
+        .edit-modal .modal-title {
+            font-size: 1rem;
+        }
+
+        .section-title-custom {
+            font-size: 0.9rem;
+        }
+
+        .form-logo-custom {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+        }
+
+        .form-logo-custom i {
+            font-size: 1.8rem;
+        }
+
+        .card-header h1.h2 {
+            font-size: 1.2rem;
+        }
+
+        /* Camera controls */
+        .camera-fullscreen .camera-controls-full {
+            gap: 10px;
+            padding: 15px;
+            bottom: 20px;
+        }
+
+        .camera-fullscreen .camera-controls-full button {
+            padding: 12px 18px;
+            font-size: 0.9rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            gap: 0.3rem;
+        }
+
+        .pagination a, .pagination span {
+            padding: 0.4rem 0.7rem;
+            font-size: 0.8rem;
+            min-width: 35px;
+        }
+
+        /* Image upload */
+        .modal-image-upload-container {
+            padding: 0.75rem;
+            min-height: 120px;
+        }
+
+        .modal-image-preview {
+            max-height: 120px;
+        }
+
+        .modal-image-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .modal-image-actions button {
+            width: 100%;
+            padding: 0.5rem;
+        }
+
+        /* Scanner */
+        #qr-reader video {
+            min-height: 250px;
+        }
+
+        .scanner-modal .modal-dialog {
+            margin: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn-edit-table,
+        .btn-delete-table {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.6rem;
+        }
+
+        /* Suggestions dropdown */
+        #voucher-suggestions,
+        #company-suggestions {
+            max-height: 180px;
+        }
+
+        /* Form inputs */
+        .edit-modal .form-control {
+            font-size: 0.9rem;
+            padding: 0.6rem 0.8rem;
+        }
+
+        /* Barcode buttons */
+        .barcode-generate-btn {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Input padding for barcode icons */
+        #edit-barcode {
+            padding-right: 80px !important;
+        }
+    }
+
+    /* Small Mobile */
+    @media (max-width: 480px) {
+        .products-table td {
+            font-size: 0.8rem;
+            padding: 6px 0 !important;
+        }
+
+        .products-table td:before {
+            font-size: 0.75rem;
+        }
+
+        .company-badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+        }
+
+        .badge-stock {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+        }
+
+        .edit-modal .modal-body {
+            padding: 0.75rem;
+        }
+
+        .camera-fullscreen .camera-controls-full button {
+            padding: 10px 14px;
+            font-size: 0.8rem;
+        }
+
+        .alert-custom {
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        #alert-container {
+            top: 5px;
+            right: 5px;
+            left: 5px;
+        }
+    }
+
+    /* Very Small Mobile */
+    @media (max-width: 360px) {
+        .products-table td {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .products-table td:before {
+            font-size: 0.7rem;
+        }
+
+        .edit-modal .modal-title {
+            font-size: 0.9rem;
+        }
+
+        .section-title-custom {
+            font-size: 0.85rem;
+        }
+    }
+
+    /* Print styles */
+    @media print {
+        .search-section,
+        .action-buttons,
+        .pagination,
+        .card-header,
+        #alert-container {
+            display: none !important;
+        }
+
+        .products-table-container {
+            box-shadow: none;
+            border: 1px solid #000;
+        }
+    }
+
+    /* Dark mode scrollbar */
+    body.dark-mode ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-track {
+        background: #1e293b;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 4px;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+    }
+
+    /* Smooth scroll */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Touch improvements */
+    @media (hover: none) {
+        .btn-edit-table:hover,
+        .btn-delete-table:hover,
+        .product-image-thumb:hover {
+            transform: none;
+        }
+
+        .btn-edit-table:active,
+        .btn-delete-table:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+    }
+
+    #edit-barcode {
+        padding-right: 45px !important;
     }
 </style>
 
 <!-- Alert Container -->
-<div id="alert-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999; width: 350px;"></div>
+<div id="alert-container"></div>
 
 <div class="container py-4">
     <!-- Page Header -->
@@ -828,7 +1334,7 @@
         </div>
     </div>
 
-    <!-- Search Section - Live Search -->
+    <!-- Search Section -->
     <div class="search-section">
         <div class="search-card">
             <div class="search-input-group">
@@ -853,6 +1359,12 @@
                         <i class="fas fa-spinner fa-spin"></i>
                     </div>
                 </div>
+                <div class="search-input-wrapper">
+                    <input type="text" id="search-voucher" class="form-control" placeholder="ناوی فرۆشیار ..." autocomplete="off">
+                    <div class="search-loading-indicator" id="voucher-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </div>
                 <button type="button" id="reset-filters" class="reset-filters">
                     <i class="fas fa-undo-alt me-2"></i> ڕێکخستنەوە
                 </button>
@@ -868,6 +1380,7 @@
                     <th>وێنە</th>
                     <th>ناوی کاڵا</th>
                     <th>کۆمپانیا</th>
+                    <th>ناوی فرۆشیار</th>
                     <th>نرخی کڕین</th>
                     <th>نرخی فرۆشتن</th>
                     <th>بڕی کاڵای دووکان</th>
@@ -876,7 +1389,7 @@
             </thead>
             <tbody id="products-table-body">
                 <tr>
-                    <td colspan="7" class="text-center py-5">
+                    <td colspan="8" class="text-center py-5">
                         <div class="loading-spinner" style="border-top-color: var(--primary);"></div>
                         <span class="me-2">بارکاردکردنی زانیاری...</span>
                     </td>
@@ -897,7 +1410,6 @@
                 <h5 class="modal-title">
                     <i class="fas fa-edit me-2"></i> گۆڕانکاری زانیاری کاڵا
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="edit-product-form" method="POST" enctype="multipart/form-data">
@@ -905,7 +1417,6 @@
                     <input type="hidden" id="edit-product-id" name="product_id">
                     <input type="hidden" id="edit-old-barcode" name="barcode_old">
 
-                    <!-- Section 1: Basic Information -->
                     <div class="mb-4">
                         <h3 class="section-title-custom">
                             <i class="fas fa-info-circle ms-2"></i>زانیارییە سەرەکییەکانی کاڵا
@@ -916,25 +1427,16 @@
                                 <label class="form-label">
                                     <span class="text-danger">*</span> بارکۆدی کاڵا
                                 </label>
-                                <div class="input-with-icon-custom" style="position: relative;">
-                                    <input type="text"
-                                           id="edit-barcode"
-                                           name="new_barcode"
+                                <div class="input-with-icon-custom">
+                                    <input type="text" id="edit-barcode" name="new_barcode"
                                            class="form-control ps-2"
                                            placeholder="ژمارەی بارکۆد بنوسە ..."
-                                           autocomplete="off"
-                                           required>
-                                    <button type="button"
-                                            id="edit-auto-barcode-btn"
-                                            class="barcode-generate-btn"
-                                            title="دروستکردنی بارکۆدی ئەلێاتۆری">
+                                           autocomplete="off" required>
+                                    <button type="button" id="edit-auto-barcode-btn" class="barcode-generate-btn" title="دروستکردنی بارکۆدی ئەلێاتۆری">
                                         <i class="fas fa-magic"></i>
                                     </button>
-                                    <button type="button"
-                                            id="edit-scan-barcode-btn"
-                                            class="barcode-generate-btn"
-                                            style="left: auto; right: 0rem;"
-                                            title="سکانکردنی بارکۆد">
+                                    <button type="button" id="edit-scan-barcode-btn" class="barcode-generate-btn"
+                                            style="left: auto; right: 0rem;" title="سکانکردنی بارکۆد">
                                         <i class="fas fa-camera"></i>
                                     </button>
                                 </div>
@@ -948,16 +1450,42 @@
                                 <input type="text" id="edit-name" name="name" class="form-control" required>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <!-- کۆمپانیا بە Autocomplete -->
+                            <div class="col-md-6 mb-3 position-relative">
                                 <label class="form-label">
                                     <span class="text-danger">*</span> ناوی کۆمپانیا
                                 </label>
-                                <input type="text" id="edit-company" name="company" class="form-control" required>
+                                <input type="text" id="edit-company" name="company"
+                                       class="form-control"
+                                       placeholder="ناوی کۆمپانیا بنوسە..."
+                                       autocomplete="off" required>
+
+                                <div id="company-suggestions"
+                                     class="list-group position-absolute w-100"
+                                     style="z-index: 1055; max-height: 220px; overflow-y: auto; display: none; top: 100%; left: 0; margin-top: 4px;"></div>
+
+                                <span id="company-status" style="display:inline-block; margin-top:5px; font-size:0.85rem;"></span>
+                            </div>
+
+                            <!-- فرۆشیار بە Autocomplete -->
+                            <div class="col-md-6 mb-3 position-relative">
+                                <label class="form-label">
+                                    <i class="fas fa-user-tie ms-1"></i> ناوی فرۆشیار
+                                </label>
+                                <input type="text" id="edit-voucher-name" name="voucher_name"
+                                       class="form-control"
+                                       placeholder="ناوی فرۆشیار بنوسە ..."
+                                       autocomplete="off">
+
+                                <div id="voucher-suggestions"
+                                     class="list-group position-absolute w-100"
+                                     style="z-index: 1055; max-height: 220px; overflow-y: auto; display: none; top: 100%; left: 0; margin-top: 4px;"></div>
+
+                                <span id="voucher-status" style="display:inline-block; margin-top:5px; font-size:0.85rem;"></span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Section 2: Pricing and Storage -->
                     <div class="mb-4">
                         <h3 class="section-title-custom">
                             <i class="fas fa-chart-line ms-2"></i>نرخ و کۆگاکردن
@@ -980,21 +1508,20 @@
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">
-                                    <span class="text-danger">*</span> ژمارەی کاڵاکانی ناو دوکان 
+                                    <span class="text-danger">*</span> ژمارەی کاڵاکانی ناو دوکان
                                 </label>
                                 <input type="number" id="edit-minimum-stock" name="minimum_wearhouse" class="form-control" min="1" required>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Section 3: Product Image -->
                     <div class="mb-4">
                         <h3 class="section-title-custom">
                             <i class="fas fa-camera ms-2"></i>وێنەی کاڵا
                         </h3>
 
                         <div class="modal-image-upload-container" id="modal-image-upload-container">
-                            <div id="modal-image-preview-section" style="display: none;">
+                            <div id="modal-image-preview-section" style="display: none; width: 100%;">
                                 <img id="modal-product-image-preview" class="modal-image-preview" src="" alt="وێنەی کاڵا">
                                 <div class="modal-image-actions">
                                     <button type="button" id="modal-use-camera-btn" class="modal-camera-btn">
@@ -1008,7 +1535,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div id="modal-default-upload-section">
+                            <div id="modal-default-upload-section" style="width: 100%;">
                                 <div class="mb-3">
                                     <i class="fas fa-image text-muted mb-2" style="font-size: 2rem;"></i>
                                     <p class="text-muted mb-2">وێنەی کاڵا هەڵبگرە</p>
@@ -1035,7 +1562,8 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times me-2"></i> داخستن
                 </button>
-                <button type="button" id="save-product-changes" class="btn btn-primary" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none;">
+                <button type="button" id="save-product-changes" class="btn btn-primary"
+                        style="background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none;">
                     <i class="fas fa-save me-2"></i> تۆمارکردنی گۆڕانکاری
                 </button>
             </div>
@@ -1046,12 +1574,11 @@
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" style="background: var(--bg-card); color: var(--text);">
             <div class="modal-header" style="background: linear-gradient(135deg, var(--danger), #dc2626); color: white;">
                 <h5 class="modal-title">
                     <i class="fas fa-trash-alt me-2"></i> سڕینەوەی کاڵا
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p>ئایا دڵنیایت کە دەتەوێت ئەم کاڵایە بسڕیتەوە؟</p>
@@ -1100,15 +1627,13 @@
 
 <!-- Barcode Scanner Modal -->
 <div class="modal fade scanner-modal" id="barcodeScannerModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="fas fa-camera ms-2"></i>سکانکردنی بارکۆد</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-0 position-relative" style="min-height: 400px; background: #000;">
+            <div class="modal-body p-0 position-relative" style="min-height: 300px; background: #000;">
                 <div id="qr-reader" style="width: 100%;"></div>
-                <div class="scanner-overlay"></div>
                 <div class="scan-instruction">
                     <i class="fas fa-qrcode ms-1"></i> بارکۆدەکە لە ناوچەی سکاندا دابنێ
                 </div>
@@ -1140,32 +1665,42 @@ $(document).ready(function() {
     let searchParams = {
         barcode: '',
         name: '',
-        company: ''
+        company: '',
+        voucher: ''
     };
     let deleteProductId = null;
+    let isSubmitting = false;
     let editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
     let deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
     let fullscreenImageModal = new bootstrap.Modal(document.getElementById('fullscreenImageModal'));
     let barcodeScannerModal = new bootstrap.Modal(document.getElementById('barcodeScannerModal'));
     
-    // Camera variables
     let fullscreenStream = null;
     let currentFacingMode = 'environment';
     let html5QrCode = null;
     let currentScannerTarget = null;
 
-    // CSRF Token setup
+    // Sellers autocomplete
+    let sellersCache = [];
+    let sellersLoaded = false;
+    let voucherValid = true;
+
+    // Companies autocomplete
+    let companiesCache = [];
+    let companiesLoaded = false;
+    let companyValid = true;
+
+    // Company server-side search state
+    let companySearchTimer = null;
+    let companySearchRequest = null;
+
     $.ajaxSetup({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
 
     // ============================================
-    // !!! چارەسەری کێشەی بارکۆد بە هەر زمانێک !!!
+    // Barcode Normalization
     // ============================================
-
-    /**
-     * گۆڕینی هەر ژمارەیەکی نا ئینگلیزی (کوردی، فارسی، عەرەبی) بۆ ئینگلیزی
-     */
     function normalizeToEnglishNumbers(str) {
         if (!str) return str;
         
@@ -1186,9 +1721,6 @@ $(document).ready(function() {
         return result;
     }
 
-    /**
-     * چالاککردنی نۆرمالایزکردن بۆ فیلدێک
-     */
     function enableBarcodeNormalization(selector) {
         $(selector).on('input', function() {
             const originalValue = $(this).val();
@@ -1226,27 +1758,31 @@ $(document).ready(function() {
 
     function escapeHtml(text) {
         if (!text) return '';
-        return String(text).replace(/[&<>]/g, function(m) {
+        return String(text).replace(/[&<>"]/g, function(m) {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
+            if (m === '"') return '&quot;';
             return m;
         });
     }
 
+    // ============================================
+    // ALERT
+    // ============================================
     function showAlert(type, title, message, duration = 4000) {
         let icon, alertClass;
         switch(type) {
             case 'success': icon = 'fas fa-check-circle'; alertClass = 'alert-success-custom'; break;
             case 'error': icon = 'fas fa-exclamation-circle'; alertClass = 'alert-error-custom'; break;
             case 'warning': icon = 'fas fa-exclamation-triangle'; alertClass = 'alert-warning-custom'; break;
-            default: icon = 'fas fa-info-circle'; alertClass = 'alert-success-custom';
+            default: icon = 'fas fa-info-circle'; alertClass = 'alert-info-custom';
         }
         const alertId = 'alert-' + Date.now();
         const alertHtml = `
-            <div id="${alertId}" class="alert-custom ${alertClass}" style="background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+            <div id="${alertId}" class="alert-custom ${alertClass}">
                 <i class="${icon}" style="font-size: 1.3rem;"></i>
-                <div style="flex: 1;">
+                <div>
                     <strong>${escapeHtml(title)}</strong><br>
                     <small>${escapeHtml(message)}</small>
                 </div>
@@ -1258,22 +1794,416 @@ $(document).ready(function() {
     }
 
     // ============================================
+    // LOAD SELLERS
+    // ============================================
+    function loadSellers(forceReload = false) {
+        if (sellersLoaded && !forceReload) return;
+
+        $.ajax({
+            url: '{{ route("sellers.list") }}',
+            type: 'GET',
+            success: function(res) {
+                if (res.success && Array.isArray(res.sellers)) {
+                    sellersCache = res.sellers;
+                    sellersLoaded = true;
+                }
+            },
+            error: function() {
+                console.warn('⚠️ نەتوانرا لیستی فرۆشیارەکان بار بکرێت');
+            }
+        });
+    }
+
+    // ============================================
+    // LOAD COMPANIES
+    // ============================================
+    function loadCompanies(forceReload = false) {
+        if (companiesLoaded && !forceReload) return;
+
+        $.ajax({
+            url: '{{ route("companies.list") }}',
+            type: 'GET',
+            success: function(res) {
+                if (res.success && Array.isArray(res.companies)) {
+                    companiesCache = res.companies.map(c => ({
+                        id: c.id,
+                        name: c.company_name || c.company
+                    })).filter(c => c.name && c.name.trim() !== '');
+                    
+                    companiesLoaded = true;
+                }
+            },
+            error: function(xhr) {
+                console.warn('⚠️ نەتوانرا لیستی کۆمپانیاکان بار بکرێت', xhr);
+            }
+        });
+    }
+
+    // ============================================
+    // ✅ COMPANY SUGGESTIONS — Server-side search
+    // ============================================
+    function showCompanySuggestions(query) {
+        const box = $('#company-suggestions');
+
+        if (!query || query.trim() === '') {
+            box.hide().empty();
+            return;
+        }
+
+        if (companySearchRequest) {
+            companySearchRequest.abort();
+        }
+
+        box.html(`
+            <div class="suggestion-message">
+                <i class="fas fa-spinner fa-spin me-2"></i>
+                گەڕان...
+            </div>
+        `).show();
+
+        clearTimeout(companySearchTimer);
+        companySearchTimer = setTimeout(function () {
+            companySearchRequest = $.ajax({
+                url: '{{ route("companies.search") }}',
+                type: 'GET',
+                data: { q: query.trim() },
+                success: function (res) {
+                    if (res.success && Array.isArray(res.companies) && res.companies.length > 0) {
+                        const matches = res.companies.map(c => ({
+                            id: c.id,
+                            name: c.company_name || c.company
+                        }));
+
+                        let html = '';
+                        matches.forEach(function (c) {
+                            html += `<button type="button"
+                                        class="list-group-item company-suggestion-item"
+                                        data-id="${c.id}"
+                                        data-name="${escapeHtml(c.name)}">
+                                        <i class="fas fa-building ms-2"></i>${escapeHtml(c.name)}
+                                     </button>`;
+                        });
+                        box.html(html).show();
+                    } else {
+                        box.html(`
+                            <div class="suggestion-message">
+                                <i class="fas fa-search me-2"></i>
+                                هیچ کۆمپانیایەک نەدۆزرایەوە
+                            </div>
+                        `).show();
+                    }
+                },
+                error: function (xhr) {
+                    if (xhr.statusText === 'abort') return;
+                    box.html(`
+                        <div class="suggestion-message text-danger">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            هەڵە لە گەڕان
+                        </div>
+                    `).show();
+                }
+            });
+        }, 250);
+    }
+
+    // ============================================
+    // validateCompany — Server-side
+    // ============================================
+    function validateCompany(silent = false) {
+        const value = $('#edit-company').val().trim();
+        const status = $('#company-status');
+
+        if (value === '') {
+            companyValid = true;
+            status.text('');
+            $('#edit-company').removeClass('is-valid is-invalid');
+            return true;
+        }
+
+        let found = companiesCache.find(c =>
+            c.name && c.name.toLowerCase() === value.toLowerCase()
+        );
+
+        if (found) {
+            companyValid = true;
+            status.html('✅ ناوی کۆمپانیا دروستە').css('color', '#10b981');
+            $('#edit-company').removeClass('is-invalid').addClass('is-valid');
+            return true;
+        }
+
+        if (!silent) {
+            $.ajax({
+                url: '{{ route("companies.search") }}',
+                type: 'GET',
+                data: { q: value },
+                success: function(res) {
+                    const exactMatch = res.companies && res.companies.find(c => {
+                        const name = c.company_name || c.company;
+                        return name && name.toLowerCase() === value.toLowerCase();
+                    });
+
+                    if (exactMatch) {
+                        companyValid = true;
+                        status.html('✅ ناوی کۆمپانیا دروستە').css('color', '#10b981');
+                        $('#edit-company').removeClass('is-invalid').addClass('is-valid');
+                    } else {
+                        companyValid = false;
+                        status.html('❌ ئەم کۆمپانیایە پێشتر تۆمار نەکراوە').css('color', '#ef4444');
+                        $('#edit-company').removeClass('is-valid').addClass('is-invalid');
+                    }
+                }
+            });
+            return true;
+        } else {
+            companyValid = false;
+            status.html('❌ ئەم کۆمپانیایە پێشتر تۆمار نەکراوە').css('color', '#ef4444');
+            $('#edit-company').removeClass('is-valid').addClass('is-invalid');
+            return false;
+        }
+    }
+
+    let companyTimer;
+    $('#edit-company').on('input', function() {
+        const val = $(this).val();
+        showCompanySuggestions(val);
+        clearTimeout(companyTimer);
+        companyTimer = setTimeout(function() {
+            validateCompany(false);
+        }, 500);
+    });
+
+    $('#edit-company').on('focus', function() {
+        const val = $(this).val();
+        if (val && val.trim() !== '') {
+            showCompanySuggestions(val);
+        }
+    });
+
+    $(document).on('click', '.company-suggestion-item', function() {
+        const name = $(this).data('name');
+        $('#edit-company').val(name);
+        $('#company-suggestions').hide().empty();
+        validateCompany(true);
+    });
+
+    let companySuggestionIndex = -1;
+    $('#edit-company').on('keydown', function(e) {
+        const items = $('#company-suggestions .company-suggestion-item');
+        if (items.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            companySuggestionIndex = Math.min(companySuggestionIndex + 1, items.length - 1);
+            items.removeClass('active').eq(companySuggestionIndex).addClass('active')[0].scrollIntoView({block: 'nearest'});
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            companySuggestionIndex = Math.max(companySuggestionIndex - 1, 0);
+            items.removeClass('active').eq(companySuggestionIndex).addClass('active')[0].scrollIntoView({block: 'nearest'});
+        } else if (e.key === 'Enter') {
+            if (companySuggestionIndex >= 0 && items.eq(companySuggestionIndex).length) {
+                e.preventDefault();
+                items.eq(companySuggestionIndex).trigger('click');
+                companySuggestionIndex = -1;
+            }
+        } else if (e.key === 'Escape') {
+            $('#company-suggestions').hide();
+            companySuggestionIndex = -1;
+        }
+    });
+
+    // ============================================
+    // SELLER AUTOCOMPLETE
+    // ============================================
+    function showVoucherSuggestions(query) {
+        const box = $('#voucher-suggestions');
+
+        if (!query || query.trim() === '') {
+            box.hide().empty();
+            return;
+        }
+
+        const q = query.trim().toLowerCase();
+        const matches = sellersCache.filter(s =>
+            s.name && s.name.toLowerCase().startsWith(q)
+        );
+
+        if (matches.length === 0) {
+            box.html(`
+                <div class="suggestion-message">
+                    <i class="fas fa-search me-2"></i>
+                    هیچ فرۆشیارێک نەدۆزرایەوە
+                </div>
+            `).show();
+            return;
+        }
+
+        let html = '';
+        matches.slice(0, 10).forEach(function(s) {
+            html += `<button type="button"
+                        class="list-group-item voucher-suggestion-item"
+                        data-name="${escapeHtml(s.name)}">
+                        <i class="fas fa-user ms-2"></i>${escapeHtml(s.name)}
+                     </button>`;
+        });
+        box.html(html).show();
+    }
+
+    function validateVoucherName(silent = false) {
+        const value = $('#edit-voucher-name').val().trim();
+        const status = $('#voucher-status');
+
+        if (value === '') {
+            voucherValid = true;
+            status.text('');
+            $('#edit-voucher-name').removeClass('is-valid is-invalid');
+            return true;
+        }
+
+        const found = sellersCache.find(s =>
+            s.name && s.name.toLowerCase() === value.toLowerCase()
+        );
+
+        if (found) {
+            voucherValid = true;
+            status.html('✅ ناوی فرۆشیار دروستە').css('color', '#10b981');
+            $('#edit-voucher-name').removeClass('is-invalid').addClass('is-valid');
+            return true;
+        } else {
+            voucherValid = false;
+            status.html('❌ ئەم ناوە پێشتر تۆمار نەکراوە').css('color', '#ef4444');
+            $('#edit-voucher-name').removeClass('is-valid').addClass('is-invalid');
+            return false;
+        }
+    }
+
+    let voucherTimer;
+    $('#edit-voucher-name').on('input', function() {
+        const val = $(this).val();
+        showVoucherSuggestions(val);
+        clearTimeout(voucherTimer);
+        voucherTimer = setTimeout(function() {
+            validateVoucherName(true);
+        }, 300);
+    });
+
+    $('#edit-voucher-name').on('focus', function() {
+        const val = $(this).val();
+        if (val && val.trim() !== '') {
+            showVoucherSuggestions(val);
+        }
+    });
+
+    $(document).on('click', '.voucher-suggestion-item', function() {
+        const name = $(this).data('name');
+        $('#edit-voucher-name').val(name);
+        $('#voucher-suggestions').hide().empty();
+        validateVoucherName();
+    });
+
+    let suggestionIndex = -1;
+    $('#edit-voucher-name').on('keydown', function(e) {
+        const items = $('#voucher-suggestions .voucher-suggestion-item');
+        if (items.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            suggestionIndex = Math.min(suggestionIndex + 1, items.length - 1);
+            items.removeClass('active').eq(suggestionIndex).addClass('active')[0].scrollIntoView({block: 'nearest'});
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            suggestionIndex = Math.max(suggestionIndex - 1, 0);
+            items.removeClass('active').eq(suggestionIndex).addClass('active')[0].scrollIntoView({block: 'nearest'});
+        } else if (e.key === 'Enter') {
+            if (suggestionIndex >= 0 && items.eq(suggestionIndex).length) {
+                e.preventDefault();
+                items.eq(suggestionIndex).trigger('click');
+                suggestionIndex = -1;
+            }
+        } else if (e.key === 'Escape') {
+            $('#voucher-suggestions').hide();
+            suggestionIndex = -1;
+        }
+    });
+
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('#edit-voucher-name, #voucher-suggestions').length) {
+            $('#voucher-suggestions').hide();
+        }
+        if (!$(e.target).closest('#edit-company, #company-suggestions').length) {
+            $('#company-suggestions').hide();
+        }
+    });
+
+    // ============================================
+    // Modal Open/Close
+    // ============================================
+    $('#editProductModal').on('shown.bs.modal', function() {
+        loadSellers();
+        loadCompanies();
+        
+        setTimeout(function() {
+            validateVoucherName(true);
+            validateCompany(true);
+        }, 800);
+    });
+
+    $('#editProductModal').on('hidden.bs.modal', function() {
+        $('#voucher-suggestions').hide().empty();
+        $('#company-suggestions').hide().empty();
+        $('#voucher-status').text('');
+        $('#company-status').text('');
+        
+        $('#edit-voucher-name').removeClass('is-valid is-invalid');
+        $('#edit-company').removeClass('is-valid is-invalid');
+        $('#edit-barcode').removeClass('is-valid is-invalid');
+        $('#edit-barcode-status').text('');
+        
+        voucherValid = true;
+        companyValid = true;
+        suggestionIndex = -1;
+        companySuggestionIndex = -1;
+        
+        if (companySearchRequest) {
+            companySearchRequest.abort();
+            companySearchRequest = null;
+        }
+        clearTimeout(companySearchTimer);
+        
+        $('#edit-product-form')[0].reset();
+        $('#edit-product-id').val('');
+        $('#edit-old-barcode').val('');
+        
+        $('#modal-captured-image-data').val('');
+        $('#modal-image-source-type').val('');
+        $('#modal-remove-image-flag').val('false');
+        $('#modal-file-input').val('');
+        $('#modal-image-preview-section').hide();
+        $('#modal-default-upload-section').show();
+        $('#modal-product-image-preview').attr('src', '');
+        
+        setTimeout(function() {
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open').css({
+                'overflow': '',
+                'padding-right': ''
+            });
+        }, 300);
+    });
+
+    // ============================================
     // Live Search Functions
     // ============================================
-    
-    function showLoading(field) {
-        $('#' + field + '-loading').show();
-    }
-    
-    function hideLoading(field) {
-        $('#' + field + '-loading').hide();
-    }
+    function showLoading(field) { $('#' + field + '-loading').show(); }
+    function hideLoading(field) { $('#' + field + '-loading').hide(); }
     
     function performLiveSearch() {
-        // !!! نۆرمالایزکردنی بارکۆد پێش گەڕان !!!
         searchParams.barcode = normalizeToEnglishNumbers($('#search-barcode').val().trim());
         searchParams.name = $('#search-name').val().trim();
         searchParams.company = $('#search-company').val().trim();
+        searchParams.voucher = $('#search-voucher').val().trim();
+        
+        console.log('🔍 فلتەرەکان:', searchParams);
+        
         loadProducts(1);
     }
     
@@ -1284,54 +2214,80 @@ $(document).ready(function() {
         }, 500);
     }
     
+    // ============================================
+    // فلتەری بارکۆد
+    // ============================================
     $('#search-barcode').on('input', function() {
         showLoading('barcode');
         debounceSearch();
         setTimeout(function() { hideLoading('barcode'); }, 600);
     });
     
+    // ============================================
+    // فلتەری ناوی کاڵا
+    // ============================================
     $('#search-name').on('input', function() {
         showLoading('name');
         debounceSearch();
         setTimeout(function() { hideLoading('name'); }, 600);
     });
     
+    // ============================================
+    // فلتەری کۆمپانیا
+    // ============================================
+    let companyFilterTimer = null;
     $('#search-company').on('input', function() {
+        const val = $(this).val().trim();
+        
+        console.log('🔍 فلتەری کۆمپانیا:', val);
+        
         showLoading('company');
+        
+        clearTimeout(companyFilterTimer);
+        
+        companyFilterTimer = setTimeout(function() {
+            searchParams.company = val;
+            
+            console.log('📤 ناردن بۆ سێرڤەر:', {
+                company: searchParams.company,
+                allParams: searchParams
+            });
+            
+            loadProducts(1);
+            hideLoading('company');
+        }, 500);
+    });
+    
+    // ============================================
+    // فلتەری فرۆشیار
+    // ============================================
+    $('#search-voucher').on('input', function() {
+        showLoading('voucher');
         debounceSearch();
-        setTimeout(function() { hideLoading('company'); }, 600);
+        setTimeout(function() { hideLoading('voucher'); }, 600);
     });
     
     $('#reset-filters').click(function() {
-        $('#search-barcode, #search-name, #search-company').val('');
-        searchParams = { barcode: '', name: '', company: '' };
+        $('#search-barcode, #search-name, #search-company, #search-voucher').val('');
+        searchParams = { barcode: '', name: '', company: '', voucher: '' };
         loadProducts(1);
     });
 
     // ============================================
-    // Barcode Scanner Functions
+    // Barcode Scanner
     // ============================================
-    
     async function startBarcodeScanner(target) {
         currentScannerTarget = target;
         await stopBarcodeScanner();
         
         const qrReader = document.getElementById('qr-reader');
-        if (!qrReader) {
-            console.error('qr-reader element not found');
-            return;
-        }
+        if (!qrReader) return;
         
-        // Clean previous scanner if exists
         if (html5QrCode) {
             try {
-                if (html5QrCode.isScanning) {
-                    await html5QrCode.stop();
-                }
+                if (html5QrCode.isScanning) await html5QrCode.stop();
                 await html5QrCode.clear();
-            } catch(e) {
-                console.log('Error clearing previous scanner:', e);
-            }
+            } catch(e) {}
         }
         
         html5QrCode = new Html5Qrcode("qr-reader");
@@ -1340,7 +2296,6 @@ $(document).ready(function() {
             fps: 10,
             qrbox: { width: 250, height: 200 },
             aspectRatio: 1.0,
-            showTorchButtonIfSupported: true,
         };
         
         try {
@@ -1348,9 +2303,7 @@ $(document).ready(function() {
                 { facingMode: "environment" },
                 config,
                 (decodedText) => {
-                    // !!! زیادکردنی نۆرمالایزکردن !!!
                     const normalizedBarcode = normalizeToEnglishNumbers(decodedText);
-                    
                     stopBarcodeScanner();
                     barcodeScannerModal.hide();
                     
@@ -1364,12 +2317,9 @@ $(document).ready(function() {
                         showAlert('success', 'سەرکەوتوو', 'بارکۆد سکان کرا: ' + normalizedBarcode);
                     }
                 },
-                (errorMessage) => {
-                    // Scanning continues
-                }
+                () => {}
             );
         } catch (err) {
-            console.error('Error starting scanner:', err);
             showAlert('error', 'هەڵەی کامێرا', 'ناتوانرێت کامێرا بۆ سکانکردن بکرێتەوە');
             barcodeScannerModal.hide();
         }
@@ -1377,16 +2327,10 @@ $(document).ready(function() {
     
     async function stopBarcodeScanner() {
         if (html5QrCode && html5QrCode.isScanning) {
-            try {
-                await html5QrCode.stop();
-                await html5QrCode.clear();
-            } catch(e) {
-                console.error('Error stopping scanner:', e);
-            }
+            try { await html5QrCode.stop(); await html5QrCode.clear(); } catch(e) {}
         }
     }
     
-    // Scanner button events
     $('#search-camera-btn').on('click', function() {
         barcodeScannerModal.show();
         startBarcodeScanner('search');
@@ -1402,28 +2346,34 @@ $(document).ready(function() {
     });
 
     // ============================================
-    // Load Products Table
+    // Load Products
     // ============================================
     function loadProducts(page = 1) {
         $('#products-table-body').html(`
             <tr>
-                <td colspan="7" class="text-center py-5">
+                <td colspan="8" class="text-center py-5">
                     <div class="loading-spinner" style="border-top-color: var(--primary);"></div>
                     <span class="me-2 mt-2 d-block">بارکاردکردنی زانیاری...</span>
                 </td>
             </tr>
         `);
         
+        const requestData = {
+            page: page,
+            barcode: searchParams.barcode,
+            name: searchParams.name,
+            company: searchParams.company,
+            voucher: searchParams.voucher
+        };
+        console.log('📤 داواکاری products.list:', requestData);
+        
         $.ajax({
-            url: '{{ route("products.list") }}',
+            url: '{{ route("products.listt") }}',
             type: 'GET',
-            data: {
-                page: page,
-                barcode: searchParams.barcode,
-                name: searchParams.name,
-                company: searchParams.company
-            },
+            data: requestData,
             success: function(response) {
+                console.log('📥 وەڵام:', response);
+                
                 if (response.success) {
                     renderProductsTable(response.products.data);
                     renderPagination(response.products);
@@ -1434,11 +2384,13 @@ $(document).ready(function() {
                 hideLoading('barcode');
                 hideLoading('name');
                 hideLoading('company');
+                hideLoading('voucher');
             },
-            error: function() {
+            error: function(xhr) {
+                console.error('❌ هەڵە:', xhr);
                 $('#products-table-body').html(`
                     <tr>
-                        <td colspan="7" class="text-center py-5 text-danger">
+                        <td colspan="8" class="text-center py-5 text-danger">
                             <i class="fas fa-exclamation-circle fa-2x mb-2 d-block"></i>
                             هەڵە لە بارکاردکردنی زانیاریدا
                         </td>
@@ -1447,6 +2399,7 @@ $(document).ready(function() {
                 hideLoading('barcode');
                 hideLoading('name');
                 hideLoading('company');
+                hideLoading('voucher');
             }
         });
     }
@@ -1455,7 +2408,7 @@ $(document).ready(function() {
         if (!products || products.length === 0) {
             $('#products-table-body').html(`
                 <tr>
-                    <td colspan="7" class="text-center py-5 text-muted">
+                    <td colspan="8" class="text-center py-5 text-muted">
                         <i class="fas fa-box-open fa-3x mb-3 d-block"></i>
                         هیچ کاڵایەک نەدۆزرایەوە
                     </td>
@@ -1471,7 +2424,7 @@ $(document).ready(function() {
             if (imageUrl) {
                 imageHtml = `<img src="${getImageUrl(imageUrl)}" class="product-image-thumb" alt="${product.name}" data-full-image="${getImageUrl(imageUrl)}" onerror="this.src='https://placehold.co/50x50?text=No+Image'">`;
             } else {
-                imageHtml = `<div style="width:50px;height:50px;background:#f3f4f6;border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-box text-muted"></i></div>`;
+                imageHtml = `<div style="width:50px;height:50px;background:var(--bg-light);border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-box text-muted"></i></div>`;
             }
             
             let stockBadge = '';
@@ -1482,20 +2435,32 @@ $(document).ready(function() {
                 stockBadge = `<span class="badge-stock badge-stock-low"><i class="fas fa-exclamation-triangle ms-1"></i>${stock}</span>`;
             }
             
+            const companyName = product.company_name || product.company || 'بێ کۆمپانیا';
+            const hasCompany = companyName && companyName !== 'بێ کۆمپانیا';
+            const companyBadgeClass = hasCompany ? 'company-badge' : 'company-badge no-company';
+            const companyIcon = hasCompany ? 'fa-building' : 'fa-ban';
+            
             html += `
                 <tr data-product-id="${product.id}">
-                    <td>${imageHtml}</td>
-                    <td class="fw-semibold">${escapeHtml(product.name)}</td>
-                    <td>${escapeHtml(product.company)}</td>
-                    <td>${formatNumberToIQD(product.purchase_price)} د.ع</td>
-                    <td>${formatNumberToIQD(product.selling_price)} د.ع</td>
-                    <td>${stockBadge}</td>
-                    <td class="action-buttons">
+                    <td data-label="وێنە">${imageHtml}</td>
+                    <td data-label="ناوی کاڵا" class="fw-semibold">${escapeHtml(product.name)}</td>
+                    <td data-label="کۆمپانیا">
+                        <span class="${companyBadgeClass}">
+                            <i class="fas ${companyIcon}"></i>
+                            ${escapeHtml(companyName)}
+                        </span>
+                    </td>
+                    <td data-label="ناوی فرۆشیار">${escapeHtml(product.voucher_name || '—')}</td>
+                    <td data-label="نرخی کڕین">${formatNumberToIQD(product.purchase_price)} د.ع</td>
+                    <td data-label="نرخی فرۆشتن">${formatNumberToIQD(product.selling_price)} د.ع</td>
+                    <td data-label="بڕی دوکان">${stockBadge}</td>
+                    <td data-label="کردار" class="action-buttons">
                         <button class="btn-edit-table edit-product-btn" 
                             data-id="${product.id}" 
                             data-barcode="${escapeHtml(product.barcode)}" 
                             data-name="${escapeHtml(product.name)}" 
-                            data-company="${escapeHtml(product.company)}" 
+                            data-company="${escapeHtml(companyName)}" 
+                            data-voucher-name="${escapeHtml(product.voucher_name || '')}"
                             data-purchase="${product.purchase_price}" 
                             data-selling="${product.selling_price}" 
                             data-minstock="${product.counter}" 
@@ -1564,33 +2529,39 @@ $(document).ready(function() {
     }
 
     // ============================================
-    // Edit Product - Open Modal with Form
+    // Edit Product
     // ============================================
-    $(document).on('click', '.edit-product-btn', function() {
+    $(document).on('click', '.edit-product-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
         let productId = $(this).data('id');
         let barcode = $(this).data('barcode');
         let name = $(this).data('name');
         let company = $(this).data('company');
+        let voucherName = $(this).data('voucher-name');
         let purchasePrice = $(this).data('purchase');
         let sellingPrice = $(this).data('selling');
         let minStock = $(this).data('minstock');
         let imagePath = $(this).data('image');
         
-        // Reset image-related fields
+        $('#edit-product-form')[0].reset();
+        
         $('#edit-product-id').val(productId);
         $('#edit-old-barcode').val(barcode);
         $('#edit-barcode').val(barcode);
         $('#edit-name').val(name);
         $('#edit-company').val(company);
+        $('#edit-voucher-name').val(voucherName || '');
         $('#edit-purchase-price').val(formatNumberToIQD(purchasePrice));
         $('#edit-selling-price').val(formatNumberToIQD(sellingPrice));
         $('#edit-minimum-stock').val(minStock);
+        
         $('#modal-file-input').val('');
         $('#modal-captured-image-data').val('');
         $('#modal-image-source-type').val('');
         $('#modal-remove-image-flag').val('false');
         
-        // Handle image preview
         if (imagePath && imagePath !== 'null' && imagePath !== '') {
             let imageUrl = getImageUrl(imagePath);
             $('#modal-product-image-preview').attr('src', imageUrl);
@@ -1601,7 +2572,20 @@ $(document).ready(function() {
             $('#modal-default-upload-section').show();
         }
         
+        $('#edit-barcode-status').text('');
+        $('#edit-barcode').removeClass('is-valid is-invalid');
+        $('#company-status').text('');
+        $('#voucher-status').text('');
+        
         updateModalBarcodeStatus(barcode);
+        loadSellers();
+        loadCompanies();
+        
+        setTimeout(function() {
+            validateVoucherName(true);
+            validateCompany(true);
+        }, 300);
+        
         editModal.show();
     });
     
@@ -1626,8 +2610,6 @@ $(document).ready(function() {
             return;
         }
 
-        const normalizedBarcode = normalizeToEnglishNumbers(barcodeStr);
-        
         $('#edit-barcode-status').html('<i class="fas fa-spinner fa-spin"></i> پشکنین دەکرێت...').css('color', '#3b82f6');
         
         $.ajax({
@@ -1732,7 +2714,6 @@ $(document).ready(function() {
     // ============================================
     // Modal Image Upload & Camera
     // ============================================
-    
     function startFullscreenCamera() {
         if (fullscreenStream) stopFullscreenCamera();
         navigator.mediaDevices.getUserMedia({
@@ -1786,7 +2767,6 @@ $(document).ready(function() {
                 $('#modal-default-upload-section').hide();
                 $('#modal-remove-image-flag').val('false');
                 $('#modal-file-input').val('');
-              
             };
             reader.readAsDataURL(blob);
             closeFullscreenCamera();
@@ -1830,7 +2810,6 @@ $(document).ready(function() {
                 $('#modal-default-upload-section').hide();
             };
             reader.readAsDataURL(file);
-          
         }
     });
     
@@ -1841,7 +2820,6 @@ $(document).ready(function() {
         $('#modal-remove-image-flag').val('true');
         $('#modal-image-preview-section').hide();
         $('#modal-default-upload-section').show();
-      
     });
     
     $(document).on('click', '#modal-product-image-preview', function() {
@@ -1855,16 +2833,34 @@ $(document).ready(function() {
     // ============================================
     // Save Product Changes
     // ============================================
-    $('#save-product-changes').click(function () {
+    $('#save-product-changes').on('click', function () {
+        if (isSubmitting) return;
+        
+        if (!validateVoucherName()) {
+            showAlert('error', 'ناوی فرۆشیار هەڵەیە',
+                      'ئەم ناوە پێشتر تۆمار نەکراوە. تکایە ناوێکی دروست هەڵبژێرە.');
+            return;
+        }
+
+        if (!validateCompany()) {
+            showAlert('error', 'ناوی کۆمپانیا هەڵەیە',
+                      'ئەم کۆمپانیایە پێشتر تۆمار نەکراوە. تکایە ناوێکی دروست هەڵبژێرە.');
+            return;
+        }
+
         let formData = new FormData($('#edit-product-form')[0]);
         formData.append('id', $('#edit-product-id').val());
         formData.append('new_barcode', normalizeToEnglishNumbers($('#edit-barcode').val()));
         formData.append('purchase_price', removeThousandSeparators($('#edit-purchase-price').val()));
         formData.append('selling_price', removeThousandSeparators($('#edit-selling-price').val()));
+        formData.append('voucher_name', $('#edit-voucher-name').val());
+        formData.append('company', $('#edit-company').val());
 
         let btn = $(this);
         let originalText = btn.html();
-        btn.html('تۆمار دەکرێت...').prop('disabled', true);
+        btn.html('<div class="loading-spinner" style="display:inline-block;width:14px;height:14px;border-width:2px;"></div> تۆمار دەکرێت...').prop('disabled', true);
+
+        isSubmitting = true;
 
         $.ajax({
             url: '{{ route("products.update") }}',
@@ -1892,6 +2888,9 @@ $(document).ready(function() {
             },
             complete: function () {
                 btn.html(originalText).prop('disabled', false);
+                isSubmitting = false;
+                validateVoucherName(true);
+                validateCompany(true);
             }
         });
     });
@@ -1899,19 +2898,22 @@ $(document).ready(function() {
     // ============================================
     // Delete Product
     // ============================================
-    $(document).on('click', '.delete-product-btn', function() {
+    $(document).on('click', '.delete-product-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
         deleteProductId = $(this).data('id');
         let productName = $(this).data('name');
         $('#delete-product-name').html(`<strong>${escapeHtml(productName)}</strong>`);
         deleteModal.show();
     });
     
-    $('#confirm-delete').click(function() {
+    $('#confirm-delete').on('click', function() {
         if (!deleteProductId) return;
         
         let btn = $(this);
         let originalText = btn.html();
-        btn.html('<div class="loading-spinner"></div> سڕینەوە...').prop('disabled', true);
+        btn.html('<div class="loading-spinner" style="display:inline-block;width:14px;height:14px;border-width:2px;"></div> سڕینەوە...').prop('disabled', true);
         
         $.ajax({
             url: '/products/' + deleteProductId + '/delete',
@@ -1929,8 +2931,12 @@ $(document).ready(function() {
                     showAlert('error', 'هەڵە', response.message || 'هەڵەیەک ڕوویدا لە سڕینەوەدا');
                 }
             },
-            error: function() {
-                showAlert('error', 'هەڵە', 'هەڵەیەک ڕوویدا لە سڕینەوەدا');
+            error: function(xhr) {
+                let msg = 'هەڵەیەک ڕوویدا لە سڕینەوەدا';
+                if (xhr.responseJSON?.message) {
+                    msg = xhr.responseJSON.message;
+                }
+                showAlert('error', 'هەڵە', msg);
             },
             complete: function() {
                 btn.html(originalText).prop('disabled', false);
@@ -1942,6 +2948,8 @@ $(document).ready(function() {
     // ============================================
     // Initial load
     // ============================================
+    loadSellers();
+    loadCompanies();
     loadProducts();
 });
 </script>

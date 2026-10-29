@@ -59,11 +59,7 @@
         --danger-light: rgba(239, 68, 68, 0.15);
     }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
         background: var(--bg-body);
@@ -74,14 +70,13 @@
         line-height: 1.6;
     }
 
-    /* Alert Container */
     #alert-container {
         position: fixed;
         top: 20px;
         right: 20px;
         z-index: 9999;
         width: 400px;
-        max-width: 90vw;
+        max-width: calc(100vw - 40px);
     }
 
     .alert-toast {
@@ -98,22 +93,17 @@
         margin-bottom: 12px;
         background: var(--bg-white);
         border: 1px solid var(--border-color);
+        word-wrap: break-word;
     }
 
     @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
+        from { transform: translateX(100%); opacity: 0; }
+        to   { transform: translateX(0);    opacity: 1; }
     }
 
     @keyframes fadeOut {
         from { opacity: 1; }
-        to { opacity: 0; }
+        to   { opacity: 0; }
     }
 
     .alert-success {
@@ -138,26 +128,43 @@
         color: #fecaca;
     }
 
-    /* Main Container */
+    @media (max-width: 576px) {
+        #alert-container { top: 10px; right: 10px; left: 10px; width: auto; max-width: none; }
+        .alert-toast { padding: 12px 14px; font-size: 0.85rem; }
+    }
+
     .main-container {
         max-width: 1400px;
         margin: 0 auto;
         padding: 32px 24px;
     }
 
-    /* Stats Grid */
+    @media (max-width: 768px) { .main-container { padding: 16px 12px; } }
+    @media (max-width: 480px) { .main-container { padding: 12px 10px; } }
+
+    /* ============================================
+       STATS GRID — 6 cards
+       ============================================ */
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
         margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+        .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+    }
+
+    @media (max-width: 480px) {
+        .stats-grid { gap: 10px; }
     }
 
     .stat-card {
         background: var(--bg-white);
         backdrop-filter: blur(10px);
         border-radius: var(--radius-lg);
-        padding: 24px;
+        padding: 20px;
         box-shadow: var(--shadow-md);
         border: 1px solid var(--border-color);
         transition: var(--transition);
@@ -166,12 +173,13 @@
         cursor: default;
     }
 
+    @media (max-width: 768px) { .stat-card { padding: 14px 12px; } }
+    @media (max-width: 480px) { .stat-card { padding: 12px 10px; } }
+
     .stat-card::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
+        top: 0; left: 0; right: 0;
         height: 4px;
     }
 
@@ -180,68 +188,68 @@
         box-shadow: var(--shadow-xl);
     }
 
-    .stat-card:nth-child(1)::before { 
-        background: linear-gradient(90deg, var(--casher), #60a5fa); 
-    }
-    .stat-card:nth-child(2)::before { 
-        background: linear-gradient(90deg, var(--discount), #fbbf24); 
-    }
-    .stat-card:nth-child(3)::before { 
-        background: linear-gradient(90deg, var(--before), #34d399); 
-    }
-    .stat-card:nth-child(4)::before { 
-        background: linear-gradient(90deg, var(--after), #a78bfa); 
-    }
+    @media (max-width: 768px) { .stat-card:hover { transform: none; } }
+
+    .stat-card:nth-child(1)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .stat-card:nth-child(2)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .stat-card:nth-child(3)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .stat-card:nth-child(4)::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+    .stat-card:nth-child(5)::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .stat-card:nth-child(6)::before { background: linear-gradient(90deg, #6366f1, #818cf8); }
 
     .stat-icon {
-        width: 50px;
-        height: 50px;
+        width: 44px;
+        height: 44px;
         border-radius: var(--radius-md);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
-        margin-bottom: 16px;
+        font-size: 1.3rem;
+        margin-bottom: 12px;
     }
 
-    .stat-icon.casher {
-        background: var(--casher-light);
-        color: var(--casher);
+    @media (max-width: 768px) {
+        .stat-icon { width: 36px; height: 36px; font-size: 1rem; margin-bottom: 8px; border-radius: 10px; }
     }
 
-    .stat-icon.discount {
-        background: var(--discount-light);
-        color: var(--discount);
-    }
-
-    .stat-icon.before {
-        background: var(--before-light);
-        color: var(--before);
-    }
-
-    .stat-icon.after {
-        background: var(--after-light);
-        color: var(--after);
-    }
+    .stat-icon.casher    { background: var(--casher-light);   color: var(--casher); }
+    .stat-icon.discount  { background: var(--discount-light); color: var(--discount); }
+    .stat-icon.before    { background: var(--before-light);   color: var(--before); }
+    .stat-icon.after     { background: var(--after-light);    color: var(--after); }
+    .stat-icon.danger    { background: var(--danger-light);   color: var(--danger); }
+    .stat-icon.indigo    { background: rgba(99,102,241,0.15); color: #6366f1; }
 
     .stat-label {
-        font-size: 0.875rem;
+        font-size: 0.8rem;
         color: var(--text-secondary);
-        font-weight: 500;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
+    }
+
+    @media (max-width: 768px) {
+        .stat-label { font-size: 0.68rem; margin-bottom: 4px; letter-spacing: 0; }
     }
 
     .stat-value {
-        font-size: 1.75rem;
+        font-size: 1.4rem;
         font-weight: 700;
         color: var(--text);
         line-height: 1.2;
         font-family: 'Courier New', monospace;
+        word-break: break-word;
     }
 
-    /* Content Wrapper */
+    @media (max-width: 768px) { .stat-value { font-size: 1rem; } }
+    @media (max-width: 480px) { .stat-value { font-size: 0.9rem; } }
+
+    .stat-sub {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+    }
+
     .content-wrapper {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -250,16 +258,12 @@
     }
 
     @media (max-width: 1024px) {
-        .content-wrapper {
-            grid-template-columns: 1fr;
-        }
-        
-        .withdraw-card {
-            position: static !important;
-        }
+        .content-wrapper { grid-template-columns: 1fr; }
+        .withdraw-card { position: static !important; }
     }
 
-    /* Withdraw Card */
+    @media (max-width: 768px) { .content-wrapper { gap: 20px; } }
+
     .withdraw-card {
         background: var(--bg-white);
         border-radius: var(--radius-xl);
@@ -280,20 +284,21 @@
         transition: var(--transition);
     }
 
+    @media (max-width: 768px) { .withdraw-header { padding: 20px; } }
+    @media (max-width: 480px) { .withdraw-header { padding: 18px 16px; } }
+
     .withdraw-header::after {
         content: '';
         position: absolute;
-        top: -50%;
-        right: -50%;
-        width: 200%;
-        height: 200%;
+        top: -50%; right: -50%;
+        width: 200%; height: 200%;
         background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
         animation: pulse 3s ease-in-out infinite;
     }
 
     @keyframes pulse {
         0%, 100% { transform: scale(1); opacity: 0.5; }
-        50% { transform: scale(1.1); opacity: 0.8; }
+        50%      { transform: scale(1.1); opacity: 0.8; }
     }
 
     .withdraw-header.edit-mode {
@@ -301,8 +306,7 @@
     }
 
     .withdraw-icon {
-        width: 64px;
-        height: 64px;
+        width: 64px; height: 64px;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 50%;
         display: flex;
@@ -316,9 +320,11 @@
         transition: var(--transition);
     }
 
-    .withdraw-icon.edit-mode {
-        background: rgba(255, 255, 255, 0.3);
+    @media (max-width: 768px) {
+        .withdraw-icon { width: 50px; height: 50px; font-size: 1.3rem; margin-bottom: 12px; }
     }
+
+    .withdraw-icon.edit-mode { background: rgba(255, 255, 255, 0.3); }
 
     .withdraw-title {
         font-size: 1.75rem;
@@ -328,6 +334,9 @@
         z-index: 1;
     }
 
+    @media (max-width: 768px) { .withdraw-title { font-size: 1.3rem; } }
+    @media (max-width: 480px) { .withdraw-title { font-size: 1.15rem; } }
+
     .withdraw-subtitle {
         color: rgba(255, 255, 255, 0.9);
         font-size: 0.95rem;
@@ -335,13 +344,16 @@
         z-index: 1;
     }
 
-    .withdraw-body {
-        padding: 32px;
-    }
+    @media (max-width: 768px) { .withdraw-subtitle { font-size: 0.8rem; } }
 
-    .form-group {
-        margin-bottom: 24px;
-    }
+    .withdraw-body { padding: 32px; }
+
+    @media (max-width: 768px) { .withdraw-body { padding: 20px; } }
+    @media (max-width: 480px) { .withdraw-body { padding: 16px; } }
+
+    .form-group { margin-bottom: 24px; }
+
+    @media (max-width: 768px) { .form-group { margin-bottom: 18px; } }
 
     .form-label {
         display: flex;
@@ -351,12 +363,12 @@
         color: var(--text);
         margin-bottom: 12px;
         font-size: 0.95rem;
+        flex-wrap: wrap;
     }
 
-    .form-label i {
-        color: var(--casher);
-        font-size: 1rem;
-    }
+    @media (max-width: 768px) { .form-label { font-size: 0.85rem; margin-bottom: 8px; } }
+
+    .form-label i { color: var(--casher); font-size: 1rem; }
 
     .optional-badge {
         background: var(--bg-light);
@@ -368,6 +380,8 @@
         border: 1px solid var(--border-color);
     }
 
+    @media (max-width: 480px) { .optional-badge { font-size: 0.65rem; padding: 3px 8px; } }
+
     .amount-section {
         background: var(--bg-light);
         border: 2px solid var(--border-color);
@@ -375,6 +389,8 @@
         padding: 20px;
         transition: var(--transition);
     }
+
+    @media (max-width: 768px) { .amount-section { padding: 14px; } }
 
     .amount-section:focus-within {
         border-color: var(--casher);
@@ -387,9 +403,7 @@
         box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
     }
 
-    .amount-input-wrapper {
-        margin-bottom: 16px;
-    }
+    .amount-input-wrapper { margin-bottom: 16px; }
 
     .amount-input {
         width: 100%;
@@ -405,10 +419,17 @@
         letter-spacing: 2px;
     }
 
-    .amount-input::placeholder {
-        color: var(--text-muted);
-        font-size: 1.5rem;
+    @media (max-width: 768px) {
+        .amount-input { font-size: 1.5rem; padding: 10px 12px; letter-spacing: 1px; }
     }
+
+    @media (max-width: 480px) {
+        .amount-input { font-size: 1.25rem; padding: 8px 10px; }
+    }
+
+    .amount-input::placeholder { color: var(--text-muted); font-size: 1.5rem; }
+
+    @media (max-width: 768px) { .amount-input::placeholder { font-size: 1.1rem; } }
 
     .currency-badge {
         display: flex;
@@ -426,15 +447,16 @@
         transition: var(--transition);
     }
 
-    .currency-badge.edit-mode {
-        background: var(--discount);
-    }
+    .currency-badge.edit-mode { background: var(--discount); }
 
     .quick-amounts {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 8px;
     }
+
+    @media (max-width: 768px) { .quick-amounts { grid-template-columns: repeat(2, 1fr); gap: 6px; } }
+    @media (max-width: 480px) { .quick-amounts { grid-template-columns: 1fr 1fr; gap: 5px; } }
 
     .quick-amount-btn {
         padding: 10px 12px;
@@ -448,6 +470,8 @@
         color: var(--text-secondary);
     }
 
+    @media (max-width: 768px) { .quick-amount-btn { padding: 8px 8px; font-size: 0.75rem; } }
+
     .quick-amount-btn:hover {
         background: var(--casher-light);
         border-color: var(--casher);
@@ -455,6 +479,8 @@
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
     }
+
+    @media (max-width: 768px) { .quick-amount-btn:hover { transform: none; } }
 
     .custom-textarea {
         width: 100%;
@@ -469,6 +495,8 @@
         color: var(--text);
     }
 
+    @media (max-width: 768px) { .custom-textarea { font-size: 0.85rem; padding: 10px 12px; } }
+
     .custom-textarea:focus {
         outline: none;
         border-color: var(--casher);
@@ -476,9 +504,7 @@
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
-    .custom-textarea::placeholder {
-        color: var(--text-muted);
-    }
+    .custom-textarea::placeholder { color: var(--text-muted); }
 
     .submit-btn {
         width: 100%;
@@ -499,35 +525,27 @@
         overflow: hidden;
     }
 
+    @media (max-width: 768px) { .submit-btn { font-size: 0.95rem; padding: 14px; } }
+
     .submit-btn::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
         transition: left 0.5s ease;
     }
 
-    .submit-btn:hover::before {
-        left: 100%;
-    }
+    .submit-btn:hover::before { left: 100%; }
 
     .submit-btn:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-lg);
     }
 
-    .submit-btn:active {
-        transform: translateY(0);
-    }
+    .submit-btn:active { transform: translateY(0); }
 
-    .submit-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-    }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
     .submit-btn.edit-mode {
         background: linear-gradient(135deg, var(--discount) 0%, #fbbf24 100%);
@@ -557,11 +575,8 @@
         background: var(--danger-light);
     }
 
-    .cancel-edit-btn.visible {
-        display: flex;
-    }
+    .cancel-edit-btn.visible { display: flex; }
 
-    /* History Card */
     .history-card {
         background: var(--bg-white);
         border-radius: var(--radius-xl);
@@ -579,15 +594,17 @@
         gap: 12px;
     }
 
-    .history-header i {
-        font-size: 1.25rem;
-        opacity: 0.9;
-    }
+    @media (max-width: 768px) { .history-header { padding: 18px 20px; gap: 10px; } }
+    @media (max-width: 480px) { .history-header { padding: 16px 14px; } }
 
-    .history-header h2 {
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
+    .history-header i { font-size: 1.25rem; opacity: 0.9; }
+
+    @media (max-width: 768px) { .history-header i { font-size: 1.1rem; } }
+
+    .history-header h2 { font-size: 1.25rem; font-weight: 600; }
+
+    @media (max-width: 768px) { .history-header h2 { font-size: 1rem; } }
+    @media (max-width: 480px) { .history-header h2 { font-size: 0.9rem; } }
 
     .filter-section {
         padding: 20px 32px;
@@ -598,10 +615,13 @@
         flex-wrap: wrap;
     }
 
-    .filter-group {
-        flex: 1;
-        min-width: 200px;
+    @media (max-width: 768px) {
+        .filter-section { padding: 14px 16px; flex-direction: column; gap: 10px; }
     }
+
+    .filter-group { flex: 1; min-width: 200px; }
+
+    @media (max-width: 768px) { .filter-group { min-width: 100%; } }
 
     .filter-group label {
         display: block;
@@ -612,6 +632,8 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
+
+    @media (max-width: 768px) { .filter-group label { font-size: 0.7rem; margin-bottom: 4px; } }
 
     .filter-input {
         width: 100%;
@@ -624,16 +646,17 @@
         color: var(--text);
     }
 
+    @media (max-width: 768px) { .filter-input { padding: 9px 12px; font-size: 0.85rem; } }
+
     .filter-input:focus {
         outline: none;
         border-color: var(--casher);
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
-    .history-body {
-        padding: 24px;
-        overflow-x: auto;
-    }
+    .history-body { padding: 24px; overflow-x: auto; }
+
+    @media (max-width: 768px) { .history-body { padding: 14px; } }
 
     .withdraw-table {
         width: 100%;
@@ -661,13 +684,10 @@
         transition: var(--transition);
     }
 
-    .withdraw-table tbody tr {
-        transition: var(--transition);
-    }
+    @media (max-width: 768px) { .withdraw-table tbody td { padding: 10px 8px; } }
 
-    .withdraw-table tbody tr:hover {
-        background: var(--bg-light);
-    }
+    .withdraw-table tbody tr { transition: var(--transition); }
+    .withdraw-table tbody tr:hover { background: var(--bg-light); }
 
     .withdraw-table tbody tr.editing {
         background: rgba(245, 158, 11, 0.1);
@@ -695,14 +715,10 @@
         color: var(--text-muted);
     }
 
-    .action-cell {
-        display: flex;
-        gap: 8px;
-    }
+    .action-cell { display: flex; gap: 8px; }
 
     .btn-action {
-        width: 36px;
-        height: 36px;
+        width: 36px; height: 36px;
         border-radius: 50%;
         border: none;
         cursor: pointer;
@@ -718,28 +734,16 @@
         color: var(--casher);
     }
 
-    .btn-edit:hover {
-        background: var(--casher);
-        color: white;
-        transform: scale(1.1);
-    }
+    .btn-edit:hover { background: var(--casher); color: white; transform: scale(1.1); }
 
     .btn-delete {
         background: var(--danger-light);
         color: var(--danger);
     }
 
-    .btn-delete:hover {
-        background: var(--danger);
-        color: white;
-        transform: scale(1.1);
-    }
+    .btn-delete:hover { background: var(--danger); color: white; transform: scale(1.1); }
 
-    .btn-action:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
-    }
+    .btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .total-section {
         padding: 20px 32px;
@@ -750,11 +754,11 @@
         align-items: center;
     }
 
-    .total-label {
-        font-weight: 600;
-        color: var(--text);
-        font-size: 1.1rem;
-    }
+    @media (max-width: 768px) { .total-section { padding: 14px 16px; } }
+
+    .total-label { font-weight: 600; color: var(--text); font-size: 1.1rem; }
+
+    @media (max-width: 768px) { .total-label { font-size: 0.9rem; } }
 
     .total-amount {
         font-weight: 700;
@@ -763,133 +767,160 @@
         font-family: 'Courier New', monospace;
     }
 
+    @media (max-width: 768px) { .total-amount { font-size: 1rem; } }
+
     .no-data {
         text-align: center;
         padding: 48px 24px;
         color: var(--text-muted);
     }
 
-    .no-data i {
-        font-size: 3rem;
-        margin-bottom: 16px;
-        display: block;
-    }
+    @media (max-width: 768px) { .no-data { padding: 32px 16px; } }
 
-    .no-data p {
-        font-size: 1rem;
-    }
+    .no-data i { font-size: 3rem; margin-bottom: 16px; display: block; }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
+    @media (max-width: 768px) { .no-data i { font-size: 2rem; } }
 
-    ::-webkit-scrollbar-track {
-        background: var(--bg-light);
-    }
+    .no-data p { font-size: 1rem; }
 
-    ::-webkit-scrollbar-thumb {
-        background: var(--text-muted);
-        border-radius: 4px;
-    }
+    @media (max-width: 768px) { .no-data p { font-size: 0.85rem; } }
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: var(--text-secondary);
-    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-light); }
+    ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
 
-    /* Responsive */
+    /* ============================================
+       TABLE TO CARDS - MOBILE
+       ============================================ */
     @media (max-width: 768px) {
-        .main-container {
-            padding: 16px;
+        .history-body { padding: 12px; overflow-x: visible; }
+        .withdraw-table { display: block; font-size: 0.85rem; }
+        .withdraw-table thead { display: none; }
+        .withdraw-table tbody { display: block; }
+        .withdraw-table tbody tr {
+            display: block;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            background: var(--bg-white);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-
-        .stats-grid {
-            grid-template-columns: 1fr;
+        body.dark-mode .withdraw-table tbody tr {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-
-        .withdraw-body {
-            padding: 20px;
+        .withdraw-table tbody tr.editing {
+            border: 2px solid var(--discount);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
         }
-
-        .amount-input {
-            font-size: 1.5rem;
-        }
-
-        .quick-amounts {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .filter-section {
-            flex-direction: column;
-            padding: 16px;
-        }
-
-        .history-body {
-            padding: 16px;
-        }
-
-        .withdraw-table {
-            font-size: 0.8rem;
-        }
-
-        .action-cell {
-            flex-direction: column;
-        }
-        
-        .withdraw-table thead th,
         .withdraw-table tbody td {
-            padding: 10px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            text-align: right;
+            gap: 10px;
+            font-size: 0.85rem;
         }
+        .withdraw-table tbody td:last-child { border-bottom: none; padding-bottom: 0; padding-top: 10px; }
+        .withdraw-table tbody td:first-child {
+            padding-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--casher);
+        }
+        .withdraw-table tbody td::before {
+            content: attr(data-label);
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            flex-shrink: 0;
+            text-align: left;
+        }
+        .withdraw-table tbody td:first-child::before { content: '#'; color: var(--text-muted); }
+        .action-cell { flex-direction: row; justify-content: center; gap: 12px; }
+        .action-cell::before { content: 'کردارەکان'; margin-left: auto; }
+        .btn-action { width: 40px; height: 40px; font-size: 1rem; }
+        .note-cell { max-width: none; text-align: right; white-space: normal; }
     }
 
     @media (max-width: 480px) {
-        .stat-card {
-            padding: 16px;
+        .withdraw-table tbody tr { padding: 12px; }
+        .withdraw-table tbody td { font-size: 0.8rem; padding: 7px 0; }
+        .withdraw-table tbody td::before { font-size: 0.7rem; }
+        .btn-action { width: 36px; height: 36px; }
+        .amount-cell { font-size: 0.9rem; }
+    }
+
+    @media (max-width: 768px) {
+        button, .btn, input, select, a, textarea {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        
-        .stat-value {
-            font-size: 1.25rem;
-        }
-        
-        .withdraw-header {
-            padding: 24px;
-        }
-        
-        .withdraw-title {
-            font-size: 1.25rem;
-        }
-        
-        .quick-amounts {
-            grid-template-columns: 1fr 1fr;
-        }
+        .btn:active, button:active { transform: scale(0.98); }
     }
 </style>
 
 <div id="alert-container"></div>
 
 <div class="main-container">
+
+    <!-- ============================================
+         STATS GRID — 6 cards
+         ============================================ -->
     <div class="stats-grid">
+
+        <!-- 1. پارەی ناو قاسە -->
         <div class="stat-card">
             <div class="stat-icon casher"><i class="fas fa-coins"></i></div>
             <div class="stat-label">پارەی ناو قاسە</div>
-            <div class="stat-value" id="stat-casher">{{ number_format($cashInDrawer ?? 0, 0) }} د.ع</div>
+            <div class="stat-value" id="stat-casher">{{ number_format($cash_in_drawer ?? 0, 0) }} د.ع</div>
         </div>
+
+        <!-- 2. کۆی داشکان -->
         <div class="stat-card">
             <div class="stat-icon discount"><i class="fas fa-tags"></i></div>
             <div class="stat-label">کۆی داشکان</div>
-            <div class="stat-value" id="stat-discount">{{ number_format($totalDiscount ?? 0, 0) }} د.ع</div>
+            <div class="stat-value" id="stat-discount">{{ number_format($total_discount ?? 0, 0) }} د.ع</div>
         </div>
+
+        <!-- 3. پارەی کاشێر -->
         <div class="stat-card">
-            <div class="stat-icon before"><i class="fas fa-arrow-up"></i></div>
-            <div class="stat-label">پارەی پێش ڕاکێشان</div>
-            <div class="stat-value" id="stat-before">{{ number_format($lastCashBeforeWithdraw ?? $cashInDrawer ?? 0, 0) }} د.ع</div>
+            <div class="stat-icon before"><i class="fas fa-cash-register"></i></div>
+            <div class="stat-label">پارەی کاشێر</div>
+            <div class="stat-value" id="stat-casher-coin">{{ number_format($total_casher_coin ?? 0, 0) }} د.ع</div>
+            <div class="stat-sub">پارەی سەرەتایی</div>
         </div>
+
+        <!-- 4. پارەی قەرزی دراو -->
         <div class="stat-card">
-            <div class="stat-icon after"><i class="fas fa-wallet"></i></div>
-            <div class="stat-label">پارەی دوای ڕاکێشان</div>
-            <div class="stat-value" id="stat-after">{{ number_format($lastCashAfterWithdraw ?? $cashInDrawer ?? 0, 0) }} د.ع</div>
+            <div class="stat-icon after"><i class="fas fa-hand-holding-usd"></i></div>
+            <div class="stat-label">پارەی قەرزی دراو</div>
+            <div class="stat-value" id="stat-loans-currency">{{ number_format($total_loans_currency ?? 0, 0) }} د.ع</div>
+            <div class="stat-sub">پارەی وەرگیراو لە قەرزەکان</div>
         </div>
+
+        <!-- 5. پارەی ماوە لە قەرز -->
+        <div class="stat-card">
+            <div class="stat-icon danger"><i class="fas fa-hourglass-half"></i></div>
+            <div class="stat-label">پارەی ماوە لە قەرز</div>
+            <div class="stat-value" id="stat-remaining-loans">{{ number_format($remaining_loans ?? 0, 0) }} د.ع</div>
+            <div class="stat-sub">هێشتا نەگیراوە لە کڕیار</div>
+        </div>
+
+        <!-- 6. کۆی ڕاکێشراو -->
+        <div class="stat-card">
+            <div class="stat-icon indigo"><i class="fas fa-arrow-down"></i></div>
+            <div class="stat-label">کۆی ڕاکێشراو</div>
+            <div class="stat-value" id="stat-withdraws">{{ number_format($total_withdraws ?? 0, 0) }} د.ع</div>
+            <div class="stat-sub">لە قاسە ڕاکێشراوە</div>
+        </div>
+
     </div>
 
     <div class="content-wrapper">
@@ -906,7 +937,7 @@
                 <form id="withdraw-form">
                     @csrf
                     <input type="hidden" id="edit_id" value="">
-                    
+
                     <div class="form-group">
                         <label class="form-label">
                             <i class="fas fa-money-bill-wave"></i>
@@ -987,7 +1018,6 @@ let editingRowId = null;
 let isSubmitting = false;
 
 // ==================== GLOBAL FUNCTIONS ====================
-
 function formatNumber(value) {
     if (!value && value !== 0) return '';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1009,6 +1039,80 @@ function showAlert(type, message) {
     setTimeout(() => { $('#alert-container').fadeOut(300, function() { $(this).empty().show(); }); }, 4000);
 }
 
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        if (m === '"') return '&quot;';
+        if (m === "'") return '&#39;';
+        return m;
+    });
+}
+
+// ==================== CONFIRM MODAL ====================
+function showConfirmAlert(options) {
+    const {
+        title = 'پشتڕاستکردنەوە',
+        message = '',
+        confirmText = 'بەڵێ، بیسڕەوە',
+        cancelText = 'پاشگەزبوونەوە',
+        onConfirm = null
+    } = options;
+
+    const id = 'confirm-' + Date.now();
+
+    const html = `
+        <div id="${id}" class="confirm-overlay">
+            <div class="confirm-modal">
+                <div class="confirm-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>${escapeHtml(title)}</h3>
+                </div>
+                <div class="confirm-body">
+                    <p>${escapeHtml(message)}</p>
+                    <p class="confirm-warning">ئەم کارە ناگەڕێتەوە!</p>
+                </div>
+                <div class="confirm-footer">
+                    <button class="confirm-btn confirm-btn-cancel" data-action="cancel">
+                        <i class="fas fa-times"></i> ${escapeHtml(cancelText)}
+                    </button>
+                    <button class="confirm-btn confirm-btn-danger" data-action="confirm">
+                        <i class="fas fa-trash-alt"></i> ${escapeHtml(confirmText)}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    $('body').append(html);
+
+    setTimeout(() => { $(`#${id}`).addClass('active'); }, 10);
+
+    function close() {
+        $(`#${id}`).removeClass('active');
+        setTimeout(() => $(`#${id}`).remove(), 300);
+    }
+
+    $(`#${id} [data-action="cancel"]`).on('click', function() { close(); });
+
+    $(`#${id} [data-action="confirm"]`).on('click', function() {
+        if (typeof onConfirm === 'function') onConfirm();
+        close();
+    });
+
+    $(`#${id}`).on('click', function(e) {
+        if (e.target === this) close();
+    });
+
+    const escHandler = function(e) {
+        if (e.key === 'Escape') { close(); $(document).off('keydown', escHandler); }
+    };
+    $(document).on('keydown', escHandler);
+}
+
+// ==================== LOAD HISTORY ====================
 function loadHistory() {
     const startDate = $('#start_date').val();
     const endDate = $('#end_date').val();
@@ -1022,12 +1126,14 @@ function loadHistory() {
                 if (response.stats) {
                     $('#stat-casher').text(formatCurrency(response.stats.cash_in_drawer || 0));
                     $('#stat-discount').text(formatCurrency(response.stats.total_discount || 0));
-                    $('#stat-before').text(formatCurrency(response.stats.cash_before_withdraw || response.stats.cash_in_drawer || 0));
-                    $('#stat-after').text(formatCurrency(response.stats.cash_after_withdraw || response.stats.cash_in_drawer || 0));
+                    $('#stat-casher-coin').text(formatCurrency(response.stats.total_casher_coin || 0));
+                    $('#stat-loans-currency').text(formatCurrency(response.stats.total_loans_currency || 0));
+                    $('#stat-remaining-loans').text(formatCurrency(response.stats.remaining_loans || 0));
+                    $('#stat-withdraws').text(formatCurrency(response.stats.total_withdraws || 0));
                 }
 
                 let html = '';
-                
+
                 if (response.data && response.data.length > 0) {
                     html += `<table class="withdraw-table">
                         <thead>
@@ -1042,20 +1148,20 @@ function loadHistory() {
                             </tr>
                         </thead>
                         <tbody>`;
-                    
+
                     let totalSum = 0;
-                    
+
                     response.data.forEach(function(item, index) {
                         totalSum += parseFloat(item.amount || 0);
                         const escapedNote = (item.note || '').replace(/'/g, "&#39;").replace(/"/g, '&quot;');
                         html += `<tr id="row-${item.id}" class="${editingRowId === item.id ? 'editing' : ''}">
-                            <td>${index + 1}</td>
-                            <td class="amount-cell">${formatCurrency(item.amount || 0)}</td>
-                            <td>${formatCurrency(item.cash_before_withdraw || 0)}</td>
-                            <td>${formatCurrency(item.cash_after_withdraw || 0)}</td>
-                            <td class="note-cell">${item.note || '-'}</td>
-                            <td class="date-cell">${item.created_at || ''}</td>
-                            <td class="action-cell">
+                            <td data-label="#">${index + 1}</td>
+                            <td data-label="بڕی پارە" class="amount-cell">${formatCurrency(item.amount || 0)}</td>
+                            <td data-label="پارەی پێش">${formatCurrency(item.cash_before_withdraw || 0)}</td>
+                            <td data-label="پارەی دوای">${formatCurrency(item.cash_after_withdraw || 0)}</td>
+                            <td data-label="تێبینی" class="note-cell">${item.note || '-'}</td>
+                            <td data-label="بەروار" class="date-cell">${item.created_at || ''}</td>
+                            <td data-label="کردارەکان" class="action-cell">
                                 <button class="btn-action btn-edit" onclick="editWithdraw(${item.id}, ${item.amount}, '${escapedNote}')" title="دەستکاری" type="button">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -1065,7 +1171,7 @@ function loadHistory() {
                             </td>
                         </tr>`;
                     });
-                    
+
                     html += '</tbody></table>';
                     $('#total-amount').text(formatCurrency(totalSum));
                     $('#total-section').show();
@@ -1073,7 +1179,7 @@ function loadHistory() {
                     html = '<div class="no-data"><i class="fas fa-inbox"></i><p>هیچ پارەیەک نەدۆزرایەوە</p></div>';
                     $('#total-section').hide();
                 }
-                
+
                 $('#history-body').html(html);
             }
         },
@@ -1087,11 +1193,11 @@ function loadHistory() {
 function editWithdraw(id, amount, note) {
     isEditMode = true;
     editingRowId = id;
-    
+
     $('#edit_id').val(id);
     $('#amount').val(formatNumber(amount.toString()));
     $('#note').val(note || '');
-    
+
     $('#withdrawHeader').addClass('edit-mode');
     $('#withdrawIcon').addClass('edit-mode');
     $('#withdrawIconElement').removeClass('fa-arrow-up').addClass('fa-edit');
@@ -1099,34 +1205,32 @@ function editWithdraw(id, amount, note) {
     $('#withdrawSubtitle').text('بڕی پارە و تێبینییەکە دەستکاری بکە');
     $('#amountSection').addClass('edit-mode');
     $('#currencyBadge').addClass('edit-mode');
-    
+
     const $btn = $('#submit-btn');
     $btn.addClass('edit-mode');
     $btn.html('<i class="fas fa-save ms-2"></i> نوێکردنەوە');
-    
+
     $('#cancel-edit-btn').addClass('visible');
-    
+
     loadHistory();
-    
+
     $('html, body').animate({
         scrollTop: $('#withdrawCard').offset().top - 100
     }, 500);
-    
+
     $('#amount').focus();
 }
 
-function cancelEdit() {
-    resetForm();
-}
+function cancelEdit() { resetForm(); }
 
 function resetForm() {
     isEditMode = false;
     editingRowId = null;
-    
+
     $('#edit_id').val('');
     $('#amount').val('');
     $('#note').val('');
-    
+
     $('#withdrawHeader').removeClass('edit-mode');
     $('#withdrawIcon').removeClass('edit-mode');
     $('#withdrawIconElement').removeClass('fa-edit').addClass('fa-arrow-up');
@@ -1134,24 +1238,30 @@ function resetForm() {
     $('#withdrawSubtitle').text('ڕاکێشانی پارە لە قاسە بە شێوەیەکی سادە');
     $('#amountSection').removeClass('edit-mode');
     $('#currencyBadge').removeClass('edit-mode');
-    
+
     const $btn = $('#submit-btn');
     $btn.removeClass('edit-mode');
     $btn.html('<i class="fas fa-arrow-up ms-2"></i> ڕاکێشانی پارە');
-    
+
     $('#cancel-edit-btn').removeClass('visible');
-    
+
     loadHistory();
 }
 
-// ==================== DELETE FUNCTION (DIRECT - NO CONFIRMATION) ====================
+// ==================== DELETE ====================
 function deleteWithdrawDirect(id) {
-    if (!id) {
-        showAlert('error', 'هیچ ڕاکێشانێک دیاری نەکراوە');
-        return;
-    }
-    
-    // Disable the delete button for this row
+    if (!id) { showAlert('error', 'هیچ ڕاکێشانێک دیاری نەکراوە'); return; }
+
+    showConfirmAlert({
+        title: 'سڕینەوەی ڕاکێشانی پارە',
+        message: 'ئایا دڵنیایت کە دەتەوێت ئەم ڕاکێشانە بسڕیتەوە؟',
+        confirmText: 'بەڵێ، بیسڕەوە',
+        cancelText: 'پاشگەزبوونەوە',
+        onConfirm: function() { performDelete(id); }
+    });
+}
+
+function performDelete(id) {
     const $deleteBtn = $(`#row-${id} .btn-delete`);
     $deleteBtn.prop('disabled', true);
     $deleteBtn.html('<i class="fas fa-spinner fa-spin"></i>');
@@ -1159,22 +1269,16 @@ function deleteWithdrawDirect(id) {
     $.ajax({
         url: `/withdraw/${id}`,
         type: 'DELETE',
-        data: {
-            _token: $('meta[name="csrf-token"]').attr('content')
-        },
+        data: { _token: $('meta[name="csrf-token"]').attr('content') },
         success: function(response) {
             if (response.success) {
                 showAlert('success', 'ڕاکێشانی پارە بە سەرکەوتوویی سڕایەوە');
-                
-                // If we deleted the item we were editing, reset form
-                if (isEditMode && $('#edit_id').val() == id) {
-                    resetForm();
-                }
-                
+
+                if (isEditMode && $('#edit_id').val() == id) { resetForm(); }
+
                 loadHistory();
             } else {
                 showAlert('error', response.message || 'هەڵەیەک ڕوویدا');
-                // Re-enable the button on error
                 $deleteBtn.prop('disabled', false);
                 $deleteBtn.html('<i class="fas fa-trash"></i>');
             }
@@ -1186,7 +1290,6 @@ function deleteWithdrawDirect(id) {
                 if (response.message) errorMsg = response.message;
             } catch (e) {}
             showAlert('error', errorMsg);
-            // Re-enable the button on error
             $deleteBtn.prop('disabled', false);
             $deleteBtn.html('<i class="fas fa-trash"></i>');
         }
@@ -1195,24 +1298,19 @@ function deleteWithdrawDirect(id) {
 
 // ==================== DOCUMENT READY ====================
 $(document).ready(function() {
-    
+
     $.ajaxSetup({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
 
     loadHistory();
 
-    $('#start_date, #end_date').on('change', function() { 
-        loadHistory(); 
-    });
+    $('#start_date, #end_date').on('change', function() { loadHistory(); });
 
     $('#amount').on('input', function() {
         let value = $(this).val();
         let numeric = value.replace(/[^0-9]/g, '');
-        if (numeric === '') { 
-            $(this).val(''); 
-            return; 
-        }
+        if (numeric === '') { $(this).val(''); return; }
         $(this).val(formatNumber(numeric));
     });
 
@@ -1270,4 +1368,129 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<!-- ============================================
+     CONFIRM MODAL STYLES
+     ============================================ -->
+<style>
+    .confirm-overlay {
+        display: flex;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .confirm-overlay.active { opacity: 1; visibility: visible; }
+
+    .confirm-modal {
+        background: var(--bg-white);
+        border-radius: 20px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: confirmSlideIn 0.3s ease;
+        overflow: hidden;
+    }
+
+    body.dark-mode .confirm-modal { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); }
+
+    @keyframes confirmSlideIn {
+        from { transform: scale(0.9) translateY(-20px); opacity: 0; }
+        to   { transform: scale(1) translateY(0);       opacity: 1; }
+    }
+
+    .confirm-header {
+        background: linear-gradient(135deg, var(--danger), #dc2626);
+        color: white;
+        padding: 18px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .confirm-header i { font-size: 1.5rem; }
+
+    .confirm-header h3 { font-size: 1.1rem; font-weight: 700; margin: 0; }
+
+    @media (max-width: 480px) {
+        .confirm-header { padding: 14px 16px; }
+        .confirm-header i { font-size: 1.2rem; }
+        .confirm-header h3 { font-size: 0.95rem; }
+    }
+
+    .confirm-body { padding: 24px 20px; text-align: center; }
+
+    @media (max-width: 480px) { .confirm-body { padding: 20px 16px; } }
+
+    .confirm-body p {
+        font-size: 0.95rem;
+        color: var(--text);
+        line-height: 1.6;
+        margin-bottom: 8px;
+    }
+
+    @media (max-width: 480px) { .confirm-body p { font-size: 0.85rem; } }
+
+    .confirm-warning {
+        color: var(--danger) !important;
+        font-weight: 600;
+        font-size: 0.85rem !important;
+    }
+
+    .confirm-footer {
+        padding: 16px 20px;
+        display: flex;
+        gap: 10px;
+        background: var(--bg-light);
+        border-top: 1px solid var(--border-color);
+    }
+
+    @media (max-width: 480px) {
+        .confirm-footer { padding: 12px 16px; flex-direction: column; gap: 8px; }
+    }
+
+    .confirm-btn {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.9rem;
+    }
+
+    .confirm-btn:active { transform: scale(0.97); }
+
+    .confirm-btn-cancel {
+        background: var(--bg-white);
+        color: var(--text-secondary);
+        border: 2px solid var(--border-color);
+    }
+
+    .confirm-btn-cancel:hover { background: var(--border-color); color: var(--text); }
+
+    .confirm-btn-danger {
+        background: linear-gradient(135deg, var(--danger), #dc2626);
+        color: white;
+    }
+
+    .confirm-btn-danger:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+</style>
 @endsection
