@@ -1,0 +1,39 @@
+# Builds the CSS/JS (Vite) on every push to main and publishes the result to the
+# `production` branch. The Hostinger server pulls that branch every minute
+# (see deploy/hostinger-deploy.sh), so a push to main goes live in ~1-2 minutes.
+name: Deploy to hardymobile.de
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Publish to production branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B production
+          git add -f public/build
+          git commit -q -m "Build ${GITHUB_SHA::7}"
+          git push -f origin production
