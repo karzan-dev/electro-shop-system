@@ -28,7 +28,8 @@ OLD=$(cat "$STATE" 2>/dev/null || echo none)
     git reset -q --hard "$NEW"
 
     if [ "$OLD" = none ] || ! git diff --quiet "$OLD" "$NEW" -- composer.lock; then
-        composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+        # Keep dev packages: the cached package list still loads them (--no-dev broke the site once).
+        composer install --no-interaction --prefer-dist --optimize-autoloader
     fi
 
     php artisan migrate --force
