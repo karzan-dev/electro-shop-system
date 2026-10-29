@@ -14,7 +14,7 @@ class CompanyDebtController extends Controller
      */
     public function index()
     {
-        return view('items.company_debts');
+        return view('items.CompanyDebt');
     }
 
     /**

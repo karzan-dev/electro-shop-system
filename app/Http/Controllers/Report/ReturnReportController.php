@@ -14,7 +14,7 @@ class ReturnReportController extends Controller
      */
     public function index()
     {
-        return view('returns.report');
+        return view('items.report.reports-return-items');
     }
 
     /**
