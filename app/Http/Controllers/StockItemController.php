@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\StockItem;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class StockItemController extends Controller
 {
@@ -53,6 +54,7 @@ public function store(Request $request)
         // Check if stock_item table exists and has correct columns
         try {
             DB::table('stock_item')->insert([
+                "user_id" => Auth::id(),
                 'products_id' => $product->id,
                 'Amount' => $amount,
                 'Stock_Couse' => $stock_reason,

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+
+use Illuminate\Support\Facades\Auth;
 class ReportwarehouseController extends Controller
 {
 
@@ -13,43 +15,46 @@ public function criticalList(Request $request)
 {
     try {
 
-        $products = DB::table('products as p')
+        $requests = DB::table('product_requests as pr')
+            ->leftJoin('products as p', 'pr.product_id', '=', 'p.id')
             ->leftJoin('product_wearhouse as w', 'p.id', '=', 'w.id_product')
             ->select([
-                'p.id',
-                'p.name',
+                'pr.id',
+                'pr.product_id',
+                'pr.quantity',
+                'pr.status',
+                'pr.notes',
+                'pr.requested_by',
+                'pr.approved_by',
+                'p.name as product_name',
                 'p.company',
                 'p.image_producte_path',
                 'p.purchase_price',
                 'p.selling_price',
-
+                'p.in_critical_list',
                 DB::raw('COALESCE(w.counter,0) as counter')
             ])
-            ->where(function($query) {
-                $query->where('w.counter', '<', 3)
-                      ->orWhereNull('w.counter');
-            })
-            ->orderBy('counter', 'asc')
+            ->orderBy('pr.id', 'desc')
             ->get();
 
         // transform
-        $products->transform(function ($product) {
+        $requests->transform(function ($request) {
 
-            $product->image = !empty($product->image_producte_path)
-                ? asset('storage/' . ltrim($product->image_producte_path, '/'))
+            $request->image = !empty($request->image_producte_path)
+                ? asset('images/products/' . ltrim($request->image_producte_path, '/'))
                 : asset('images/placeholder.png');
 
-            $product->purchase_price = number_format($product->purchase_price ?? 0, 2);
-            $product->selling_price = number_format($product->selling_price ?? 0, 2);
+            $request->purchase_price = number_format($request->purchase_price ?? 0, 2);
+            $request->selling_price = number_format($request->selling_price ?? 0, 2);
 
-            return $product;
+            return $request;
         });
 
         return response()->json([
             'success' => true,
-            'data' => $products,
-            'total' => $products->count(),
-            'message' => 'Critical list loaded'
+            'data' => $requests,
+            'total' => $requests->count(),
+            'message' => 'Requests loaded'
         ]);
 
     } catch (\Exception $e) {
@@ -209,24 +214,32 @@ public function addToStore(Request $request)
                 'counter' => DB::raw('COALESCE(counter,0) + ' . (int)$request->quantity)
             ]);
 
-            $counter_w=DB::table('product_wearhouse')
+        $counter_w = DB::table('product_wearhouse')
             ->where('id_product', $request->product_id)
             ->first();
-     
-            
 
         // 🔄 نوێکردنەوەی minimum لە products
-DB::table('products')
-    ->where('id', $request->product_id)
-    ->update([
-        'minimum_wearhouse' =>$counter_w->counter
-        
-    ]);
-DB::table('products')
-    ->where('id', $request->product_id)
-    ->update([
-        'in_critical_list' =>0
-    ]);
+        DB::table('products')
+            ->where('id', $request->product_id)
+            ->update([
+                'minimum_wearhouse' => $counter_w->counter,
+                "in_critical_list" => 1
+            ]);
+
+        DB::table('products')
+            ->where('id', $request->product_id)
+            ->update([
+                'in_critical_list' => 0
+            ]);
+
+        // 🔄 نوێکردنەوەی داواکارییە پەسەندکراوەکان
+        DB::table('product_requests')
+            ->where('product_id', $request->product_id)
+            ->where('status', 'pending')
+            ->update([
+                'status' => 'approved',
+                'approved_by' => Auth::id(),
+            ]);
 
         DB::commit();
 
@@ -241,6 +254,38 @@ DB::table('products')
         return response()->json([
             'success' => false,
             'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
+public function deleteFromCriticalList(Request $request)
+{
+    try {
+        $request->validate([
+            'product_id' => 'required|exists:products,id'
+        ]);
+
+        // سڕینەوەی in_critical_list لە products
+        DB::table('products')
+            ->where('id', $request->product_id)
+            ->update(['in_critical_list' => 0]);
+
+        // ڕەتکردنەوەی داواکارییە pendingـەکانی ئەم کاڵایە
+        DB::table('product_requests')
+            ->where('product_id', $request->product_id)
+            ->where('status', 'pending')
+            ->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'کاڵاکە بە سەرکەوتوویی لە لیست سڕایەوە'
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'هەڵەیەک ڕوویدا: ' . $e->getMessage()
         ], 500);
     }
 }
@@ -291,11 +336,13 @@ public function exportCriticalListPDF()
     /**
      * Add product to critical list (products with quantity less than 3)
      */
-    public function addToCriticalList(Request $request)
+  public function addToCriticalList(Request $request)
     {
         try {
             $request->validate([
-                'product_id' => 'required|exists:products,id'
+                'product_id' => 'required|exists:products,id',
+                'quantity' => 'nullable|integer|min:1',
+                'notes' => 'nullable|string|max:500',
             ]);
 
             // Check if product exists
@@ -323,9 +370,22 @@ public function exportCriticalListPDF()
                 ->where('id', $request->product_id)
                 ->update(['in_critical_list' => 1]);
 
+            // تۆمارکردنی داواکاری لە خشتەی product_requests
+            $quantity = $request->quantity ?? 1;
+            $notes = $request->notes ?? '';
+            
+            DB::table('product_requests')->insert([
+                'product_id' => $request->product_id,
+                'quantity' => $quantity,
+                'status' => 'pending',
+                'notes' => $notes,
+                'requested_by' => Auth::id(),
+                'approved_by' => 0,
+            ]);
+
             return response()->json([
                 'success' => true,
-                'message' => 'کاڵاکە بە سەرکەوتوویی زیاد کرا بۆ لیستی کەمترین بڕ'
+                'message' => 'داواکارییەکەت بە سەرکەوتوویی تۆمار کرا'
             ]);
 
         } catch (\Exception $e) {

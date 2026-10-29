@@ -91,6 +91,22 @@
         border-radius: 2px;
     }
 
+    .sub-section-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 20px 0 12px 0;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed var(--border-color);
+    }
+
+    .sub-section-title i {
+        color: var(--accent);
+    }
+
     .grid-2 {
         display: flex;
         flex-direction: column;
@@ -159,6 +175,41 @@
         outline: none;
         border-color: var(--accent);
         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+
+    /* Two-column layout for customer + credit details */
+    .customer-credit-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+        .customer-credit-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+    }
+
+    .customer-section, .credit-section {
+        position: relative;
+    }
+
+    .customer-section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -12px;
+        width: 1px;
+        height: 100%;
+        background: var(--border-color);
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        .customer-section::after {
+            display: block;
+        }
     }
 
     .product-item-card {
@@ -442,54 +493,68 @@
     <div class="grid-2">
         <!-- Left Column -->
         <div>
+            <!-- Combined Card: زانیاری کڕیار + وردەکاری قەرز -->
             <div class="form-card">
-                <h2 class="section-title"><i class="fas fa-user-circle"></i> زانیاری کڕیار</h2>
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-user"></i> ناوی کڕیار</label>
-                    <input type="text" id="customer-name" class="form-input" placeholder="ناوی کڕیار بنووسە..." required autocomplete="off">
-                    <div id="customer-suggestions" class="suggestions-container"></div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-phone"></i> مۆبایل / تەلەفون</label>
-                    <input type="text" id="customer-phone" class="form-input" placeholder="ژمارەی مۆبایل..." required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-map-marker-alt"></i> ناونیشان</label>
-                    <input type="text" id="customer-address" class="form-input" placeholder="ناونیشانی کڕیار..." required>
+                <h2 class="section-title"><i class="fas fa-user-circle"></i> زانیاری کڕیار و قەرز</h2>
+                
+                <div class="customer-credit-grid">
+                    <!-- Customer Section -->
+                    <div class="customer-section">
+                        <div class="sub-section-title">
+                            <i class="fas fa-user"></i> زانیاری کڕیار
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-user"></i> ناوی کڕیار</label>
+                            <input type="text" id="customer-name" class="form-input" placeholder="ناوی کڕیار بنووسە..." required autocomplete="off">
+                            <div id="customer-suggestions" class="suggestions-container"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-phone"></i> مۆبایل / تەلەفون</label>
+                            <input type="text" id="customer-phone" class="form-input" placeholder="ژمارەی مۆبایل..." required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-map-marker-alt"></i> ناونیشان</label>
+                            <input type="text" id="customer-address" class="form-input" placeholder="ناونیشانی کڕیار..." required>
+                        </div>
+                    </div>
+
+                    <!-- Credit Details Section -->
+                    <div class="credit-section">
+                        <div class="sub-section-title">
+                            <i class="fas fa-coins"></i> وردەکاری قەرز
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-calendar-alt"></i> بەرواری بردن</label>
+                            <input type="date" id="credit-date" class="form-input" value="{{ date('Y-m-d') }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-hand-holding-usd"></i> پارەی پێشەکی (دینار)</label>
+                            <input type="number" id="advance-payment" class="form-input number-input" placeholder="0" min="0" step="100" value="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-calendar-check"></i> کاتی گەڕانەوەی قەرز (بەروار)</label>
+                            <input type="date" id="repayment-date" class="form-input" value="{{ date('Y-m-d', strtotime('+30 days')) }}">
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- Products Card -->
             <div class="form-card">
                 <h2 class="section-title"><i class="fas fa-boxes"></i> کاڵاکان</h2>
                 <div id="products-container">
                     <!-- Products will be added here dynamically -->
                 </div>
-             
             </div>
         </div>
 
         <!-- Right Column -->
         <div>
-            <div class="form-card">
-                <h2 class="section-title"><i class="fas fa-coins"></i> وردەکاری قەرز</h2>
-                
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-calendar-alt"></i> بەرواری بردن</label>
-                    <input type="date" id="credit-date" class="form-input" value="{{ date('Y-m-d') }}">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-hand-holding-usd"></i> پارەی پێشەکی (دینار)</label>
-                    <input type="number" id="advance-payment" class="form-input number-input" placeholder="0" min="0" step="100" value="0">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-calendar-check"></i> کاتی گەڕانەوەی قەرز (بەروار)</label>
-                    <input type="date" id="repayment-date" class="form-input" value="{{ date('Y-m-d', strtotime('+30 days')) }}">
-                </div>
-                
-            </div>
-
+            <!-- Summary Card -->
             <div class="form-card">
                 <h2 class="section-title"><i class="fas fa-calculator"></i> پوختە</h2>
                 <div class="summary-card" id="summary-card">

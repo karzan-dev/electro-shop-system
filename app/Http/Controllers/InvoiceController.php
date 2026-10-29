@@ -355,6 +355,116 @@ class InvoiceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
+
+
+    /**
+ * Update sale item quantity via AJAX
+ */
+public function updateInvoiceItemQuantity(Request $request)
+{
+    $request->validate([
+        'invoice_id' => 'required|exists:sales,id',
+        'item_id' => 'required|exists:sale_items,id',
+        'new_quantity' => 'required|integer|min:1',
+    ]);
+
+    try {
+        DB::beginTransaction();
+
+        // Get the sale (invoice)
+        $sale = DB::table('sales')->where('id', $request->invoice_id)->first();
+        
+        if (!$sale) {
+            return response()->json([
+                'success' => false,
+                'message' => 'پسوڵە نەدۆزرایەوە'
+            ]);
+        }
+
+        // Get the sale item
+        $saleItem = DB::table('sale_items')->where('id', $request->item_id)
+            ->where('sale_id', $request->invoice_id)
+            ->first();
+        
+        if (!$saleItem) {
+            return response()->json([
+                'success' => false,
+                'message' => 'کاڵا نەدۆزرایەوە'
+            ]);
+        }
+
+        // Calculate price per unit based on original data
+        $originalQuantity = $saleItem->quantity;
+        $pricePerUnit = $saleItem->total / $originalQuantity;
+        
+        // Get the product barcode to track returns
+        // Assuming you have a products table with barcode/Item_Code
+        $product = DB::table('products')->where('id', $saleItem->product_id)->first();
+        $itemCode = $product ? $product->Item_Code : null;
+        
+        // Get returned quantity for this item using Item_Code
+        $returnedQty = 0;
+     
+        
+        $maxAllowed = $originalQuantity - $returnedQty;
+        
+        // Validate new quantity doesn't exceed allowed max
+        if ($request->new_quantity > $maxAllowed) {
+            return response()->json([
+                'success' => false,
+                'message' => 'بڕی داواکراو زیاترە لە بڕی بەردەست'
+            ]);
+        }
+
+        // Calculate new total
+        $newTotal = $request->new_quantity * $pricePerUnit;
+        
+        // Update the sale item quantity and total
+        DB::table('sale_items')
+            ->where('id', $request->item_id)
+            ->update([
+                'quantity' => $request->new_quantity,
+                'total' => $newTotal,
+                'updated_at' => now()
+            ]);
+
+        // Recalculate sale totals
+        $subtotal = DB::table('sale_items')
+            ->where('sale_id', $request->invoice_id)
+            ->sum('total');
+        
+        $discount = $sale->discount ?? 0;
+        $newInvoiceTotal = $subtotal - $discount;
+        
+        // Update the sale
+        DB::table('sales')
+            ->where('id', $request->invoice_id)
+            ->update([
+                'subtotal' => $subtotal,
+                'total' => max(0, $newInvoiceTotal),
+                'updated_at' => now()
+            ]);
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'بڕی کاڵا بە سەرکەوتوویی نوێکرایەوە',
+            'new_subtotal' => $subtotal,
+            'new_discount' => $discount,
+            'new_invoice_total' => max(0, $newInvoiceTotal),
+            'new_item_total' => $newTotal
+        ]);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'هەڵەیەک ڕوویدا: ' . $e->getMessage()
+        ], 500);
+    }
+}
 public function getInvoice($id)
 {
     try {

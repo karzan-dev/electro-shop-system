@@ -363,21 +363,47 @@ public function pay(Request $request)
     }
 
 
-    public function paymentHistory(Request $request)
+   public function paymentHistory(Request $request)
 {
-    $debtorId = $request->debtor_id;
-    
-    // Fetch installments/payments for this debtor
-    // Adjust the query based on your database structure
-    $payments = DB::table('installments')
-        ->where('loan_id', $debtorId) // Adjust field name based on your schema
-        ->orderBy('created_at', 'desc')
-        ->get();
-    
-    return response()->json([
-        'success' => true,
-        'payments' => $payments
-    ]);
+    try {
+        $debtorId = $request->debtor_id;
+        
+        // Validate that debtor_id is provided
+        if (!$debtorId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'ناسنامەی قەرز پێویستە'
+            ], 400);
+        }
+        
+        // Fetch installments/payments for this debtor
+        $payments = DB::table('installments')
+            ->where('loan_id', $debtorId)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($payment) {
+                return [
+                    'id' => $payment->id,
+                    'loan_id' => $payment->loan_id,
+                    'amount' => $payment->pyment_of_mony,
+                    'pyment_of_mony' => $payment->pyment_of_mony,
+                    'created_at' => $payment->created_at,
+                    'updated_at' => $payment->updated_at,
+                    'payment_type' => 'now', // Default since you don't have this field
+                ];
+            });
+        
+        return response()->json([
+            'success' => true,
+            'payments' => $payments
+        ]);
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'هەڵەیەک ڕوویدا: ' . $e->getMessage()
+        ], 500);
+    }
 }
 }
 

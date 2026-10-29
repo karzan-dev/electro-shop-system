@@ -784,15 +784,7 @@
                         </div>
                     </div>
 
-                    <!-- Product Image Preview - Click to enlarge -->
-                    <div class="mb-3 text-center bg-light rounded p-3">
-                        <label class="form-label fw-semibold">وێنەی کاڵا <i class="fas fa-mouse-pointer text-muted small"></i></label>
-                        <div id="no-image-message" class="no-image-message">
-                            <i class="fas fa-image fa-3x mb-2 d-block"></i>
-                            وێنە بوونی نییە
-                        </div>
-                        <img id="product-image" class="image-preview d-none clickable-image" alt="وێنەی کاڵا" title="کرتە بکە بۆ گەورەکردن">
-                    </div>
+             
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold text-danger">بڕی ستۆک *</label>

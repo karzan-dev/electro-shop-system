@@ -120,6 +120,11 @@
         color: white;
         position: relative;
         overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
     }
 
     .page-header::before {
@@ -144,6 +149,11 @@
         border-radius: 50%;
     }
 
+    .page-header-left {
+        position: relative;
+        z-index: 1;
+    }
+
     .page-title {
         font-size: 1.6rem;
         font-weight: 800;
@@ -153,8 +163,7 @@
         align-items: center;
         gap: 12px;
         flex-wrap: wrap;
-
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     }
 
     @media (min-width: 768px) {
@@ -171,6 +180,62 @@
         font-size: 0.9rem;
         opacity: 0.9;
         position: relative;
+    }
+
+    /* Button for recording own debts */
+    .btn-record-own-debt {
+        position: relative;
+        z-index: 1;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: 12px 24px;
+        border-radius: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95rem;
+        text-decoration: none;
+        white-space: nowrap;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-record-own-debt:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-record-own-debt i {
+        font-size: 1.2rem;
+        background: rgba(255, 255, 255, 0.25);
+        padding: 8px;
+        border-radius: 12px;
+        transition: all 0.3s;
+    }
+
+    .btn-record-own-debt:hover i {
+        background: rgba(255, 255, 255, 0.4);
+        transform: rotate(-10deg);
+    }
+
+    .btn-record-own-debt .btn-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+
+    .btn-record-own-debt .btn-text-small {
+        font-size: 0.7rem;
+        opacity: 0.8;
+        font-weight: 500;
     }
 
     /* Stats Cards - Below Table */
@@ -1386,6 +1451,16 @@
         .action-btns {
             justify-content: flex-end;
         }
+
+        .page-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .btn-record-own-debt {
+            width: 100%;
+            justify-content: center;
+        }
     }
 
     .modal-content::-webkit-scrollbar,
@@ -1422,14 +1497,25 @@
 <div class="debtors-container">
     <!-- Page Header -->
     <div class="page-header animate-fade-in-up">
-        <div class="page-title">
-            <i class="fas fa-users"></i>
-            <span>لیستی قەرزەکان</span>
+        <div class="page-header-left">
+            <div class="page-title">
+                <i class="fas fa-users"></i>
+                <span>لیستی قەرزەکان</span>
+            </div>
+            <p class="page-subtitle">هەموو قەرزە تۆمارکراوەکان لێرە بەڕێوەبەرە</p>
         </div>
-       
+        <!-- New Button: Record Own Debts -->
+        <button class="btn-record-own-debt" onclick="window.location.href= '{{ route('debtors.save-products') }}'">
+            <i class="fas fa-hand-holding-dollar"></i>
+            <span class="btn-text">
+                <span>تۆمارکردنی قەرزەکانی خۆم</span>
+                <span class="btn-text-small">قەرزی تایبەتی خۆت تۆمار بکە</span>
+            </span>
+        </button>
     </div>
 
     <!-- Filter Bar -->
+    <!-- ... rest of the code remains the same ... -->
     <div class="filter-bar animate-fade-in-up animate-delay-200">
         <div class="filter-grid">
             <div class="filter-group search-group">
@@ -1693,6 +1779,7 @@ function loadDebtors() {
             if (response.success) {
                 currentDebtors = response.debtors.data;
                 totalPages = response.debtors.last_page;
+                responseTotal = response.debtors.total;
                 renderDebtorsTable(currentDebtors);
                 renderPagination();
             } else {
@@ -1707,6 +1794,7 @@ function loadDebtors() {
     });
 }
 
+// ... rest of the JavaScript functions remain the same ...
 function renderDebtorsTable(debtors) {
     if (!debtors || debtors.length === 0) {
         $('#debtors-tbody').html('<tr><td colspan="10" class="empty-state"><i class="fas fa-inbox"></i><p>هیچ قەرزارێک نەدۆزرایەوە</p></td></tr>');
@@ -2119,6 +2207,7 @@ function loadPaymentHistory(debtorId) {
             }
         },
         error: function(xhr) {
+            console.log('Payment History Error:', xhr);
             console.error('Payment History Error:', xhr);
             renderPaymentHistory([]);
         }

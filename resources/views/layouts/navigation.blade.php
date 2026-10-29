@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مارکێتی کوردستان - داشبۆرد</title>
+    <title>هەردی فۆن | Herdy Phone </title>
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -473,7 +473,7 @@
             <!-- Left: Company Name -->
             <div class="col-4 col-sm-3 col-md-2 col-lg-2 d-flex align-items-center">
                 <h1 class="company-name mb-0">
-                    مارکێتی کوردستان
+                 هەردی فۆن | Herdy Phone
                 </h1>
             </div>
 

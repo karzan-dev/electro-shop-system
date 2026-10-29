@@ -200,47 +200,6 @@
     }
 
     /* Buttons */
-    .btn-primary-custom {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        border: none;
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 2rem;
-        border-radius: 30px;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        justify-content: center;
-        cursor: pointer;
-    }
-
-    .btn-primary-custom:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(74, 100, 145, 0.4);
-        color: white;
-    }
-
-    .btn-secondary-custom {
-        background: #6b7280;
-        border: none;
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 2rem;
-        border-radius: 30px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .btn-secondary-custom:hover {
-        background: #4b5563;
-        color: white;
-    }
-
     .btn-sm-custom {
         padding: 0.4rem 0.8rem;
         border-radius: 8px;
@@ -290,25 +249,6 @@
 
     body.dark-mode .btn-outline-sm:hover {
         background: #334155;
-    }
-
-    .btn-delete-sm {
-        background: none;
-        border: none;
-        color: var(--danger);
-        cursor: pointer;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        transition: 0.2s;
-    }
-
-    .btn-delete-sm:hover {
-        background: #fee2e2;
-    }
-
-    body.dark-mode .btn-delete-sm:hover {
-        background: #7f1d1d;
     }
 
     /* Alert / Toast */
@@ -442,6 +382,33 @@
         color: #64748b;
     }
 
+    /* Invoice number styling */
+    .invoice-number {
+        font-weight: 600;
+        color: var(--primary);
+        background: rgba(74, 100, 145, 0.08);
+        padding: 4px 10px;
+        border-radius: 6px;
+        display: inline-block;
+        font-size: 0.82rem;
+        transition: all 0.3s ease;
+    }
+
+    body.dark-mode .invoice-number {
+        color: #93c5fd;
+        background: rgba(147, 197, 253, 0.1);
+    }
+
+    .invoice-number.return-invoice {
+        color: #8b5cf6;
+        background: rgba(139, 92, 246, 0.08);
+    }
+
+    body.dark-mode .invoice-number.return-invoice {
+        color: #a78bfa;
+        background: rgba(167, 139, 250, 0.1);
+    }
+
     /* Badges */
     .badge {
         display: inline-block;
@@ -455,15 +422,19 @@
     .badge-extra { background: #fef3c7; color: #92400e; }
     .badge-credit { background: #e0e7ff; color: #3730a3; }
     .badge-normal { background: #f3f4f6; color: #374151; }
+    .badge-return { background: #fee2e2; color: #991b1b; }
+    .badge-sale { background: #d1fae5; color: #065f46; }
 
     body.dark-mode .badge-balanced { background: #064e3b; color: #d1fae5; }
     body.dark-mode .badge-short { background: #7f1d1d; color: #fee2e2; }
     body.dark-mode .badge-extra { background: #78350f; color: #fef3c7; }
     body.dark-mode .badge-credit { background: #312e81; color: #c7d2fe; }
     body.dark-mode .badge-normal { background: #374151; color: #d1d5db; }
+    body.dark-mode .badge-return { background: #7f1d1d; color: #fee2e2; }
+    body.dark-mode .badge-sale { background: #064e3b; color: #d1fae5; }
 
-    /* Cashier Info Card */
-    .cashier-info-card {
+    /* Info Card */
+    .info-card {
         background: linear-gradient(135deg, rgba(74, 100, 145, 0.05), rgba(93, 122, 176, 0.05));
         border-radius: 12px;
         padding: 1.2rem;
@@ -471,17 +442,17 @@
         margin-bottom: 1rem;
     }
 
-    body.dark-mode .cashier-info-card {
+    body.dark-mode .info-card {
         background: linear-gradient(135deg, rgba(74, 100, 145, 0.1), rgba(93, 122, 176, 0.1));
     }
 
-    .cashier-name-display {
+    .info-display {
         font-size: 1.1rem;
         font-weight: 700;
         color: var(--primary);
     }
 
-    body.dark-mode .cashier-name-display {
+    body.dark-mode .info-display {
         color: #94a3b8;
     }
 
@@ -556,10 +527,11 @@
     .total-card.sales::before { background: linear-gradient(90deg, #3b82f6, #2563eb); }
     .total-card.returns::before { background: linear-gradient(90deg, #ef4444, #dc2626); }
     .total-card.discount::before { background: linear-gradient(90deg, #f59e0b, #d97706); }
-    .total-card.net-returns::before { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+    .total-card.net::before { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
     .total-card.profit::before { background: linear-gradient(90deg, #10b981, #059669); }
-    .total-card.difference::before { background: linear-gradient(90deg, #06b6d4, #0891b2); }
     .total-card.details::before { background: linear-gradient(90deg, #f97316, #ea580c); }
+    .total-card.sales-net::before { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+    .total-card.loans-net::before { background: linear-gradient(90deg, #6366f1, #4f46e5); }
 
     .total-card:hover {
         transform: translateY(-3px);
@@ -585,10 +557,11 @@
     .total-card.sales .total-card-icon { background: linear-gradient(135deg, #3b82f6, #2563eb); }
     .total-card.returns .total-card-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
     .total-card.discount .total-card-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
-    .total-card.net-returns .total-card-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .total-card.net .total-card-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
     .total-card.profit .total-card-icon { background: linear-gradient(135deg, #10b981, #059669); }
-    .total-card.difference .total-card-icon { background: linear-gradient(135deg, #06b6d4, #0891b2); }
     .total-card.details .total-card-icon { background: linear-gradient(135deg, #f97316, #ea580c); }
+    .total-card.sales-net .total-card-icon { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+    .total-card.loans-net .total-card-icon { background: linear-gradient(135deg, #6366f1, #4f46e5); }
 
     .total-card-label {
         font-size: 0.75rem;
@@ -752,34 +725,33 @@
         </div>
     </div>
 
-    <!-- Cashier Selection Card -->
+    <!-- Date Range & Cashier Selection Card -->
     <div class="form-card mb-4">
-        <div class="section-title"><span class="dot"></span> هەڵبژاردنی کاشێر</div>
+        <div class="section-title"><span class="dot"></span> هەڵبژاردنی بەروار و کاشێر</div>
         <div class="row g-3 align-items-end">
-            <div class="col-md-4">
-                <label class="form-label" for="cashierSelect">ناوی کاشێر <span class="required-star">*</span></label>
+            <div class="col-md-3">
+                <label class="form-label" for="filterStartDate">بەرواری دەستپێک <span class="required-star">*</span></label>
+                <input type="date" id="filterStartDate" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" for="filterEndDate">بەرواری کۆتایی <span class="required-star">*</span></label>
+                <input type="date" id="filterEndDate" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="cashierSelect">ناوی کاشێر</label>
                 <select class="form-select" id="cashierSelect">
-                    <option value="">هەڵبژێرە...</option>
+                    <option value="">هەموو کاشێرەکان</option>
                 </select>
-            </div>
-            <div class="col-md-4">
-                <label class="form-label" for="filterDate">بەروار</label>
-                <input type="date" id="filterDate" class="form-control">
-            </div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-primary-custom" id="loadCashierDataBtn" disabled>
-                    <i class="fas fa-sync-alt me-2"></i> بارکردنی زانیاری کاشێر
-                </button>
             </div>
         </div>
         
-        <!-- Cashier Info Display -->
-        <div id="cashierInfoContainer" style="display: none; margin-top: 1rem;"></div>
+        <!-- Info Display -->
+        <div id="infoContainer" style="display: none; margin-top: 1rem;"></div>
         
         <!-- Loading Indicator -->
-        <div id="cashierLoading" style="display: none; text-align: center; padding: 1rem;">
+        <div id="loadingIndicator" style="display: none; text-align: center; padding: 1rem;">
             <div class="loading-spinner"></div>
-            <span class="me-2">بارکردنی زانیاری کاشێر...</span>
+            <span class="me-2">بارکردنی داتاکان...</span>
         </div>
     </div>
 
@@ -790,6 +762,11 @@
                 <i class="fas fa-table me-2"></i>تۆمارەکانی حساباتی ڕۆژانە
             </h3>
             <div class="filter-group" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <select id="filterActionType" class="form-select form-select-sm" style="width: auto; min-width: 140px;">
+                    <option value="">هەموو جۆرەکانی کردار</option>
+                    <option value="گەڕاوە">گەڕاوە</option>
+                    <option value="فرۆشتن">فرۆشتن</option>
+                </select>
                 <select id="filterStatus" class="form-select form-select-sm" style="width: auto; min-width: 140px;">
                     <option value="">هەموو ڕەوشەکان</option>
                     <option value="هاوسەنگ">هاوسەنگ</option>
@@ -811,7 +788,9 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>ناوی کاشێر</th>
                         <th>پسوڵە</th>
+                        <th>جۆری کردار</th>
                         <th>جۆری فرۆشتن</th>
                         <th>فرۆش پێش داشکان</th>
                         <th>داشکاندن</th>
@@ -823,7 +802,7 @@
                 </thead>
                 <tbody id="tableBody">
                     <tr class="empty-row">
-                        <td colspan="9">تکایە کاشێرێک هەڵبژێرە بۆ بینینی تۆمارەکان</td>
+                        <td colspan="11">تکایە بەروارێک هەڵبژێرە</td>
                     </tr>
                 </tbody>
             </table>
@@ -892,12 +871,30 @@
                     <div class="total-card-subtitle">دیناری عێراقی</div>
                 </div>
                 
-                <div class="total-card net-returns">
+                <div class="total-card sales-net">
+                    <div class="total-card-icon">
+                        <i class="fas fa-chart-simple"></i>
+                    </div>
+                    <div class="total-card-label">پوختەیی فرۆشتن</div>
+                    <div class="total-card-value" id="cardSalesNet">٠</div>
+                    <div class="total-card-subtitle">دیناری عێراقی</div>
+                </div>
+                
+                <div class="total-card details">
+                    <div class="total-card-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="total-card-label">کۆی وردە</div>
+                    <div class="total-card-value" id="cardTotalDetails">٠</div>
+                    <div class="total-card-subtitle">دیناری عێراقی</div>
+                </div>
+                
+                <div class="total-card net">
                     <div class="total-card-icon">
                         <i class="fas fa-calculator"></i>
                     </div>
-                    <div class="total-card-label">صافی گەڕاوە</div>
-                    <div class="total-card-value" id="cardTotalNetReturns">٠</div>
+                    <div class="total-card-label">پوختە ی ڕۆژانە</div>
+                    <div class="total-card-value" id="cardTotalNet">٠</div>
                     <div class="total-card-subtitle">دیناری عێراقی</div>
                 </div>
                 
@@ -910,12 +907,12 @@
                     <div class="total-card-subtitle">دیناری عێراقی</div>
                 </div>
                 
-                <div class="total-card details">
+                <div class="total-card loans-net">
                     <div class="total-card-icon">
-                        <i class="fas fa-coins"></i>
+                        <i class="fas fa-hand-holding-usd"></i>
                     </div>
-                    <div class="total-card-label">کۆی وردە</div>
-                    <div class="total-card-value" id="cardTotalDetails">٠</div>
+                    <div class="total-card-label">پوختەیی قەرز</div>
+                    <div class="total-card-value" id="cardLoansNet">٠</div>
                     <div class="total-card-subtitle">دیناری عێراقی</div>
                 </div>
             </div>
@@ -953,19 +950,17 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
 $(document).ready(function() {
     
     // ============================================
     // Variables
     // ============================================
-    let currentCashierId = null;
-    let currentCashierData = null;
     let allRecords = [];
-    let filteredRecords = []; // Records after applying filters (but before pagination)
+    let filteredRecords = [];
     let currentPage = 1;
     let rowsPerPage = 25;
+    let isLoading = false;
     let invoiceModal = new bootstrap.Modal(document.getElementById('invoiceDetailModal'));
     
     // CSRF Token setup
@@ -1014,7 +1009,7 @@ $(document).ready(function() {
     }
 
     // ============================================
-    // Calculate Totals (over all filtered records, not just current page)
+    // Calculate Totals
     // ============================================
     
     function calculateTotals(records) {
@@ -1022,12 +1017,12 @@ $(document).ready(function() {
             totalSales: 0,
             totalReturns: 0,
             totalDiscount: 0,
-            totalNetReturns: 0,
+            totalNet: 0,
             totalProfit: 0,
-            totalShortAmount: 0,
-            totalExtraAmount: 0,
             totalDetails: 0,
-            totalLoans: 0
+            totalLoans: 0,
+            salesNet: 0,
+            loansNet: 0
         };
         
         if (!records || records.length === 0) {
@@ -1035,59 +1030,42 @@ $(document).ready(function() {
         }
         
         records.forEach(function(rec) {
+            const isReturn = rec.isReturn || rec.sourceType === 'return';
+            
+            // فرۆشتنی ئاسایی
             totals.totalSales += parseFloat(rec.totalSales || rec.total_sales || 0);
-            totals.totalReturns = parseFloat(rec.totalReturns || rec.total_returns || 0);
+            totals.totalReturns += isReturn ? parseFloat(rec.totalSales || rec.total_sales || 0) : 0;
+            
             totals.totalDiscount += parseFloat(rec.totalDiscount || rec.total_discount || 0);
- 
             totals.totalProfit += parseFloat(rec.todayProfit || rec.profit || 0);
-            totals.totalShortAmount += parseFloat(rec.shortAmount || 0);
-            totals.totalExtraAmount += parseFloat(rec.extraAmount || 0);
-            totals.totalDetails = parseFloat(rec.casherCoinAmount || rec.details || 0);
+            totals.totalDetails = parseFloat(rec.casherCoinAmount || rec.casherCoin || rec.details || 0);
             totals.totalLoans += parseFloat(rec.totalLoans || 0);
-          totals.totalNetReturns = (
-    parseFloat(totals.totalDetails || 0) +
-    parseFloat(totals.totalSales || 0) -
-    parseFloat(totals.totalReturns || 0)
-).toFixed(2);
         });
+        
+        totals.salesNet = totals.totalSales - totals.totalReturns - totals.totalDiscount;
+        totals.loansNet = totals.totalLoans;
+        totals.totalNet = totals.salesNet + totals.totalDetails;
         
         return totals;
     }
 
     function updateTotalsCards(totals, recordCount) {
         const container = $('#totalsCardsContainer');
-        const dateVal = $('#filterDate').val();
-        
-        // ئەگەر بەروار دیاری نەکرابێت، هەمووی سفر دەکەین
-        if (!dateVal) {
-            $('#cardTotalSales').text('٠');
-            $('#cardTotalReturns').text('٠');
-            $('#cardTotalDiscount').text('٠');
-            $('#cardTotalNetReturns').text('٠');
-            $('#cardTotalProfit').text('٠');
-            $('#cardTotalDetails').text('٠');
-            container.slideDown(300);
-            return;
-        }
         
         if (recordCount === 0) {
-            $('#cardTotalSales').text('٠');
-            $('#cardTotalReturns').text('٠');
-            $('#cardTotalDiscount').text('٠');
-            $('#cardTotalNetReturns').text('٠');
-            $('#cardTotalProfit').text('٠');
-            $('#cardTotalDetails').text('٠');
+            $('#cardTotalSales, #cardTotalReturns, #cardTotalDiscount, #cardSalesNet, #cardTotalDetails, #cardTotalNet, #cardTotalProfit, #cardLoansNet').text('٠');
             container.slideDown(300);
             return;
         }
         
-        // Update card values
         $('#cardTotalSales').text(formatNum(totals.totalSales));
         $('#cardTotalReturns').text(formatNum(totals.totalReturns));
         $('#cardTotalDiscount').text(formatNum(totals.totalDiscount));
-        $('#cardTotalNetReturns').text(formatNum(totals.totalNetReturns));
-        $('#cardTotalProfit').text(formatNum(totals.totalProfit));
+        $('#cardSalesNet').text(formatNum(totals.salesNet));
         $('#cardTotalDetails').text(formatNum(totals.totalDetails));
+        $('#cardTotalNet').text(formatNum(totals.totalNet));
+        $('#cardTotalProfit').text(formatNum(totals.totalProfit));
+        $('#cardLoansNet').text(formatNum(totals.loansNet));
         
         container.slideDown(300);
     }
@@ -1106,16 +1084,13 @@ $(document).ready(function() {
         const totalPages = Math.ceil(filteredRecords.length / rowsPerPage) || 1;
         const hasRecords = filteredRecords.length > 0;
         
-        // Update page info
         $('#pageInfo').text(`لاپەڕە ${currentPage} لە ${totalPages}`);
         
-        // Update button states
         $('#firstPageBtn').prop('disabled', currentPage === 1 || !hasRecords);
         $('#prevPageBtn').prop('disabled', currentPage === 1 || !hasRecords);
         $('#nextPageBtn').prop('disabled', currentPage === totalPages || !hasRecords);
         $('#lastPageBtn').prop('disabled', currentPage === totalPages || !hasRecords);
         
-        // Show/hide pagination container
         if (filteredRecords.length > rowsPerPage) {
             $('#paginationContainer').show();
         } else {
@@ -1123,34 +1098,15 @@ $(document).ready(function() {
         }
     }
     
-    function goToFirstPage() {
-        if (currentPage !== 1) {
-            currentPage = 1;
-            renderCurrentPage();
-        }
-    }
-    
-    function goToPrevPage() {
-        if (currentPage > 1) {
-            currentPage--;
-            renderCurrentPage();
-        }
-    }
-    
+    function goToFirstPage() { if (currentPage !== 1) { currentPage = 1; renderCurrentPage(); } }
+    function goToPrevPage() { if (currentPage > 1) { currentPage--; renderCurrentPage(); } }
     function goToNextPage() {
         const totalPages = Math.ceil(filteredRecords.length / rowsPerPage);
-        if (currentPage < totalPages) {
-            currentPage++;
-            renderCurrentPage();
-        }
+        if (currentPage < totalPages) { currentPage++; renderCurrentPage(); }
     }
-    
     function goToLastPage() {
         const totalPages = Math.ceil(filteredRecords.length / rowsPerPage);
-        if (currentPage !== totalPages && totalPages > 0) {
-            currentPage = totalPages;
-            renderCurrentPage();
-        }
+        if (currentPage !== totalPages && totalPages > 0) { currentPage = totalPages; renderCurrentPage(); }
     }
     
     function renderCurrentPage() {
@@ -1160,7 +1116,7 @@ $(document).ready(function() {
     }
 
     // ============================================
-    // Load Cashiers from Route
+    // Load Cashiers List
     // ============================================
     
     function loadCashiers() {
@@ -1168,9 +1124,8 @@ $(document).ready(function() {
             url: '{{ route("casher.getDataDetails") }}',
             type: 'GET',
             success: function(response) {
-                console.log(response);
                 const select = $('#cashierSelect');
-                select.html('<option value="">هەڵبژێرە...</option>');
+                select.html('<option value="">هەموو کاشێرەکان</option>');
                 
                 if (response && response.users && response.users.length > 0) {
                     response.users.forEach(function(user) {
@@ -1189,222 +1144,237 @@ $(document).ready(function() {
         });
     }
 
-    // Enable/disable load button based on selection
-    $('#cashierSelect').on('change', function() {
-        const cashierId = $(this).val();
-        $('#loadCashierDataBtn').prop('disabled', !cashierId);
+    // ============================================
+    // Load Invoices
+    // ============================================
+    
+    function loadInvoices() {
+        const startDateVal = $('#filterStartDate').val();
+        const endDateVal = $('#filterEndDate').val();
         
-        // Hide previous cashier info if selection changes
-        if (cashierId !== String(currentCashierId)) {
-            $('#cashierInfoContainer').hide().html('');
-            $('#tableBody').html('<tr class="empty-row"><td colspan="9">تکایە کلیکی "بارکردنی زانیاری کاشێر" بکە</td></tr>');
+        if (!startDateVal || !endDateVal) {
+            allRecords = [];
+            filteredRecords = [];
+            $('#tableBody').html('<tr class="empty-row"><td colspan="11">تکایە بەرواری دەستپێک و کۆتایی هەڵبژێرە</td></tr>');
+            $('#infoContainer').hide();
             $('#totalsCardsContainer').hide();
             $('#paginationContainer').hide();
             $('#recordCount').text('٠ تۆمار');
-        }
-    });
-
-    // ============================================
-    // Load Cashier Details
-    // ============================================
-    
-    $('#loadCashierDataBtn').on('click', function() {
-        const cashierId = $('#cashierSelect').val();
-        if (!cashierId) {
-            showToast('تکایە کاشێرێک هەڵبژێرە', 'error');
             return;
         }
         
-        loadCashierDetails(cashierId);
-    });
-
-    function loadCashierDetails(cashierId) {
-        currentCashierId = cashierId;
+        if (startDateVal > endDateVal) {
+            showToast('بەرواری دەستپێک نابێت لە بەرواری کۆتایی گەورەتر بێت', 'error');
+            return;
+        }
         
-        // Reset pagination
+        if (isLoading) return;
+        isLoading = true;
+        
+        const cashierId = $('#cashierSelect').val();
         currentPage = 1;
         
-        // Show loading
-        $('#cashierLoading').show();
-        $('#cashierInfoContainer').hide();
+        $('#loadingIndicator').show();
+        $('#infoContainer').hide();
         $('#totalsCardsContainer').hide();
         $('#paginationContainer').hide();
-        $('#loadCashierDataBtn').prop('disabled', true).html('<span class="loading-spinner"></span> بارکردن...');
         
-        $.ajax({
-            url: '/get-casher-details/' + cashierId,
-            type: 'GET',
-            success: function(response) {
-                currentCashierData = response;
-                displayCashierInfo(response);
-                loadCashierInvoices(cashierId);
-            },
-            error: function(xhr) {
-                console.error('Error loading cashier details:', xhr);
-                showToast('هەڵە لە بارکردنی زانیاری کاشێر', 'error');
-                $('#cashierLoading').hide();
-                resetLoadButton();
-            }
-        });
-    }
-
-    function displayCashierInfo(data) {
-        console.log('displayCashierInfo', data);
-        const dateVal = $('#filterDate').val();
-        const dateDisplay = dateVal ? dateVal : 'دیاری نەکراوە';
+        $('#tableBody').html(`<tr class="empty-row"><td colspan="11"><div class="loading-spinner"></div><span class="me-2">بارکردنی پسوڵەکان...</span></td></tr>`);
         
-        let html = `
-            <div class="cashier-info-card">
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <small class="text-muted d-block">ناوی کاشێر</small>
-                        <span class="cashier-name-display">${data.name || '---'}</span>
-                    </div>
-                    <div class="col-md-3">
-                        <small class="text-muted d-block">بەروار</small>
-                        <span class="cashier-name-display">
-                            <i class="fas fa-calendar-alt me-1"></i> ${dateDisplay}
-                        </span>
-                    </div>
-                    <div class="col-md-3">
-                        <small class="text-muted d-block">کۆی فرۆشی ڕۆژ</small>
-                        <span class="cashier-name-display">${formatNum(data.today_sales || 0)} د.ع</span>
-                    </div>
-                    <div class="col-md-3">
-                        <small class="text-muted d-block">ژمارەی پسوڵەکان</small>
-                        <span class="cashier-name-display">${data.invoice_count || 0} پسوڵە</span>
-                    </div>
-                </div>
-            </div>
-        `;
-        $('#cashierInfoContainer').html(html).slideDown(300);
-        $('#cashierLoading').hide();
-        resetLoadButton();
-    }
-
-    function resetLoadButton() {
-        $('#loadCashierDataBtn').prop('disabled', false).html('<i class="fas fa-sync-alt me-2"></i> بارکردنی زانیاری کاشێر');
-    }
-
-    // ============================================
-    // Load Cashier Invoices
-    // ============================================
-    
-    function loadCashierInvoices(cashierId) {
-        $('#tableBody').html(`
-            <tr class="empty-row">
-                <td colspan="9">
-                    <div class="loading-spinner"></div>
-                    <span class="me-2">بارکردنی پسوڵەکان...</span>
-                 </tr>
-            </tr>
-        `);
-        $('#totalsCardsContainer').hide();
-        $('#paginationContainer').hide();
+        let requestData = { start_date: startDateVal, end_date: endDateVal };
+        if (cashierId) requestData.cashier_id = cashierId;
         
         $.ajax({
             url: '/get-invoices/Details',
             type: 'GET',
-            data: { cashier_id: cashierId },
+            data: requestData,
             success: function(response) {
+                console.log('Invoices response 1 :', response);
+                isLoading = false;
+                $('#loadingIndicator').hide();
+                
                 if (response && response.invoices && response.invoices.length > 0) {
                     allRecords = response.invoices;
+                    displaySummaryInfo(response.invoices, startDateVal, endDateVal, cashierId);
                     applyFilters();
-                } else if (Array.isArray(response)) {
+                } else if (Array.isArray(response) && response.length > 0) {
                     allRecords = response;
+                    displaySummaryInfo(response, startDateVal, endDateVal, cashierId);
                     applyFilters();
                 } else {
                     allRecords = [];
                     filteredRecords = [];
                     renderTable([], 0);
-                    showToast('هیچ پسوڵەیەک نەدۆزرایەوە بۆ ئەم کاشێرە', '');
+                    updatePaginationControls();
+                    displaySummaryInfo([], startDateVal, endDateVal, cashierId);
+                    showToast('هیچ پسوڵەیەک نەدۆزرایەوە بۆ ئەم مەودای بەروارە', '');
                 }
             },
             error: function(xhr) {
-                console.error('Error loading invoices:', xhr);
+                isLoading = false;
+                $('#loadingIndicator').hide();
                 allRecords = [];
                 filteredRecords = [];
-                $('#tableBody').html('<tr class="empty-row"><td colspan="9">هەڵە لە بارکردنی پسوڵەکان</td></tr>');
+                $('#tableBody').html('<tr class="empty-row"><td colspan="11">هەڵە لە بارکردنی پسوڵەکان</td></tr>');
                 $('#totalsCardsContainer').hide();
                 $('#paginationContainer').hide();
+                $('#infoContainer').hide();
                 $('#recordCount').text('٠ تۆمار');
                 showToast('هەڵە لە بارکردنی پسوڵەکان', 'error');
             }
         });
     }
 
+    function displaySummaryInfo(invoices, startDateVal, endDateVal, cashierId) {
+        if (!invoices || invoices.length === 0) {
+            let html = `
+                <div class="info-card">
+                    <div class="row g-3">
+                        <div class="col-md-6"><small class="text-muted d-block">مەودای بەروار</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${startDateVal} <span class="mx-1">تا</span> <i class="fas fa-calendar-alt me-1"></i> ${endDateVal}</span></div>
+                        <div class="col-md-6"><small class="text-muted d-block">کۆی فرۆش</small><span class="info-display">٠ د.ع | ٠ پسوڵە</span></div>
+                    </div>
+                </div>`;
+            $('#infoContainer').html(html).slideDown(300);
+            return;
+        }
+        
+        const totalInvoices = invoices.length;
+        const totalSales = invoices.reduce((sum, inv) => sum + parseFloat(inv.totalSales || 0), 0);
+        const uniqueCashiers = [...new Set(invoices.map(inv => inv.cashierName).filter(Boolean))];
+        const cashierText = cashierId ? (invoices[0]?.cashierName || '---') : `${uniqueCashiers.length} کاشێر`;
+        
+        let html = `
+            <div class="info-card">
+                <div class="row g-3">
+                    <div class="col-md-3"><small class="text-muted d-block">بەرواری دەستپێک</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${startDateVal}</span></div>
+                    <div class="col-md-3"><small class="text-muted d-block">بەرواری کۆتایی</small><span class="info-display"><i class="fas fa-calendar-alt me-1"></i> ${endDateVal}</span></div>
+                    <div class="col-md-3"><small class="text-muted d-block">کاشێر</small><span class="info-display">${cashierText}</span></div>
+                    <div class="col-md-3"><small class="text-muted d-block">کۆی فرۆش</small><span class="info-display">${formatNum(totalSales)} د.ع | ${totalInvoices} پسوڵە</span></div>
+                </div>
+            </div>`;
+        $('#infoContainer').html(html).slideDown(300);
+    }
+
+    // Events
+    $('#filterStartDate').on('change', function() { if ($('#filterEndDate').val()) loadInvoices(); });
+    $('#filterEndDate').on('change', function() { if ($('#filterStartDate').val()) loadInvoices(); });
+    $('#cashierSelect').on('change', function() { if ($('#filterStartDate').val() && $('#filterEndDate').val()) loadInvoices(); });
+
     // ============================================
-    // Render Table (with pagination support)
+    // Render Table
     // ============================================
     
     function renderTable(records, totalFilteredCount = null) {
         const tbody = $('#tableBody');
         tbody.empty();
         
-        // Use passed total count or records length for display
         const displayTotal = totalFilteredCount !== null ? totalFilteredCount : filteredRecords.length;
         
         if (!records || records.length === 0) {
-            tbody.html('<tr class="empty-row"><td colspan="9">هیچ تۆمارێک نەدۆزرایەوە</td></tr>');
-            const totals = calculateTotals([]);
-            updateTotalsCards(totals, 0);
+            tbody.html('<tr class="empty-row"><td colspan="11">هیچ تۆمارێک نەدۆزرایەوە</td></tr>');
+            updateTotalsCards(calculateTotals([]), 0);
             $('#recordCount').text('٠ تۆمار');
             $('#paginationContainer').hide();
             return;
         }
         
         records.forEach(function(rec, index) {
-            // Calculate global index for display (not just page index)
             const globalIndex = ((currentPage - 1) * rowsPerPage) + index + 1;
             
-            // Determine sale type and badge
+            const actionType = rec.actionType || (rec.isReturn ? 'گەڕاوە' : 'فرۆشتن');
+            const actionTypeBadge = rec.isReturn ? 'badge-return' : 'badge-sale';
+            const actionTypeIcon = rec.isReturn ? '↩️' : '💰';
+            
             const saleType = rec.saleType || (rec.isCreditSale ? 'فرۆشتنی قەرزە' : 'فرۆشتنی ئاسایی');
             const saleTypeBadge = rec.isCreditSale ? 'badge-credit' : 'badge-normal';
-            const saleTypeIcon = rec.isCreditSale ? '📋' : '💰';
+            const saleTypeIcon = rec.isCreditSale ? '📋' : '';
             
-            // Loans info
             const totalLoans = rec.totalLoans || 0;
             const loanCount = rec.loanCount || 0;
             const loansInfo = totalLoans > 0 ? 
-                `<span class="text-danger fw-bold">${formatNum(totalLoans)}</span>
-                 <small class="d-block text-muted">${loanCount} قەرز</small>` : 
+                `<span class="text-danger fw-bold">${formatNum(totalLoans)}</span><small class="d-block text-muted">${loanCount} قەرز</small>` : 
                 '<span class="text-muted">---</span>';
+            
+            const invoiceNumberClass = rec.isReturn ? 'invoice-number return-invoice' : 'invoice-number';
+            const invoiceNumberDisplay = rec.invoice_number || rec.invoice_Number || '---';
             
             const row = `
                 <tr>
                     <td>${globalIndex}</td>
-                    <td>${rec.invoice_number || rec.date || '---'}</td>
-                    <td>
-                        <span class="badge ${saleTypeBadge}">
-                            ${saleTypeIcon} ${saleType}
-                        </span>
-                     </td>
+                    <td><strong>${rec.cashierName || '---'}</strong></td>
+                    <td><span class="${invoiceNumberClass}">${invoiceNumberDisplay}</span></td>
+                    <td><span class="badge ${actionTypeBadge}">${actionTypeIcon} ${actionType}</span></td>
+                    <td><span class="badge ${saleTypeBadge}">${saleTypeIcon} ${saleType}</span></td>
                     <td>${formatNum(rec.subtotal || '---')}</td>
                     <td>${formatNum(rec.totalDiscount || rec.total_discount || 0)}</td>
                     <td>${formatNum(rec.totalSales || rec.total_sales || 0)}</td>
                     <td>${loansInfo}</td>
                     <td><strong>${formatNum(rec.todayProfit || rec.profit || 0)}</strong></td>
-                    <td>
-                        <button class="btn-sm-custom btn-view view-invoice-btn" data-invoice-id="${rec.id || rec.invoice_id}" title="بینینی پسوڵە">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                     </td>
-                 </tr>
-            `;
+                    <td><button class="btn-sm-custom btn-view view-invoice-btn" data-invoice-id="${rec.id || rec.invoice_id}" title="بینینی پسوڵە"><i class="fas fa-eye"></i></button></td>
+                </tr>`;
             tbody.append(row);
         });
         
         $('#recordCount').text(`${displayTotal} تۆمار`);
+        updateTotalsCards(calculateTotals(filteredRecords), filteredRecords.length);
         
-        // Calculate and display totals in cards (using all filtered records, not just current page)
-        const totals = calculateTotals(filteredRecords);
-        updateTotalsCards(totals, filteredRecords.length);
-        
-        // Attach view invoice events
         $('.view-invoice-btn').off('click').on('click', function() {
-            const invoiceId = $(this).data('invoice-id');
-            viewInvoiceDetail(invoiceId);
+            viewInvoiceDetail($(this).data('invoice-id'));
         });
+    }
+
+    // ============================================
+    // Display Return Detail (FROM LOCAL DATA)
+    // ✅ FIXED: ناوی کاڵا + کۆی گەڕاوە دروست
+    // ============================================
+    
+    function displayReturnDetail(record) {
+        const modalActionType = record.actionType || (record.isReturn ? 'گەڕاوە' : 'فرۆشتن');
+        const modalActionTypeBadge = record.isReturn ? 'badge-return' : 'badge-sale';
+        const modalActionTypeIcon = record.isReturn ? '↩️' : '💰';
+        
+        const saleType = record.saleType || (record.isCreditSale ? 'فرۆشتنی قەرزە' : 'فرۆشتنی ئاسایی');
+        const saleTypeBadge = record.isCreditSale ? 'badge-credit' : 'badge-normal';
+        
+        let loansSection = '';
+        if (record.loans && record.loans.length > 0) {
+            loansSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-hand-holding-usd me-2 text-warning"></i>قەرزەکانی ئەم پسوڵەیە (${record.loans.length} قەرز)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>کۆ</th><th>پارەی دراو</th><th>پارەی ماوە</th><th>کاتی گەڕانەوە</th></tr></thead><tbody>
+        ${record.loans.map(loan => `<tr><td><strong>${formatNum(loan.total || 0)}</strong></td><td>${loan.currency || '---'}</td><td>${loan.period || '---'}</td><td>${loan.time_to_return || '---'}</td></tr>`).join('')}
+        </tbody></table></div></div>`;
+        }
+        
+        let returnItemsSection = '';
+        console.log('Return Details:', record);
+        if (record.returnDetails && record.returnDetails.length > 0) {
+            returnItemsSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-undo-alt me-2 text-danger"></i>کاڵا گەڕێندراوەکان (${record.returnDetails.length} کاڵا)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>بڕ</th><th>نرخی فرۆشتن</th><th>کۆی گەڕاوە</th><th>هۆکار</th><th>بەروار</th></tr></thead><tbody>
+        ${record.returnDetails.map(item => {
+            // ✅ حسابکردنی کۆی گەڕاوە: Amount * Sale_Price
+            const returnTotal = (parseFloat(item.Amount) || 0) * (parseFloat(item.Sale_Price) || 0);
+            return `<tr>
+                <td><strong>${item.name || item.Item_Name || item.product_name || '---'}</strong></td>
+                <td>${item.Amount || 0}</td>
+                <td>${formatNum(item.Sale_Price || 0)}</td>
+                <td><strong class="text-danger">${formatNum(returnTotal)}</strong></td>
+                <td>${item.Return_Cause || '---'}</td>
+                <td>${item.Return_Date || '---'}</td>
+            </tr>`;
+        }).join('')}
+        </tbody></table></div></div>`;
+        }
+        
+        $('#invoiceDetailBody').html(`
+            <div class="row g-3">
+                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>ژمارەی پسوڵە:</strong> #${record.invoice_number || record.invoice_Number || '---'}</div></div>
+                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>بەروار:</strong> ${record.date || record.accountingDate || '---'}</div></div>
+                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کاشێر:</strong> ${record.cashierName || record.cashier_name || '---'}</div></div>
+                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>جۆری کردار:</strong> <span class="badge ${modalActionTypeBadge}">${modalActionTypeIcon} ${modalActionType}</span></div></div>
+                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>جۆری فرۆشتن:</strong> <span class="badge ${saleTypeBadge}">${saleType}</span></div></div>
+                <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کۆی گەڕاوە:</strong> ${formatNum(record.totalSales || record.total_sales || 0)} د.ع</div></div>
+                ${returnItemsSection}
+                ${loansSection}
+            </div>`);
+        
+        invoiceModal.show();
     }
 
     // ============================================
@@ -1412,181 +1382,100 @@ $(document).ready(function() {
     // ============================================
     
     function viewInvoiceDetail(invoiceId) {
-        $('#invoiceDetailBody').html(`
-            <div class="text-center py-4">
-                <div class="loading-spinner"></div>
-                <span class="me-2 mt-2 d-block">بارکردنی زانیاری پسوڵە...</span>
-            </div>
-        `);
-        invoiceModal.show();
-        
-        // Find the invoice in allRecords to get loan details
         const record = allRecords.find(r => (r.id || r.invoice_id) == invoiceId);
+        
+        if (!record) { showToast('پسوڵە نەدۆزرایەوە', 'error'); return; }
+        
+        if (record.isReturn || record.sourceType === 'return') {
+            displayReturnDetail(record);
+            return;
+        }
+        
+        $('#invoiceDetailBody').html(`<div class="text-center py-4"><div class="loading-spinner"></div><span class="me-2 mt-2 d-block">بارکردنی زانیاری پسوڵە...</span></div>`);
+        invoiceModal.show();
         
         $.ajax({
             url: '/invoice/Details/' + invoiceId,
             type: 'GET',
             success: function(response) {
+               
                 const inv = response.invoice || response;
+                const saleType = record?.saleType || (record?.isCreditSale ? 'فرۆشتنی قەرزە' : 'فرۆشتنی ئاسایی');
+                const saleTypeBadge = record?.isCreditSale ? 'badge-credit' : 'badge-normal';
                 
-                // Build loans section if available
                 let loansSection = '';
-                if (record && record.loans && record.loans.length > 0) {
-                    loansSection = `
-                        <div class="col-12 mt-3">
-                            <h6 class="mb-2">
-                                <i class="fas fa-hand-holding-usd me-2 text-warning"></i>
-                                قەرزەکانی ئەم پسوڵەیە (${record.loans.length} قەرز)
-                            </h6>
-                            <div class="table-responsive">
-                                <table class="table table-sm table-bordered">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>کۆ</th>
-                                            <th>پارەی دراو</th>
-                                            <th>پارەی ماوە</th>
-                                            <th>کاتی گەڕانەوە</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${record.loans.map((loan, i) => `
-                                        <tr>
-                                            <td><strong>${formatNum(loan.total || 0)}</strong></td>
-                                            <td>${loan.currency || '---'}</td>
-                                            <td>${loan.period || '---'}</td>
-                                            <td>${loan.time_to_return || '---'}</td>
-                                         </tr>
-                                        `).join('')}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    `;
-                } else if (record && record.isCreditSale) {
-                    loansSection = `
-                        <div class="col-12 mt-3">
-                            <div class="alert alert-warning">
-                                <i class="fas fa-info-circle me-2"></i>
-                                ئەم فرۆشتنە قەرزەیە بەڵام وردەکاری قەرزەکان بەردەست نییە
-                            </div>
-                        </div>
-                    `;
+                if (record?.loans?.length > 0) {
+                    loansSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-hand-holding-usd me-2 text-warning"></i>قەرزەکانی ئەم پسوڵەیە (${record.loans.length} قەرز)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>کۆ</th><th>پارەی دراو</th><th>پارەی ماوە</th><th>کاتی گەڕانەوە</th></tr></thead><tbody>
+                    ${record.loans.map(loan => `<tr><td><strong>${formatNum(loan.total || 0)}</strong></td><td>${loan.currency || '---'}</td><td>${loan.period || '---'}</td><td>${loan.time_to_return || '---'}</td></tr>`).join('')}
+                    </tbody></table></div></div>`;
+                }
+                console.log('Invoice Details:', inv);
+                
+                let returnSection = '';
+                if (inv.returns?.length > 0) {
+                    returnSection = `<div class="col-12 mt-3"><h6 class="mb-2"><i class="fas fa-undo-alt me-2 text-danger"></i>گەڕاوەکانی ئەم پسوڵەیە (${inv.returns.length} گەڕاوە)</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>بڕ</th><th>مەتر</th><th>نرخی فرۆشتن</th><th>کۆی گەڕاوە</th><th>هۆکار</th><th>بەروار</th></tr></thead><tbody>
+                    ${inv.returns.map(item => {
+                        // ✅ حسابکردنی کۆی گەڕاوە: Amount * Sale_Price
+                        const returnTotal = (parseFloat(item.Amount) || 0) * (parseFloat(item.Sale_Price) || 0);
+                        return `<tr>
+                            <td><strong>${item.Item_Name || item.name || item.product_name || item.Item_Code || '---'}</strong></td>
+                            <td>${item.Amount || 0}</td>
+                            <td>${item.Metar || '---'}</td>
+                            <td>${formatNum(item.Sale_Price || 0)}</td>
+                            <td><strong class="text-danger">${formatNum(returnTotal)}</strong></td>
+                            <td>${item.Return_Cause || '---'}</td>
+                            <td>${item.Return_Date || '---'}</td>
+                        </tr>`;
+                    }).join('')}
+                    </tbody></table></div></div>`;
                 }
                 
-                let html = `
+                $('#invoiceDetailBody').html(`
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>ژمارەی پسوڵە:</strong> #${inv.id || invoiceId}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>بەروار:</strong> ${inv.date || inv.accountingDate || '---'}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>کاشێر:</strong> ${inv.cashier_name || inv.cashierName || currentCashierData?.name || '---'}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>جۆری فرۆشتن:</strong> 
-                                <span class="badge ${record && record.isCreditSale ? 'badge-credit' : 'badge-normal'}">
-                                    ${record ? (record.saleType || (record.isCreditSale ? 'فرۆشتنی قەرزە' : 'فرۆشتنی ئاسایی')) : '---'}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>کۆی فرۆش:</strong> ${formatNum(inv.total_sales || inv.totalSales || 0)} د.ع
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>گەڕاوە:</strong> ${formatNum(inv.total_returns || inv.totalReturns || 0)} د.ع
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>داشکاندن:</strong> ${formatNum(inv.total_discount || inv.totalDiscount || 0)} د.ع
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>قازانج:</strong> ${formatNum(inv.profit || inv.todayProfit || 0)} د.ع
-                            </div>
-                        </div>
-                        ${record && record.totalLoans > 0 ? `
-                        <div class="col-md-6">
-                            <div class="p-3 rounded-3 bg-light">
-                                <strong>کۆی قەرزەکان:</strong> 
-                                <span class="text-danger">${formatNum(record.totalLoans)} د.ع</span>
-                                <small class="d-block text-muted">${record.loanCount || 0} قەرز</small>
-                            </div>
-                        </div>
-                        ` : ''}
-                    
-                        ${inv.items ? `
-                        <div class="col-12">
-                            <h6 class="mt-3 mb-2">کاڵاکانی پسوڵە:</h6>
-                            <div class="table-responsive">
-                                <table class="table table-sm table-bordered">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>ناوی کاڵا</th>
-                                            <th>بڕ</th>
-                                            <th>نرخ</th>
-                                            <th>کۆ</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${inv.items.map(item => `
-                                        <tr>
-                                            <td>${item.name || item.product_name || '---'}</td>
-                                            <td>${item.quantity || 0}</td>
-                                            <td>${formatNum(item.price || 0)}</td>
-                                            <td>${formatNum((item.quantity || 0) * (item.price || 0))}</td>
-                                         </tr>
-                                        `).join('')}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        ` : ''}
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>ژمارەی پسوڵە:</strong> #${inv.invoice_number || '---'}</div></div>
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>بەروار:</strong> ${inv.date || inv.accountingDate || '---'}</div></div>
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کاشێر:</strong> ${inv.cashier_name || record?.cashierName || '---'}</div></div>
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>جۆری کردار:</strong> <span class="badge badge-sale">💰 فرۆشتن</span></div></div>
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>جۆری فرۆشتن:</strong> <span class="badge ${saleTypeBadge}">${saleType}</span></div></div>
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کۆی فرۆش:</strong> ${formatNum(inv.total_sales || 0)} د.ع</div></div>
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>گەڕاوە:</strong> ${formatNum(inv.total_returns || 0)} د.ع</div></div>
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>داشکاندن:</strong> ${formatNum(inv.total_discount || 0)} د.ع</div></div>
+                        <div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>قازانج:</strong> ${formatNum(inv.profit || 0)} د.ع</div></div>
+                        ${record?.totalLoans > 0 ? `<div class="col-md-6"><div class="p-3 rounded-3 bg-light"><strong>کۆی قەرزەکان:</strong> <span class="text-danger">${formatNum(record.totalLoans)} د.ع</span></div></div>` : ''}
+                        ${inv.items?.length > 0 ? `<div class="col-12"><h6 class="mt-3 mb-2">کاڵاکانی پسوڵە:</h6><div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>ناوی کاڵا</th><th>بڕ</th><th>نرخ</th><th>کۆ</th></tr></thead><tbody>
+                        ${inv.items.map(item => `<tr><td>${item.name || '---'}</td><td>${item.quantity || 0}</td><td>${formatNum(item.price || 0)}</td><td>${formatNum((item.quantity || 0) * (item.price || 0))}</td></tr>`).join('')}
+                        </tbody></table></div></div>` : ''}
+                        ${returnSection}
                         ${loansSection}
-                    </div>
-                `;
-                $('#invoiceDetailBody').html(html);
+                    </div>`);
             },
             error: function(xhr) {
-                console.error('Error loading invoice:', xhr);
-                $('#invoiceDetailBody').html(`
-                    <div class="text-center py-4 text-danger">
-                        <i class="fas fa-exclamation-circle fa-2x mb-2 d-block"></i>
-                        هەڵە لە بارکردنی وردەکاری پسوڵە
-                    </div>
-                `);
+                $('#invoiceDetailBody').html(`<div class="text-center py-4 text-danger"><i class="fas fa-exclamation-circle fa-2x mb-2 d-block"></i>هەڵە لە بارکردنی وردەکاری پسوڵە</div>`);
             }
         });
     }
 
     // ============================================
-    // Filter Functions (with pagination reset)
+    // Filter Functions
     // ============================================
     
     function applyFilters() {
-        const dateVal = $('#filterDate').val();
+        const actionTypeVal = $('#filterActionType').val();
         const statusVal = $('#filterStatus').val();
         const saleTypeVal = $('#filterSaleType').val();
         
         let filtered = [...allRecords];
         
-        if (dateVal) {
+        // فلەتەری سەرەکی: ڕیکۆردی totalSales=0 نیشان مەدە
+        filtered = filtered.filter(r => {
+            const totalSales = parseFloat(r.totalSales || r.total_sales || 0);
+            return totalSales > 0;
+        });
+        
+        if (actionTypeVal) {
             filtered = filtered.filter(r => {
-                const recDate = r.accountingDate || r.date || '';
-                return recDate === dateVal;
+                const recActionType = r.actionType || (r.isReturn ? 'گەڕاوە' : 'فرۆشتن');
+                return recActionType === actionTypeVal;
             });
         }
         if (statusVal) {
@@ -1603,51 +1492,32 @@ $(document).ready(function() {
         }
         
         filteredRecords = filtered;
-        currentPage = 1; // Reset to first page when filters change
+        currentPage = 1;
         
-        // Check if we have records to show
         if (filteredRecords.length > 0) {
             renderCurrentPage();
         } else {
             renderTable([], 0);
             updatePaginationControls();
         }
-        
-        // Update cashier info display with current date
-        if (currentCashierData) {
-            displayCashierInfo(currentCashierData);
-        }
     }
     
-    $('#filterDate').on('change', applyFilters);
-    $('#filterStatus').on('change', applyFilters);
-    $('#filterSaleType').on('change', applyFilters);
-    
+    $('#filterActionType').on('change', function() { if (allRecords.length > 0) applyFilters(); });
+    $('#filterStatus').on('change', function() { if (allRecords.length > 0) applyFilters(); });
+    $('#filterSaleType').on('change', function() { if (allRecords.length > 0) applyFilters(); });
     $('#clearFilterBtn').on('click', function() {
-        $('#filterDate').val('');
+        $('#filterActionType').val('');
         $('#filterStatus').val('');
         $('#filterSaleType').val('');
-        applyFilters();
+        if (allRecords.length > 0) applyFilters();
     });
-    
-    // ============================================
-    // Rows per page change handler
-    // ============================================
     
     $('#rowsPerPage').on('change', function() {
         rowsPerPage = parseInt($(this).val());
-        currentPage = 1; // Reset to first page
-        if (filteredRecords.length > 0) {
-            renderCurrentPage();
-        } else if (allRecords.length > 0) {
-            // If no filters applied but allRecords exists, apply empty filter
-            applyFilters();
-        }
+        currentPage = 1;
+        if (filteredRecords.length > 0) renderCurrentPage();
+        else if (allRecords.length > 0) applyFilters();
     });
-    
-    // ============================================
-    // Pagination button event handlers
-    // ============================================
     
     $('#firstPageBtn').on('click', goToFirstPage);
     $('#prevPageBtn').on('click', goToPrevPage);
@@ -1658,6 +1528,12 @@ $(document).ready(function() {
     // Initial Load
     // ============================================
     loadCashiers();
+    
+    const today = new Date().toISOString().split('T')[0];
+    $('#filterStartDate').val(today);
+    $('#filterEndDate').val(today);
+    
+    setTimeout(function() { loadInvoices(); }, 500);
 });
 </script>
 @endsection

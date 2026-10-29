@@ -420,7 +420,7 @@
                 <div class="icon-container">
                     <i class="fas fa-warehouse"></i>
                 </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ڕاپۆرتی ڕەوشی کۆگا</h3>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ڕەوشی کۆگا</h3>
                 <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
                     بینین <i class="fas fa-arrow-left ms-2"></i>
                 </button>
@@ -467,6 +467,9 @@
         </div>
 
         <!-- Card 6 -->
+        @if (auth()->user()->role !== 2)
+            
+      
         <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-600">
             <a href="{{ route('Casher-coin') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
                 <div class="icon-container">
@@ -479,6 +482,8 @@
             </a>
         </div>
 
+        
+
         <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-700">
             <a href="{{ route('items-loans.index') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
                 <div class="icon-container">
@@ -490,6 +495,39 @@
                 </button>
             </a>
         </div>
+
+
+          <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-700">
+            <a href="{{ route('items-withdrawals.index') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+                <div class="icon-container">
+                <i class="fas fa-wallet"></i>
+                </div>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ڕاکێشانیی پارە</h3>
+                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
+                    بینین <i class="fas fa-arrow-left ms-2"></i>
+                </button>
+            </a>
+        </div>
+
+         
+
+
+
+        
+          <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-700">
+            <a href="{{ route('CompanyDebt.index') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+                <div class="icon-container">
+             <i class="fas fa-money-check-dollar"></i>
+                </div>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">قەرزی کۆمپانیا</h3>
+                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
+                    بینین <i class="fas fa-arrow-left ms-2"></i>
+                </button>
+            </a>
+        </div>
+
+
+         @endif
 
         <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
             <a href="{{ route('sales.index') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
@@ -515,6 +553,10 @@
             </a>
         </div>
 
+        @if (auth()->user()->role !== 2)
+            
+           
+
         <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
             <a href="{{ route('create.daily.accounting') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
                 <div class="icon-container">
@@ -526,6 +568,37 @@
                 </button>
             </a>
         </div>
+
+         @endif
+        @if(auth()->user()->role !== 2)
+
+             <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
+            <a href="{{ route('reports.overview') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+                <div class="icon-container">
+                   <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ڕاپۆرتە گشتیەکان</h3>
+                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
+                    بینین <i class="fas fa-arrow-left ms-2"></i>
+                </button>
+            </a>
+        </div>
+
+
+
+                     <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
+            <a href="{{ route('setting') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+                <div class="icon-container">
+                 <i class="fas fa-cog"></i>
+                </div>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ڕێکخستنەکان</h3>
+                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
+                    بینین <i class="fas fa-arrow-left ms-2"></i>
+                </button>
+            </a>
+        </div>
+
+        @endif
     </section>
 </main>
 

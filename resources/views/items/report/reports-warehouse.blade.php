@@ -25,7 +25,6 @@
         --table-row-alt-bg: #f8fafc;
     }
 
-    /* Dark Mode Variables */
     body.dark-mode {
         --primary: #6c8db8;
         --primary-light: #5d7ab0;
@@ -56,9 +55,6 @@
         color: var(--text);
     }
 
-    /* Dark Mode Toggle Button */
-   
-
     .report-header {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         border-radius: 1rem 1rem 0 0 !important;
@@ -75,78 +71,6 @@
         }
         .report-header p {
             font-size: 0.8rem;
-        }
-    }
-
-    .stat-card {
-        background: var(--card-bg);
-        border-radius: 1rem;
-        padding: 1.25rem;
-        text-align: center;
-        box-shadow: 0 4px 15px var(--shadow);
-        transition: all 0.3s ease;
-        border: 1px solid var(--border);
-        height: 100%;
-    }
-    
-    @media (max-width: 768px) {
-        .stat-card {
-            padding: 0.75rem;
-        }
-    }
-
-    .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px var(--shadow);
-    }
-
-    .stat-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 0.75rem;
-        font-size: 1.5rem;
-    }
-    
-    @media (max-width: 768px) {
-        .stat-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-    }
-
-    .stat-icon.products { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
-    .stat-icon.purchase { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
-    .stat-icon.selling { background: linear-gradient(135deg, #10b981, #059669); color: white; }
-    .stat-icon.profit { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
-
-    .stat-value {
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: var(--text);
-        margin-bottom: 0.25rem;
-    }
-    
-    @media (max-width: 768px) {
-        .stat-value {
-            font-size: 1.25rem;
-        }
-    }
-
-    .stat-label {
-        color: var(--text-light);
-        font-size: 0.8rem;
-        font-weight: 500;
-    }
-    
-    @media (max-width: 768px) {
-        .stat-label {
-            font-size: 0.7rem;
         }
     }
 
@@ -303,7 +227,6 @@
         background: var(--table-hover) !important;
     }
 
-    /* Override row classes for dark mode compatibility */
     .warning-row,
     body.dark-mode .warning-row {
         background-color: rgba(245, 158, 11, 0.15) !important;
@@ -333,20 +256,6 @@
         0% { background-color: rgba(220, 38, 38, 0.2); }
         50% { background-color: rgba(220, 38, 38, 0.4); }
         100% { background-color: rgba(220, 38, 38, 0.2); }
-    }
-
-    .profit-positive {
-        color: #10b981;
-        font-weight: 600;
-    }
-
-    .profit-negative {
-        color: #ef4444;
-        font-weight: 600;
-    }
-
-    .profit-zero {
-        color: var(--text-light);
     }
 
     .stock-badge {
@@ -512,7 +421,7 @@
     }
 
     .btn-add-to-list {
-        background: linear-gradient(135deg, var(--primary), var(--accent));
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
         color: white;
         border: none;
         padding: 0.35rem 0.7rem;
@@ -533,7 +442,7 @@
 
     .btn-add-to-list:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(74, 100, 145, 0.3);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
 
     .btn-show-list {
@@ -601,7 +510,6 @@
         box-shadow: 0 4px 12px var(--shadow);
     }
 
-    /* Critical Items Container */
     .critical-items-container {
         max-height: 60vh;
         overflow-y: auto;
@@ -634,7 +542,6 @@
     }
     
     .critical-item-image {
-        
         width: 50px;
         height: 50px;
         object-fit: cover;
@@ -685,8 +592,34 @@
         padding: 2rem;
         color: var(--text-light);
     }
+    
+    .btn-delete-from-list {
+        background: transparent;
+        border: 1px solid #ef4444;
+        color: #ef4444;
+        padding: 0.3rem 0.5rem;
+        border-radius: 0.5rem;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    
+    .btn-delete-from-list:hover {
+        background: #ef4444;
+        color: white;
+    }
+    
+    body.dark-mode .btn-delete-from-list {
+        border-color: #f87171;
+        color: #f87171;
+    }
+    
+    body.dark-mode .btn-delete-from-list:hover {
+        background: #f87171;
+        color: white;
+    }
 
-    /* Modal Dark Mode Styles */
     .modal-content {
         background-color: var(--modal-bg);
         color: var(--text);
@@ -723,17 +656,11 @@
         color: var(--info);
         border-color: var(--info);
     }
-    .alert-warning {
-        background-color: rgba(245, 158, 11, 0.2);
-        color: var(--warning);
-        border-color: var(--warning);
-    }
 
     .form-control::placeholder {
         color: var(--text-light);
     }
     
-    /* Pagination Dark Mode */
     .pagination .page-item .page-link {
         background-color: var(--card-bg);
         border-color: var(--border);
@@ -760,7 +687,6 @@
         color: var(--text-light);
     }
 
-    /* Scanner Modal Dark Mode */
     .scanner-modal .modal-content {
         background: #000;
     }
@@ -818,15 +744,9 @@
         }
     }
 
-    /* Print Styles */
     @media print {
         .dark-mode-toggle, .btn-show-list, .filter-section, .pagination-container, .action-buttons, .btn-add-to-store, .btn-add-to-list, .no-print {
             display: none !important;
-        }
-        .stat-card {
-            box-shadow: none;
-            border: 1px solid #ddd;
-            break-inside: avoid;
         }
         .products-table-container {
             box-shadow: none;
@@ -852,15 +772,7 @@
     .barcode-input {
         padding-right: 45px;
     }
-
-
     
-    /* Responsive Statistics Row */
-    .statistics-row {
-        margin-bottom: 1.5rem;
-    }
-    
-    /* Responsive Modal */
     @media (max-width: 576px) {
         .modal-dialog {
             margin: 0.5rem;
@@ -876,7 +788,6 @@
         }
     }
     
-    /* Alert responsive */
     @media (max-width: 576px) {
         .position-fixed.alert {
             width: 90% !important;
@@ -887,9 +798,6 @@
         }
     }
 </style>
-
-<!-- Dark Mode Toggle Button -->
-
 
 <div class="container-fluid py-3 py-md-4">
     <div class="report-header text-white mb-3 mb-md-4">
@@ -957,22 +865,18 @@
             <table class="products-table table" id="products-table">
                 <thead>
                     <tr>
-                        <th style="min-width: 50px;">ژ</th>
                         <th style="min-width: 70px;">وێنە</th>
                         <th style="min-width: 120px;">ناوی کاڵا</th>
                         <th style="min-width: 100px;">کۆمپانیا</th>
                         <th style="min-width: 70px;">بڕ</th>
                         <th style="min-width: 80px;">نرخی کڕین</th>
-                        <th style="min-width: 90px;">کۆی کڕین</th>
                         <th style="min-width: 80px;">نرخی فرۆشتن</th>
-                        <th style="min-width: 90px;">کۆی فرۆشتن</th>
-                        <th style="min-width: 80px;">قازانج</th>
                         <th style="min-width: 140px;" class="no-print">کردار</th>
                     </tr>
                 </thead>
                 <tbody id="products-table-body">
                     <tr>
-                        <td colspan="12" class="text-center py-5">
+                        <td colspan="7" class="text-center py-5">
                             <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
                             <p class="mt-3">بارکردنی زانیاری...</p>
                         </td>
@@ -1029,21 +933,22 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">داخستن</button>
                     <button type="submit" class="btn btn-success">
-                        <i class="fas fa-check me-1"></i> زیادکردن بۆ دوکان                    </button>
+                        <i class="fas fa-check me-1"></i> زیادکردن بۆ دوکان
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Add to Critical List Modal -->
+<!-- داواکاری کاڵا - مۆدالی نوێکراوە -->
 <div class="modal fade" id="addToListModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white;">
                 <h5 class="modal-title">
-                    <i class="fas fa-list me-2"></i>
-                    زیادکردن بۆ لیستی کەمترین بڕ
+                    <i class="fas fa-clipboard-list me-2"></i>
+                    داواکاری کاڵا
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
@@ -1058,15 +963,19 @@
                         <label class="form-label">بڕی ئێستا لە کۆگا</label>
                         <input type="text" id="list-current-quantity" class="form-control" readonly>
                     </div>
-                    <div class="alert alert-warning">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        ئەم کاڵایە دەخرێتە ناوی لیستی ئەو کاڵایانەی کە بڕیان کەمە (کەمتر لە 5)
+                    <div class="mb-3">
+                        <label class="form-label">ژمارەی کاڵای داواکراو</label>
+                        <input type="number" id="list-request-quantity" class="form-control" required min="1" placeholder="ژمارە داخڵ بکە" value="1">
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        ئەم داواکارییە تۆمار دەکرێت بۆ دابینکردنی کاڵاکە
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">داخستن</button>
-                    <button type="submit" class="btn btn-warning">
-                        <i class="fas fa-save me-1"></i> زیادکردن بۆ لیست
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-1"></i> ناردنی داواکاری
                     </button>
                 </div>
             </form>
@@ -1107,17 +1016,14 @@
 </div>
 
 <!-- Fullscreen Image Modal -->
-<!-- Fullscreen Image Modal -->
 <div class="modal fade" id="imageModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen"   >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen">
         <div class="modal-content" style="background: transparent;">
-          
             <div class="modal-body">
-                
                 <div class="d-flex align-items-center justify-content-center" style="height: calc(100vh - 100px);">
-                      <div class="modal-header border`-0">
-                <button type="button" class="btn-close btn-close-white fs-5 p-3" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close btn-close-white fs-5 p-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <img id="fullscreen-image" src="" alt="Product Image" class="img-fluid" 
                          style="max-width: 95%; max-height: 95%; object-fit: contain; box-shadow: 0 0 30px rgba(0,0,0,0.5); border-radius: 10px;">
                 </div>
@@ -1167,7 +1073,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-// ==================== NUMBER CONVERSION FUNCTIONS (defined first) ====================
+// ==================== NUMBER CONVERSION FUNCTIONS ====================
 function toEnglishNumbers(str) {
     if (!str) return str;
     const persianNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
@@ -1260,21 +1166,14 @@ function showFullscreenImage(imageUrl, productName) {
             document.body.classList.add('dark-mode');
             localStorage.setItem('kurdistan_warehouse_theme', 'dark');
             const toggleBtn = document.getElementById('darkModeToggle');
-            if (toggleBtn) {
-                toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-            }
+            if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
         } else {
             document.body.classList.remove('dark-mode');
             localStorage.setItem('kurdistan_warehouse_theme', 'light');
             const toggleBtn = document.getElementById('darkModeToggle');
-            if (toggleBtn) {
-                toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
-            }
+            if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
         }
-        // Only reload if loadProducts exists and is a function
-        if (typeof loadProducts === 'function' && currentPage) {
-            loadProducts();
-        }
+        if (typeof loadProducts === 'function' && currentPage) loadProducts();
     }
     
     function toggleDarkMode() {
@@ -1282,7 +1181,6 @@ function showFullscreenImage(imageUrl, productName) {
         applyDarkMode(isDarkMode);
     }
     
-    // Initialize - apply dark mode without calling loadProducts yet
     if (isDarkMode) {
         document.body.classList.add('dark-mode');
         localStorage.setItem('kurdistan_warehouse_theme', 'dark');
@@ -1291,20 +1189,14 @@ function showFullscreenImage(imageUrl, productName) {
         localStorage.setItem('kurdistan_warehouse_theme', 'light');
     }
     
-    // Set the toggle button icon
     $(document).ready(function() {
         const toggleBtn = document.getElementById('darkModeToggle');
         if (toggleBtn) {
-            if (document.body.classList.contains('dark-mode')) {
-                toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
-            }
+            toggleBtn.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         }
         $('#darkModeToggle').on('click', toggleDarkMode);
     });
     
-    // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         const saved = localStorage.getItem('kurdistan_warehouse_theme');
         if (!saved) {
@@ -1316,9 +1208,7 @@ function showFullscreenImage(imageUrl, productName) {
                 localStorage.setItem('kurdistan_warehouse_theme', 'light');
             }
             isDarkMode = e.matches;
-            if (typeof loadProducts === 'function') {
-                loadProducts();
-            }
+            if (typeof loadProducts === 'function') loadProducts();
         }
     });
 })();
@@ -1327,34 +1217,27 @@ function showFullscreenImage(imageUrl, productName) {
 function forceNumericInputForBarcode() {
     const barcodeInput = document.getElementById('filter-barcode');
     if (!barcodeInput) return;
+    
     barcodeInput.addEventListener('input', function(e) {
         let rawValue = this.value;
         let englishValue = toEnglishNumbers(rawValue);
         let numericValue = englishValue.replace(/[^0-9]/g, '');
-        if (rawValue !== numericValue) {
-            this.value = numericValue;
-        }
+        if (rawValue !== numericValue) this.value = numericValue;
     });
+    
     barcodeInput.addEventListener('keydown', function(e) {
         const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
         if (allowedKeys.includes(e.key)) return;
         if (e.ctrlKey && (e.key === 'a' || e.key === 'c' || e.key === 'v' || e.key === 'x')) return;
-        if (!/^[0-9]$/.test(e.key) && !/^[٠١٢٣٤٥٦٧٨٩]$/.test(e.key) && !/^[۰۱۲۳۴۵۶۷۸۹]$/.test(e.key)) {
-            e.preventDefault();
-        }
+        if (!/^[0-9]$/.test(e.key) && !/^[٠١٢٣٤٥٦٧٨٩]$/.test(e.key) && !/^[۰۱۲۳۴۵۶۷۸۹]$/.test(e.key)) e.preventDefault();
     });
+    
     barcodeInput.addEventListener('paste', function(e) {
         e.preventDefault();
         let pastedText = (e.clipboardData || window.clipboardData).getData('text');
-        let englishText = toEnglishNumbers(pastedText);
-        let numericText = englishText.replace(/[^0-9]/g, '');
-        const start = this.selectionStart;
-        const end = this.selectionEnd;
-        const currentValue = this.value;
-        const newValue = currentValue.substring(0, start) + numericText + currentValue.substring(end);
-        this.value = newValue;
-        const inputEvent = new Event('input', { bubbles: true });
-        this.dispatchEvent(inputEvent);
+        let numericText = toEnglishNumbers(pastedText).replace(/[^0-9]/g, '');
+        this.value = numericText;
+        this.dispatchEvent(new Event('input', { bubbles: true }));
     });
 }
 
@@ -1363,32 +1246,32 @@ async function startBarcodeScanner() {
     await stopBarcodeScanner();
     const videoElement = document.getElementById('scanner-video');
     if (!videoElement) return;
+    
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         scannerStream = stream;
         videoElement.srcObject = stream;
         await videoElement.play();
         scannerActive = true;
+        
         if ('BarcodeDetector' in window) {
             const barcodeDetector = new BarcodeDetector({ formats: ['code_128', 'ean_13', 'ean_8', 'code_39', 'upc_a', 'upc_e', 'codabar'] });
+            
             async function scanFrame() {
                 if (!scannerActive) return;
                 if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
                     try {
                         const barcodes = await barcodeDetector.detect(videoElement);
                         if (barcodes && barcodes.length > 0) {
-                            let barcodeValue = barcodes[0].rawValue;
-                            if (barcodeValue) {
-                                barcodeValue = cleanBarcodeValue(barcodeValue);
-                                scannerActive = false;
-                                await stopBarcodeScanner();
-                                $('#filter-barcode').val(barcodeValue).trigger('input');
-                                scannerModal.hide();
-                                $('#filter-barcode').focus();
-                                return;
-                            }
+                            let barcodeValue = cleanBarcodeValue(barcodes[0].rawValue);
+                            scannerActive = false;
+                            await stopBarcodeScanner();
+                            $('#filter-barcode').val(barcodeValue).trigger('input');
+                            scannerModal.hide();
+                            $('#filter-barcode').focus();
+                            return;
                         }
-                    } catch (err) { console.error(err); }
+                    } catch (err) {}
                 }
                 if (scannerActive) requestAnimationFrame(scanFrame);
             }
@@ -1397,7 +1280,6 @@ async function startBarcodeScanner() {
             showError('ئەم وێبگەڕە پشتیوانی لە سکانکردنی ئۆتۆماتیکی بارکۆد ناکات.');
         }
     } catch (err) {
-        console.error(err);
         showError('ناتوانرێت کامێرا بۆ سکانکردن بکرێتەوە.');
         scannerModal.hide();
     }
@@ -1417,13 +1299,127 @@ async function stopBarcodeScanner() {
 function renderCriticalList(products) {
     let html = '';
     products.forEach((product) => {
+        // ئەگەر status یەکسان بێت بە approved، نیشانی مەدە
+        if (product.status === 'approved') return;
+        
         const quantity = product.counter || 0;
         const companyName = product.company || 'بێ کۆمپانیا';
-        const productName = product.name || 'بێ ناو';
+        const productName = product.product_name || product.name || 'بێ ناو';
         let imageUrl = getImageUrl(product.image_producte_path);
-        html += `<div class="critical-item"><img src="${escapeHtml(imageUrl)}" class="critical-item-image" alt="${escapeHtml(productName)}" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23cbd5e1%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20text-anchor%3D%22middle%22%20fill%3D%22%234b5563%22%3E${productName.charAt(0)||'?'}%3C%2Ftext%3E%3C%2Fsvg%3E';" onclick="showFullscreenImage('${escapeHtml(imageUrl)}', '${escapeHtml(productName)}')"><div class="critical-item-info"><div class="critical-item-name">${escapeHtml(productName)}${product.in_critical_list ? '<span class="list-badge"><i class="fas fa-check-circle"></i> لە لیستدا</span>' : ''}</div><div class="critical-item-company"><i class="fas fa-building ms-2"></i>${escapeHtml(companyName)}</div></div><div class="critical-item-quantity"><span class="quantity-badge">${quantity} ${product.unit === 'piece' ? '' : (product.unit || '')}</span></div></div>`;
+        
+        html += `
+        <div class="critical-item">
+            <img src="${escapeHtml(imageUrl)}" class="critical-item-image" alt="${escapeHtml(productName)}" 
+                 onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23cbd5e1%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20text-anchor%3D%22middle%22%20fill%3D%22%234b5563%22%3E${productName.charAt(0)||'?'}%3C%2Ftext%3E%3C%2Fsvg%3E';" 
+                 onclick="showFullscreenImage('${escapeHtml(imageUrl)}', '${escapeHtml(productName)}')">
+            <div class="critical-item-info">
+                <div class="critical-item-name">
+                    ${escapeHtml(productName)}
+                    ${product.in_critical_list ? '<span class="list-badge ps-2"><i class="fas fa-check-circle"></i> لە لیستدا</span>' : ''}
+                </div>
+                <div class="critical-item-company">
+                    <i class="fas fa-building ms-2"></i>${escapeHtml(companyName)}
+                </div>
+            </div>
+            <div class="critical-item-quantity">
+                <span class="quantity-badge">${product.quantity || quantity} ${product.unit === 'piece' ? '' : (product.unit || '')}</span>
+            </div>
+            <button class="btn-delete-from-list" onclick="deleteFromCriticalList(${product.product_id}, '${escapeHtml(productName)}')" title="سڕینەوە لە لیست">
+                <i class="fas fa-trash"></i> سڕینەوە
+            </button>
+        </div>`;
     });
-    $('#critical-items-container').html(html);
+    
+    if (html === '') {
+        $('#critical-items-container').html(`
+            <div class="empty-critical">
+                <i class="fas fa-check-circle fa-3x text-success mb-3 d-block"></i>
+                <p class="mb-0">هیچ داواکارییەکی چاوەڕوان نییە</p>
+            </div>
+        `);
+    } else {
+        $('#critical-items-container').html(html);
+    }
+}
+
+function deleteFromCriticalList(productId, productName) {
+    // دروستکردنی مۆدالی دڵنیابوونەوە
+    const confirmHtml = `
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0" style="background: transparent;">
+                    <h6 class="modal-title w-100 text-center" style="color: var(--text);">
+                        <i class="fas fa-exclamation-triangle text-warning fa-2x mb-3 d-block"></i>
+                        دڵنیایت لە سڕینەوە؟
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center pt-2" style="color: var(--text);">
+                    <p class="mb-1 fw-bold" style="font-size: 1rem; color: var(--danger);">${escapeHtml(productName)}</p>
+                    <p class="mb-0" style="font-size: 0.85rem; color: var(--text-light);">لە لیستی کاڵا کەمەکان دەسڕێتەوە</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pt-0">
+                    <button type="button" class="btn btn-secondary btn-sm px-4" data-bs-dismiss="modal" style="border-radius: 0.5rem;">
+                        <i class="fas fa-times me-1"></i> پاشگەزبوونەوە
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm px-4" id="confirmDeleteBtn" style="border-radius: 0.5rem;">
+                        <i class="fas fa-trash me-1"></i> سڕینەوە
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    // سڕینەوەی مۆدالی پێشوو ئەگەر هەبێت
+    $('#confirmDeleteModal').remove();
+    
+    // زیادکردنی مۆدال بۆ بەدی
+    $('body').append(confirmHtml);
+    
+    // پیشاندانی مۆدال
+    const confirmModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    confirmModal.show();
+
+    // کلیک لەسەر دوگمەی سڕینەوە
+    $('#confirmDeleteBtn').on('click', function() {
+        confirmModal.hide();
+        
+        // سڕینەوەی مۆدال دوای هایدکردن
+        $('#confirmDeleteModal').on('hidden.bs.modal', function() {
+            $(this).remove();
+        });
+        
+        $('#loading-overlay').addClass('active');
+        
+        $.ajax({
+            url: '/warehouse/delete-from-critical-list',
+            type: 'POST',
+            data: {
+                product_id: productId,
+                _token: $('meta[name="csrf-token"]').attr('content') || '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    showSuccess('کاڵاکە بە سەرکەوتوویی لە لیست سڕایەوە');
+                    loadCriticalProducts();
+                } else {
+                    showError(response.message || 'هەڵەیەک ڕوویدا');
+                }
+            },
+            error: function(xhr) {
+                showError(xhr.responseJSON?.message || 'هەڵە لە سڕینەوەی کاڵا');
+            },
+            complete: function() {
+                $('#loading-overlay').removeClass('active');
+            }
+        });
+    });
+
+    // پاککردنەوەی مۆدال دوای داخستن
+    $('#confirmDeleteModal').on('hidden.bs.modal', function() {
+        $(this).remove();
+    });
 }
 
 function openCriticalListModal() {
@@ -1432,7 +1428,13 @@ function openCriticalListModal() {
 }
 
 function loadCriticalProducts() {
-    $('#critical-items-container').html(`<div class="text-center py-5"><i class="fas fa-spinner fa-spin fa-2x text-warning"></i><p class="mt-2">بارکردنی زانیاری...</p></div>`);
+    $('#critical-items-container').html(`
+        <div class="text-center py-5">
+            <i class="fas fa-spinner fa-spin fa-2x text-warning"></i>
+            <p class="mt-2">بارکردنی زانیاری...</p>
+        </div>
+    `);
+    
     $.ajax({
         url: '/warehouse/critical-list',
         type: 'GET',
@@ -1442,77 +1444,120 @@ function loadCriticalProducts() {
                 renderCriticalList(response.data);
             } else {
                 criticalProductsCache = [];
-                $('#critical-items-container').html(`<div class="empty-critical"><i class="fas fa-check-circle fa-3x text-success mb-3 d-block"></i><p class="mb-0">هیچ کاڵایەک بە کەمتر لە 3 نییە</p></div>`);
+                $('#critical-items-container').html(`
+                    <div class="empty-critical">
+                        <i class="fas fa-check-circle fa-3x text-success mb-3 d-block"></i>
+                        <p class="mb-0">هیچ کاڵایەک بە کەمتر لە 3 نییە</p>
+                    </div>
+                `);
             }
         },
         error: function() {
             criticalProductsCache = [];
-            $('#critical-items-container').html(`<div class="empty-critical"><i class="fas fa-exclamation-circle fa-3x text-danger mb-3 d-block"></i><p class="mb-0">هەڵەیەک ڕوویدا لە بارکردنی زانیاری</p></div>`);
+            $('#critical-items-container').html(`
+                <div class="empty-critical">
+                    <i class="fas fa-exclamation-circle fa-3x text-danger mb-3 d-block"></i>
+                    <p class="mb-0">هەڵەیەک ڕوویدا لە بارکردنی زانیاری</p>
+                </div>
+            `);
         }
     });
 }
 
 function renderProductsTable(products) {
     const tbody = $('#products-table-body');
+    
     if (!products || products.length === 0) {
-        tbody.html(`<td><td colspan="12" class="text-center py-5"><i class="fas fa-box-open fa-3x text-muted mb-3 d-block"></i><p class="text-muted">هیچ کاڵایەک نەدۆزرایەوە</p></td></tr>`);
+        tbody.html(`<tr><td colspan="7" class="text-center py-5"><i class="fas fa-box-open fa-3x text-muted mb-3 d-block"></i><p class="text-muted">هیچ کاڵایەک نەدۆزرایەوە</p></td></tr>`);
         return;
     }
+    
     let html = '';
     products.forEach((product, index) => {
-        const startIndex = (currentPage - 1) * $('#per-page').val();
-        const rowNumber = startIndex + index + 1;
         const quantity = product.counter || 0;
         const purchasePrice = parseFloat(product.purchase_price) || 0;
         const sellingPrice = parseFloat(product.selling_price) || 0;
-        const totalPurchase = quantity * purchasePrice;
-        const totalSelling = quantity * sellingPrice;
-        const profit = totalSelling - totalPurchase;
+        
         let stockClass = '', rowClass = '';
         if (quantity < 0) { stockClass = 'stock-negative'; rowClass = 'danger-row'; }
         else if (quantity === 0) { stockClass = 'stock-out'; rowClass = 'danger-row'; }
         else if (quantity < 3) { stockClass = 'stock-critical'; rowClass = 'critical-row'; }
         else if (quantity < 10) { stockClass = 'stock-low'; rowClass = 'warning-row'; }
         else { stockClass = 'stock-normal'; }
-        let profitClass = '', profitText = '';
-        if (profit > 0) { profitClass = 'profit-positive'; profitText = '+' + formatNumber(profit); }
-        else if (profit < 0) { profitClass = 'profit-negative'; profitText = formatNumber(profit); }
-        else { profitClass = 'profit-zero'; profitText = '0'; }
+        
         const companyName = product.company || 'بێ کۆمپانیا';
         const productName = product.name || 'بێ ناو';
         const isInCriticalList = product.in_critical_list || false;
         let imageUrl = getImageUrl(product.image_producte_path);
-        html += `<tr class="${rowClass}"><td>${rowNumber}</td><td><img src="${escapeHtml(imageUrl)}" class="product-image" alt="${escapeHtml(productName)}" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23cbd5e1%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20text-anchor%3D%22middle%22%20fill%3D%22%234b5563%22%3E${productName.charAt(0)||'?'}%3C%2Ftext%3E%3C%2Fsvg%3E';" onclick="showFullscreenImage('${escapeHtml(imageUrl)}', '${escapeHtml(productName)}')"></td><td><strong>${escapeHtml(productName)}</strong>${isInCriticalList ? '<span class="list-badge"><i class="fas fa-check-circle"></i> لە لیستدا</span>' : ''}</td><td>${escapeHtml(companyName)}</td><td><span class="stock-badge ${stockClass}">${quantity} ${product.unit === 'piece' ? '' : (product.unit || '')}</span>${quantity < 0 ? '<br><small class="text-danger">لە کۆگا کەمترە</small>' : ''}</td><td>${formatNumber(purchasePrice)}</td><td>${formatNumber(totalPurchase)}</td><td>${formatNumber(sellingPrice)}</td><td>${formatNumber(totalSelling)}</td><td class="${profitClass}">${profitText}</td><td class="action-buttons no-print"><button class="btn-add-to-store" onclick="openAddToStoreModal(${product.id}, '${escapeHtml(productName)}', ${quantity})"><i class="fas fa-store me-1"></i> زیادکردن بۆ دوکان</button>${quantity < 5 && quantity > 0 ? `<button class="btn-add-to-list" onclick="openAddToListModal(${product.id}, '${escapeHtml(productName)}', ${quantity})"><i class="fas fa-list me-1"></i> زیادکردن بۆ لیست</button>` : ''}</td></tr>`;
+        
+        html += `
+        <tr class="${rowClass}">
+            <td><img src="${escapeHtml(imageUrl)}" class="product-image" alt="${escapeHtml(productName)}" 
+                     onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20fill%3D%22%23cbd5e1%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20text-anchor%3D%22middle%22%20fill%3D%22%234b5563%22%3E${productName.charAt(0)||'?'}%3C%2Ftext%3E%3C%2Fsvg%3E';" 
+                     onclick="showFullscreenImage('${escapeHtml(imageUrl)}', '${escapeHtml(productName)}')"></td>
+            <td><strong>${escapeHtml(productName)}</strong>${isInCriticalList ? '<span class="list-badge mx-2"><i class="fas fa-check-circle"></i> لە لیستدا</span>' : ''}</td>
+            <td>${escapeHtml(companyName)}</td>
+            <td><span class="stock-badge ${stockClass}">${quantity} ${product.unit === 'piece' ? '' : (product.unit || '')}</span>${quantity < 0 ? '<br><small class="text-danger">لە کۆگا کەمترە</small>' : ''}</td>
+            <td>${formatNumber(purchasePrice)}</td>
+            <td>${formatNumber(sellingPrice)}</td>
+            <td class="action-buttons no-print">
+                <button class="btn-add-to-store" onclick="openAddToStoreModal(${product.id}, '${escapeHtml(productName)}', ${quantity})"><i class="fas fa-store me-1"></i> زیادکردن بۆ دوکان</button>
+                <button class="btn-add-to-list" onclick="openAddToListModal(${product.id}, '${escapeHtml(productName)}', ${quantity})"><i class="fas fa-clipboard-list me-1"></i> داواکاری</button>
+            </td>
+        </tr>`;
     });
+    
     tbody.html(html);
 }
 
 function renderPagination(response) {
     totalPages = response.last_page || 1;
     currentPage = response.current_page || 1;
+    
     if (totalPages <= 1) { $('#pagination-nav').html(''); return; }
+    
     let paginationHtml = '<ul class="pagination mb-0 flex-wrap">';
-    paginationHtml += currentPage > 1 ? `<li class="page-item"><a class="page-link" href="#" data-page="${currentPage - 1}">پێشوو</a></li>` : `<li class="page-item disabled"><span class="page-link">پێشوو</span></li>`;
+    if (currentPage > 1) paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="${currentPage - 1}">پێشوو</a></li>`;
+    else paginationHtml += `<li class="page-item disabled"><span class="page-link">پێشوو</span></li>`;
+    
     let startPage = Math.max(1, currentPage - 2);
     let endPage = Math.min(totalPages, currentPage + 2);
-    if (startPage > 1) { paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>`; if (startPage > 2) paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`; }
-    for (let i = startPage; i <= endPage; i++) {
-        paginationHtml += i === currentPage ? `<li class="page-item active"><span class="page-link">${i}</span></li>` : `<li class="page-item"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+    
+    if (startPage > 1) {
+        paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>`;
+        if (startPage > 2) paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
     }
-    if (endPage < totalPages) { if (endPage < totalPages - 1) paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`; paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a></li>`; }
-    paginationHtml += currentPage < totalPages ? `<li class="page-item"><a class="page-link" href="#" data-page="${currentPage + 1}">دواتر</a></li>` : `<li class="page-item disabled"><span class="page-link">دواتر</span></li>`;
+    
+    for (let i = startPage; i <= endPage; i++) {
+        if (i === currentPage) paginationHtml += `<li class="page-item active"><span class="page-link">${i}</span></li>`;
+        else paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+    }
+    
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) paginationHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a></li>`;
+    }
+    
+    if (currentPage < totalPages) paginationHtml += `<li class="page-item"><a class="page-link" href="#" data-page="${currentPage + 1}">دواتر</a></li>`;
+    else paginationHtml += `<li class="page-item disabled"><span class="page-link">دواتر</span></li>`;
     paginationHtml += '</ul>';
+    
     $('#pagination-nav').html(paginationHtml);
     $('#pagination-nav .page-link').on('click', function(e) {
         e.preventDefault();
         const page = $(this).data('page');
-        if (page && page !== currentPage) { currentPage = page; loadProducts(); $('html, body').animate({ scrollTop: $('.products-table-container').offset().top - 100 }, 300); }
+        if (page && page !== currentPage) {
+            currentPage = page;
+            loadProducts();
+            $('html, body').animate({ scrollTop: $('.products-table-container').offset().top - 100 }, 300);
+        }
     });
 }
 
 function loadProducts() {
     $('#loading-overlay').addClass('active');
     const perPage = $('#per-page').val();
+    
     $.ajax({
         url: '/warehouse/report',
         type: 'GET',
@@ -1522,7 +1567,7 @@ function loadProducts() {
                 currentProductsData = response.data || [];
                 renderProductsTable(currentProductsData);
                 renderPagination(response);
-            } else { showError('هەڵەیەک ڕوویدا لە بارکردنی زانیاری'); }
+            } else showError('هەڵەیەک ڕوویدا لە بارکردنی زانیاری');
         },
         error: function() { showError('هەڵە لە پەیوەندیدا، تکایە دووبارە هەوڵبدەرەوە'); },
         complete: function() { $('#loading-overlay').removeClass('active'); }
@@ -1530,12 +1575,7 @@ function loadProducts() {
 }
 
 function applyFilters() {
-    currentFilters = {
-        name: $('#filter-name').val(),
-        barcode: cleanBarcodeValue($('#filter-barcode').val()),
-        company: $('#filter-company').val(),
-        stock_status: $('#filter-stock-status').val()
-    };
+    currentFilters = { barcode: cleanBarcodeValue($('#filter-barcode').val()), company: $('#filter-company').val(), stock_status: $('#filter-stock-status').val() };
     currentPage = 1;
     loadProducts();
 }
@@ -1561,6 +1601,7 @@ function openAddToListModal(productId, productName, currentQuantity) {
     $('#list-product-id').val(productId);
     $('#list-product-name').val(productName);
     $('#list-current-quantity').val(currentQuantity);
+    $('#list-request-quantity').val(1);
     listModal.show();
 }
 
@@ -1568,6 +1609,7 @@ function addToStore() {
     const productId = $('#product-id').val();
     const quantity = $('#add-quantity').val();
     if (!quantity || quantity <= 0) { showError('تکایە ژمارەی کاڵا بۆ زیادکردن دیاری بکە'); return; }
+    
     $('#loading-overlay').addClass('active');
     $.ajax({
         url: '/warehouse/add-to-store',
@@ -1575,7 +1617,7 @@ function addToStore() {
         data: { product_id: productId, quantity: quantity, _token: $('meta[name="csrf-token"]').attr('content') || '{{ csrf_token() }}' },
         success: function(response) {
             if (response.success) { showSuccess('کاڵاکە بە سەرکەوتوویی زیاد کرا بۆ دوکان'); modal.hide(); loadProducts(); }
-            else { showError(response.message || 'هەڵەیەک ڕوویدا'); }
+            else showError(response.message || 'هەڵەیەک ڕوویدا');
         },
         error: function(xhr) { showError(xhr.responseJSON?.message || 'هەڵە لە زیادکردنی کاڵا بۆ دوکان'); },
         complete: function() { $('#loading-overlay').removeClass('active'); }
@@ -1584,39 +1626,78 @@ function addToStore() {
 
 function addToCriticalList() {
     const productId = $('#list-product-id').val();
+    const requestQuantity = $('#list-request-quantity').val();
+    if (!requestQuantity || requestQuantity <= 0) { showError('تکایە ژمارەی کاڵای داواکراو دیاری بکە'); return; }
+    
     $('#loading-overlay').addClass('active');
     $.ajax({
         url: '/warehouse/add-to-critical-list',
         type: 'POST',
-        data: { product_id: productId, _token: $('meta[name="csrf-token"]').attr('content') || '{{ csrf_token() }}' },
+        data: { product_id: productId, quantity: requestQuantity, _token: $('meta[name="csrf-token"]').attr('content') || '{{ csrf_token() }}' },
         success: function(response) {
-            if (response.success) { showSuccess('کاڵاکە بە سەرکەوتوویی زیاد کرا بۆ لیستی کەمترین بڕ'); listModal.hide(); loadProducts(); }
-            else { showError(response.message || 'هەڵەیەک ڕوویدا'); }
+            if (response.success) { showSuccess('داواکارییەکەت بە سەرکەوتوویی تۆمار کرا'); listModal.hide(); loadProducts(); }
+            else showError(response.message || 'هەڵەیەک ڕوویدا');
         },
-        error: function(xhr) { showError(xhr.responseJSON?.message || 'هەڵە لە زیادکردن بۆ لیست'); },
+        error: function(xhr) { showError(xhr.responseJSON?.message || 'هەڵە لە تۆمارکردنی داواکاری'); },
         complete: function() { $('#loading-overlay').removeClass('active'); }
     });
 }
 
 function printCriticalList() {
     if (criticalProductsCache.length === 0) { showError('هیچ کاڵایەکی کەم نییە بۆ پرینت کردن'); return; }
+    
     $('#loading-overlay').addClass('active');
     const printContent = generateCriticalListHTML();
     const printWindow = window.open('', '_blank');
     printWindow.document.write(printContent);
     printWindow.document.close();
     printWindow.onload = function() { printWindow.print(); $('#loading-overlay').removeClass('active'); };
-    printWindow.onafterprint = function() { printWindow.close(); };
 }
 
 function generateCriticalListHTML() {
     const now = new Date();
     const dateStr = now.toLocaleDateString('ku-Arab', { year: 'numeric', month: 'long', day: 'numeric' });
+    
     let tableRows = '';
     criticalProductsCache.forEach((product, index) => {
-        tableRows += `<tr><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${index + 1}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${escapeHtml(product.name || 'بێ ناو')}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${escapeHtml(product.company || 'بێ کۆمپانیا')}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #dc2626; font-weight: bold;">${product.counter || 0}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${product.unit === 'piece' ? 'دانە' : (product.unit || 'دانە')}</td></tr>`;
+        if (product.status === 'approved') return;
+        
+        tableRows += `
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${index + 1}</td>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${escapeHtml(product.product_name || product.name || 'بێ ناو')}</td>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${escapeHtml(product.company || 'بێ کۆمپانیا')}</td>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: center; color: #dc2626; font-weight: bold;">${product.quantity || 0}</td>
+            <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${product.unit === 'piece' ? 'دانە' : (product.unit || 'دانە')}</td>
+        </tr>`;
     });
-    return `<!DOCTYPE html><html dir="rtl"><head><title>لیستی کاڵا کەمەکان</title><meta charset="UTF-8"><style>body{margin:0;padding:20px;font-family:Arial,sans-serif;direction:rtl}.header{text-align:center;margin-bottom:30px}.header h2{color:#4a6491;margin-bottom:10px}.header p{color:#6b7280;font-size:14px}table{width:100%;border-collapse:collapse;margin-top:20px}th{background:#4a6491;color:white;padding:12px;border:1px solid #ddd;text-align:center}td{padding:10px;border:1px solid #ddd;text-align:center}.footer{margin-top:30px;text-align:center;color:#9ca3af;font-size:12px}</style></head><body><div class="header"><h2>لیستی کاڵا کەمەکان</h2><p>کاڵا کەمتر لە 3 دانە - تاریخ: ${dateStr}</p></div><table><thead><tr><th>ژ</th><th>ناوی کاڵا</th><th>کۆمپانیا</th><th>بڕ</th><th>یەکە</th></tr></thead><tbody>${tableRows}</tbody></table><div class="footer"><p>ڕاپۆرت لە کۆگا دروست کراوە</p></div></body></html>`;
+    
+    return `
+    <!DOCTYPE html>
+    <html dir="rtl">
+    <head>
+        <title>لیستی داواکارییەکان</title>
+        <meta charset="UTF-8">
+        <style>
+            body { margin: 0; padding: 20px; font-family: Arial, sans-serif; direction: rtl; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .header h2 { color: #4a6491; margin-bottom: 10px; }
+            .header p { color: #6b7280; font-size: 14px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+            th { background: #4a6491; color: white; padding: 12px; border: 1px solid #ddd; text-align: center; }
+            td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+            .footer { margin-top: 30px; text-align: center; color: #9ca3af; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="header"><h2>لیستی داواکارییەکان</h2><p>تاریخ: ${dateStr}</p></div>
+        <table>
+            <thead><tr><th>ژ</th><th>ناوی کاڵا</th><th>کۆمپانیا</th><th>بڕی داواکراو</th><th>یەکە</th></tr></thead>
+            <tbody>${tableRows}</tbody>
+        </table>
+        <div class="footer"><p>ڕاپۆرت لە کۆگا دروست کراوە</p></div>
+    </body>
+    </html>`;
 }
 
 function exportCriticalListToExcel() {
@@ -1627,15 +1708,11 @@ function exportCriticalListToExcel() {
 $(document).ready(function() {
     modal = new bootstrap.Modal(document.getElementById('addAmountModal'));
     listModal = new bootstrap.Modal(document.getElementById('addToListModal'));
-    imageModal = new bootstrap.Modal(document.getElementById('imageModal'), {
-        backdrop: 'static',
-        keyboard: true
-    });
+    imageModal = new bootstrap.Modal(document.getElementById('imageModal'), { backdrop: 'static', keyboard: true });
     criticalListModal = new bootstrap.Modal(document.getElementById('criticalListModal'));
     scannerModal = new bootstrap.Modal(document.getElementById('barcodeScannerModal'));
-    forceNumericInputForBarcode();
     
-    // Initial load
+    forceNumericInputForBarcode();
     loadProducts();
     
     $('#filter-barcode').on('input', function() {
@@ -1650,42 +1727,14 @@ $(document).ready(function() {
         debounceTimer = setTimeout(() => { currentPage = 1; applyFilters(); }, 500);
     });
     
-    $('#filter-stock-status').on('change', function() {
-        currentPage = 1;
-        applyFilters();
-    });
-    
-    $('#per-page').on('change', function() {
-        currentPage = 1;
-        loadProducts();
-    });
-    
-    $('#add-amount-form').on('submit', function(e) {
-        e.preventDefault();
-        addToStore();
-    });
-    
-    $('#add-to-list-form').on('submit', function(e) {
-        e.preventDefault();
-        addToCriticalList();
-    });
-    
-    $('#scan-barcode-filter-btn').on('click', function() {
-        scannerModal.show();
-    });
-    
-    $('#barcodeScannerModal').on('shown.bs.modal', function() {
-        startBarcodeScanner();
-    });
-    
-    $('#barcodeScannerModal').on('hidden.bs.modal', function() {
-        stopBarcodeScanner();
-    });
-    
-    $('#manual-input-btn, #closeScannerBtn').on('click', function() {
-        scannerModal.hide();
-        $('#filter-barcode').focus();
-    });
+    $('#filter-stock-status').on('change', function() { currentPage = 1; applyFilters(); });
+    $('#per-page').on('change', function() { currentPage = 1; loadProducts(); });
+    $('#add-amount-form').on('submit', function(e) { e.preventDefault(); addToStore(); });
+    $('#add-to-list-form').on('submit', function(e) { e.preventDefault(); addToCriticalList(); });
+    $('#scan-barcode-filter-btn').on('click', function() { scannerModal.show(); });
+    $('#barcodeScannerModal').on('shown.bs.modal', function() { startBarcodeScanner(); });
+    $('#barcodeScannerModal').on('hidden.bs.modal', function() { stopBarcodeScanner(); });
+    $('#manual-input-btn, #closeScannerBtn').on('click', function() { scannerModal.hide(); $('#filter-barcode').focus(); });
 });
 </script>
 @endsection

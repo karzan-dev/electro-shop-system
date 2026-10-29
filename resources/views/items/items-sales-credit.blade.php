@@ -992,9 +992,7 @@
                 <i class="fas fa-undo-alt"></i> گەڕاندنەوەی کاڵا
             </a>
         </div>
-        <a href="{{ route('debtors.save-products') }}" class="btn-return mt-3" style="width: auto; padding: 8px 16px;">
-                <i class="fas fa-save"></i> تۆماركردنی قه‌رز لای خۆت 
-        </a>
+     
     </div>
 
     <div class="grid-2">

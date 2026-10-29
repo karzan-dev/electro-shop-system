@@ -27,8 +27,8 @@ class RoleMiddleware
 
         // Define role mapping
         $roleMap = [
-            'admin' => 2,
-            'casher' => 1,
+            'admin' => 1,
+            'casher' => 2,
         ];
 
         // Convert role names to numeric values

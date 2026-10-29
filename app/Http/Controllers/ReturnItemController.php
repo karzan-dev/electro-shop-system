@@ -444,18 +444,31 @@ public function store(Request $request)
                 throw new \Exception('Sale item not found');
             }
 
+            $returnQty = (float) $item['quantity'];
+
+            if ($returnQty <= 0) {
+                throw new \Exception('بڕی گەڕاندنەوە دروست نیە');
+            }
+
+            if ($returnQty > $saleItem->quantity) {
+                throw new \Exception('بڕی گەڕاندنەوە لە بڕی فرۆشراو زیاترە');
+            }
+
             $product_id = $saleItem->product_id;
 
-            $itemTotal = (float)$item['quantity'] * (float)$item['price'];
+            $itemTotal = $returnQty * (float) $saleItem->selling_price;
+
             $returnTotal += $itemTotal;
+            $invoiceNumber = DB::table('sales')->where('id', $request->invoice_id)->value('invoice_number');
 
             // Save return item
             DB::table('return_items')->insert([
                 'seles_id'      => $request->invoice_id,
+               
                 'Item_Code'     => $product_id,
-                'Amount'        => $item['quantity'],
-                'Metar'         => $request->return_reason ?? null,
-                'Sale_Price'    => $item['price'],
+                'Amount'        => $returnQty,
+                'Metar'         => $request->return_reason,
+                'Sale_Price'    => $saleItem->selling_price,
                 'Return_Total'  => $itemTotal,
                 'Return_Cause'  => $request->return_reason,
                 'Casher_id'     => $casherId,
@@ -464,18 +477,33 @@ public function store(Request $request)
                 'updated_at'    => now(),
             ]);
 
-            // Return stock
+            // Return stock to warehouse
             DB::table('product_wearhouse')
                 ->where('id_product', $product_id)
-                ->increment('counter', $item['quantity']);
+                ->increment('counter', $returnQty);
 
-            // Delete returned item
-            DB::table('sale_items')
-                ->where('id', $item['item_id'])
-                ->delete();
+            // Update sale item
+            $newQty = $saleItem->quantity - $returnQty;
+
+            if ($newQty <= 0) {
+
+                DB::table('sale_items')
+                    ->where('id', $saleItem->id)
+                    ->delete();
+
+            } else {
+
+                DB::table('sale_items')
+                    ->where('id', $saleItem->id)
+                    ->update([
+                        'quantity'   => $newQty,
+                        'total'      => $newQty * $saleItem->selling_price,
+                        'updated_at' => now(),
+                    ]);
+            }
         }
 
-        // Update all loans with same sels_id
+        // Update loans
         $loans = DB::table('loans')
             ->where('sels_id', $request->invoice_id)
             ->get();
@@ -485,13 +513,13 @@ public function store(Request $request)
             DB::table('loans')
                 ->where('id', $loan->id)
                 ->update([
-                    'total' => max(0, (float)$loan->total - $returnTotal),
-                    'period' => max(0, (float)$loan->period - $returnTotal),
-                    'updated_at' => now()
+                    'total'      => max(0, (float) $loan->total - $returnTotal),
+                    'period'     => max(0, (float) $loan->period - $returnTotal),
+                    'updated_at' => now(),
                 ]);
         }
 
-        // Update sales
+        // Get sale
         $sale = DB::table('sales')
             ->where('id', $request->invoice_id)
             ->first();
@@ -500,12 +528,13 @@ public function store(Request $request)
             throw new \Exception('Sale not found');
         }
 
+        // Update sale totals
         DB::table('sales')
             ->where('id', $sale->id)
             ->update([
-                'subtotal' => max(0, (float)$sale->subtotal - $returnTotal),
-                'total' => max(0, (float)$sale->total - $returnTotal),
-                'updated_at' => now()
+                'subtotal'   => max(0, (float) $sale->subtotal - $returnTotal),
+                'total'      => max(0, (float) $sale->total - $returnTotal),
+                'updated_at' => now(),
             ]);
 
         // Reload sale
@@ -513,27 +542,18 @@ public function store(Request $request)
             ->where('id', $sale->id)
             ->first();
 
-        // Delete invoice if fully returned
-        if ($sale && $sale->total <= 0) {
+        // Delete invoice if all items returned
+        $remainingItems = DB::table('sale_items')
+            ->where('sale_id', $request->invoice_id)
+            ->count();
 
-            DB::table('sale_items')
-                ->where('sale_id', $sale->id)
-                ->delete();
-
-            DB::table('loans')
-                ->where('sels_id', $sale->id)
-                ->delete();
-
-            DB::table('sales')
-                ->where('id', $sale->id)
-                ->delete();
-        }
+   
 
         DB::commit();
 
         return response()->json([
-            'success' => true,
-            'message' => 'سەرکەوتوو',
+            'success'      => true,
+            'message'      => 'سەرکەوتوو',
             'return_total' => $returnTotal
         ]);
 
@@ -544,7 +564,7 @@ public function store(Request $request)
         return response()->json([
             'success' => false,
             'message' => $e->getMessage(),
-            'line' => $e->getLine()
+            'line'    => $e->getLine()
         ], 500);
     }
 }

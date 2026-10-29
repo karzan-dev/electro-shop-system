@@ -1,4 +1,6 @@
-<?php $__env->startSection('content'); ?>
+@extends('layouts.navigation')
+
+@section('content')
 <style>
     :root {
         --primary: #4a6491;
@@ -414,11 +416,11 @@
     <section class="menu-grid">
         <!-- Card 1 -->
         <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-100 rounded-3">
-            <a href="<?php echo e(route('reports-warehouse')); ?>" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+            <a href="{{ route('reportswarehouse') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
                 <div class="icon-container">
-                    <i class="fas fa-warehouse"></i>
+                    <i class="fas fa-file-alt"></i>
                 </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ڕاپۆرتی ڕەوشی کۆگا</h3>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);"> ڕاپۆرتی ڕەوشیی کۆگا </h3>
                 <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
                     بینین <i class="fas fa-arrow-left ms-2"></i>
                 </button>
@@ -426,63 +428,23 @@
         </div>
 
         <!-- Card 3 -->
-        <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-300">
-            <a href="<?php echo e(route('items-edit')); ?>" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
-                <div class="icon-container">
-                    <i class="fas fa-edit"></i>
-                </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">گۆڕانکاری زانیارییەکانی کاڵا</h3>
-                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
-                    بینین <i class="fas fa-arrow-left ms-2"></i>
-                </button>
-            </a>
-        </div>
+  
 
         <!-- Card 4 -->
-        <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-400">
-            <a href="<?php echo e(route('register-item')); ?>" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
-                <div class="icon-container">
-                    <i class="fas fa-tag"></i>
-                </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);"> زیادکردنی كاڵا بۆ دووکان </h3>
-                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
-                    بینین <i class="fas fa-arrow-left ms-2"></i>
-                </button>
-            </a>
-        </div>
+    
 
         <!-- Card 5 -->
-        <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-500">
-            <a href="<?php echo e(route('create-barcode')); ?>" class="text-decoration-none d-flex flex-column align-items-center text-center h-100">
-                <div class="icon-container">
-                    <i class="fas fa-barcode"></i>
-                </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">چاپکردنی بارکۆد</h3>
-                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
-                    بینین <i class="fas fa-arrow-left ms-2"></i>
-                </button>
-            </a>
-        </div>
+   
 
         <!-- Card 6 -->
-        <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-600">
-            <a href="<?php echo e(route('Casher-coin')); ?>" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
-                <div class="icon-container">
-                    <i class="fas fa-coins"></i>
-                </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">پێدانی ووردە بەکاشێر</h3>
-                <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
-                    بینین <i class="fas fa-arrow-left ms-2"></i>
-                </button>
-            </a>
-        </div>
+      
 
         <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-700">
-            <a href="<?php echo e(route('items-loans.index')); ?>" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+            <a href="{{ route('reports.loans') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
                 <div class="icon-container">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-file-alt fa-2x"></i>
                 </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">لیستی قەرزەکان</h3>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ڕاپۆرتی قەرزەکان</h3>
                 <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
                     بینین <i class="fas fa-arrow-left ms-2"></i>
                 </button>
@@ -490,11 +452,11 @@
         </div>
 
         <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
-            <a href="<?php echo e(route('sales.index')); ?>" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+            <a href="{{ route('sales-reports.index') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
                 <div class="icon-container">
-                    <i class="fas fa-shopping-cart"></i>
+                    <i class="fas fa-file-alt fa-2x"></i>
                 </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">فرۆشتن</h3>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">فرۆش و قازانج</h3>
                 <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
                     بینین <i class="fas fa-arrow-left ms-2"></i>
                 </button>
@@ -502,23 +464,26 @@
         </div>
 
         <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-1000">
-            <a href="<?php echo e(route('stock.index')); ?>" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+            <a href="{{ route('report-stock.index') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
                 <div class="icon-container mb-3 d-flex justify-content-center align-items-center">
-                    <i class="fas fa-exclamation-circle fa-2x"></i>
+                    <i class="fas fa-file-alt fa-2x"></i>
                 </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ستۆك</h3>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">  ڕاپۆرتی ستۆک </h3>
                 <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
                     بینین <i class="fas fa-arrow-left ms-2"></i>
                 </button>
             </a>
         </div>
 
-        <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
-            <a href="<?php echo e(route('create.daily.accounting')); ?>" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
+     
+
+
+             <div class="glass card-hover p-3 p-md-4 shadow-sm animate-fade-in-up animate-delay-800">
+            <a href="{{ route('reports.reports-return-items') }}" class="d-flex text-decoration-none flex-column align-items-center text-center h-100">
                 <div class="icon-container">
-                    <i class="fas fa-chart-line"></i>
+                   <i class="fas fa-file-alt"></i>
                 </div>
-                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ژمێریاری ڕۆژانە</h3>
+                <h3 class="h6 fw-bold mb-2 card-title" style="color: var(--text-primary);">ڕاپۆرتی گەڕاوەکان</h3>
                 <button class="btn btn-sm btn-gradient mt-auto px-3 card-action">
                     بینین <i class="fas fa-arrow-left ms-2"></i>
                 </button>
@@ -705,5 +670,4 @@
         });
     });
 </script>
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.navigation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\wamnp64\www\mobileHardy\resources\views/dashboard.blade.php ENDPATH**/ ?>
+@endsection
